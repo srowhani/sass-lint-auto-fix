@@ -1,2 +1,8 @@
+# Dependencies
 node_modules/
+
+# Configuration
 .git/
+
+# Build
+dist/

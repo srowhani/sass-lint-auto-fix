@@ -1,0 +1,4 @@
+files:
+  include: '**/*.s+(a|c)ss'
+resolvers:
+  property-sort-order: 1
