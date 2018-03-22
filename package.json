@@ -4,9 +4,7 @@
   "description": "Automatically resolve sass-linting issues through CLI",
   "main": "node bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js",
-    "dev": "webpack --watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Seena Rowhani (srowhani)",
   "license": "ISC",
@@ -15,9 +13,5 @@
     "gonzales-pe-sl": "^4.2.3",
     "js-yaml": "^3.11.0",
     "sass-lint": "^1.12.1"
-  },
-  "devDependencies": {
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12"
   }
 }
