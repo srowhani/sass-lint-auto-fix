@@ -12,12 +12,31 @@
 
   const { resolve } = require('./src/helpers/module-resolver');
 
-  program
-    .version(pkg.version)
-    .option('-y', '--yes', 'auto resolve any issues')
-    .option('-c', '--config', 'custom configuration path')
-    .option('-v', '--verbose', 'enable verbose logging')
-    .parse(process.argv);
+  const _defaultOptions = {};
+
+  const promptOptions = [
+    {
+      alias: '-y',
+      prop: 'yes',
+      desc: 'auto resolve any issues'
+    }, {
+      alias: '-c',
+      prop: 'config',
+      desc: 'custom configuration path'
+    }, {
+      alias: '-v',
+      prop: 'verbose',
+      desc: 'enable verbose logging'
+    }
+  ]
+
+  promptOptions.reduce(
+    (program, {alias, prop, desc}) => program.option(alias, `--${prop}`, desc),
+    program
+  ).version(pkg.version)
+  .parse(process.argv);
+
+  const options = Object.assign(_defaultOptions, promptOptions.map(option => program[option.prop]));
 
   const testFile = __dirname + '/src/test.scss';
   const file = fs.readFileSync(testFile);
