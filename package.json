@@ -4,7 +4,7 @@
   "description": "Automatically resolve sass-linting issues through CLI",
   "main": "node bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Seena Rowhani (srowhani)",
   "license": "ISC",
@@ -13,5 +13,8 @@
     "gonzales-pe-sl": "^4.2.3",
     "js-yaml": "^3.11.0",
     "sass-lint": "^1.12.1"
+  },
+  "devDependencies": {
+    "mocha": "^5.0.4"
   }
 }
