@@ -3,7 +3,7 @@ const sassLintHelpers = require('sass-lint/lib/helpers')
 
 module.exports = class PropertySortOrder extends BaseResolver {
   fix () {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.ast.traverseByType('block', block => {
         const collectedBlocks = [];
         const indexes = [];
@@ -37,6 +37,7 @@ module.exports = class PropertySortOrder extends BaseResolver {
         }
         collectedBlocks.forEach(e => block.content[indexes.shift()] = e.node);
       });
+      resolve();
     });
   }
 

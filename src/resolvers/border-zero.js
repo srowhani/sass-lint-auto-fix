@@ -1,5 +1,4 @@
 const BaseResolver = require('./_base');
-const sassLintHelpers = require('sass-lint/lib/helpers')
 
 module.exports = class BorderZero extends BaseResolver {
   constructor () {
@@ -10,10 +9,10 @@ module.exports = class BorderZero extends BaseResolver {
 
   fix () {
     return new Promise(resolve => {
-      this.traverse(this.ast, this.parser, node => node.content = parser.options.convention);
+      this.traverse(this.ast, this.parser, node => node.content = this.parser.options.convention);
       resolve()
     })
-  };
+  }
 
   traverse (ast, parser, callback) {
     ast.traverseByType('declaration', decl => {
@@ -41,7 +40,7 @@ module.exports = class BorderZero extends BaseResolver {
         return item;
       });
     });
-  };
+  }
 
   get borders () {
     return this._borders;
