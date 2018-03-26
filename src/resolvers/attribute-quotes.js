@@ -9,10 +9,11 @@ export default class AttributeQuotes extends BaseResolver {
 
   fix () {
     this.traverse(item => {
+      const content = item.content[0].content;
       if (this.shouldRemoveQuotes(item)) {
-        item.content[0].content = item.content[0].content.replace(this.quotePattern, '$2');
+        item.content[0].content = content.replace(this.quotePattern, '$2');
       } else if (this.shouldAddQuotes(item)) {
-        item.content[0].content = item.content[0].content.replace(/(.*)/, '"$1"');
+        item.content[0].content = content.replace(/(.*)/, '"$1"');
       }
     });
     return this.ast;

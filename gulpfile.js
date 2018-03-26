@@ -4,8 +4,10 @@ const babel = require('gulp-babel');
 const watch = require('gulp-watch');
 const chmod = require('gulp-chmod');
 
+const chalk = require('chalk');
+
 const err = function (err) {
-  console.log(err.toString());
+  console.log(chalk.red.bold(err.toString()));
   this.emit('end');
 }
 
@@ -29,7 +31,7 @@ gulp.task('default', fn);
 
 gulp.task('watch', () =>
   watch('src/**/*', { ignoreInitial: false }, vinyl => {
-    vinyl.history.forEach(item => console.log(`${vinyl.event} - ${item}`));
+    vinyl.history.forEach(item => console.log(chalk.magenta(vinyl.event), "//", chalk.yellow(item)));
     fn();
   })
 );

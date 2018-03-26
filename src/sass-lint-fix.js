@@ -7,9 +7,8 @@ const path = require('path');
 const glob = require('glob');
 
 const sassLint = require('sass-lint');
-const sassLintConfig = require('sass-lint/lib/config');
-const sassLintHelpers = require('sass-lint/lib/helpers');
-const sassLintRules = require('sass-lint/lib/rules');
+const slConfig = require('sass-lint/lib/config');
+const slRules = require('sass-lint/lib/rules');
 
 export default class SlAutoFix {
   constructor (defaultOptions) {
@@ -47,14 +46,12 @@ export default class SlAutoFix {
           this.logger.verbose('process', filename)
 
           const ast = gonzales.parse(file.toString(), {
-            syntax: path.extname(filename)
+            syntax: path.extname(filename).substr(1)
           });
 
-          const config = sassLintConfig({}, 'node_modules/sass-lint/config/')
+          const rules = slRules(slConfig())
 
-          const rules = sassLintRules(config)
-
-          rules
+          return rules
             .filter(rule => !!this._defaultOptions.resolvers[rule.rule.name])
             .map(rule => resolve(`${rule.rule.name}`)
               .then(module => {
@@ -66,10 +63,10 @@ export default class SlAutoFix {
                   this.logger.verbose('--fix', `Running [${rule.rule.name}] on ${filename}`)
 
                   const resolvedTree = resolver.fix();
-                  onResolve.call(this, filename, rule, resolvedTree);
+                  return onResolve.call(this, filename, rule, resolvedTree);
                 }
               })
-            )
+            );
         });
       });
     });
