@@ -1,11 +1,4 @@
-module.exports = {
-  resolve (_definedResolver) {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(require(`${__dirname}/../resolvers/${_definedResolver}`));
-      } catch (e) {
-        reject(e);
-      }
-    })
-  }
+export function resolve (_definedResolver) {
+  return import(`${__dirname}/../resolvers/${_definedResolver}`)
+    .then(_instance => _instance.default)
 }

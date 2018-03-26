@@ -1,4 +1,4 @@
-module.exports = class BaseResolver {
+export default class BaseResolver {
   constructor (ast, parser) {
     this._ast = ast;
     this._parser = parser;

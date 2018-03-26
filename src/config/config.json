@@ -1,0 +1,12 @@
+{
+  "files": {
+    "include": "**/*.s+(a|c)ss",
+    "ignore": []
+  },
+  "resolvers": {
+    "property-sort-order": 1,
+    "attribute-quotes": 1,
+    "border-zero": 1,
+    "no-color-keywords": 1
+  }
+}

@@ -1,6 +1,6 @@
-const BaseResolver = require('./_base');
+import BaseResolver from './base-resolver';
 
-module.exports = class BorderZero extends BaseResolver {
+export default class BorderZero extends BaseResolver {
   constructor () {
     super(...arguments);
     this._borders = ['border', 'border-top', 'border-right', 'border-bottom', 'border-left'];
@@ -8,10 +8,8 @@ module.exports = class BorderZero extends BaseResolver {
   }
 
   fix () {
-    return new Promise(resolve => {
-      this.traverse(this.ast, this.parser, node => node.content = this.parser.options.convention);
-      resolve()
-    })
+    this.traverse(this.ast, this.parser, node => node.content = this.parser.options.convention);
+    return this.ast;
   }
 
   traverse (ast, parser, callback) {

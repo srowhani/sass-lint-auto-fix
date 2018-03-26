@@ -1,6 +1,6 @@
-const BaseResolver = require('./_base');
+import BaseResolver from './base-resolver';
 
-module.exports = class AttributeQuotes extends BaseResolver {
+export default class AttributeQuotes extends BaseResolver {
 
   constructor () {
     super(...arguments);
@@ -8,16 +8,14 @@ module.exports = class AttributeQuotes extends BaseResolver {
   }
 
   fix () {
-    return new Promise(resolve => {
-      this.traverse((item) => {
-        if (this.shouldRemoveQuotes(item)) {
-          item.content[0].content = item.content[0].content.replace(this.quotePattern, '$2');
-        } else if (this.shouldAddQuotes(item)) {
-          item.content[0].content = item.content[0].content.replace(/(.*)/, '"$1"');
-        }
-      });
-      resolve();
-    })
+    this.traverse(item => {
+      if (this.shouldRemoveQuotes(item)) {
+        item.content[0].content = item.content[0].content.replace(this.quotePattern, '$2');
+      } else if (this.shouldAddQuotes(item)) {
+        item.content[0].content = item.content[0].content.replace(/(.*)/, '"$1"');
+      }
+    });
+    return this.ast;
   }
 
   shouldRemoveQuotes (item) {
