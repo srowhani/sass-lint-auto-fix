@@ -3,6 +3,7 @@ import { resolve } from './helpers/module-resolver';
 
 const gonzales = require('gonzales-pe-sl');
 const fs = require('fs');
+const path = require('path');
 const glob = require('glob');
 
 const sassLint = require('sass-lint');
@@ -44,8 +45,9 @@ export default class SlAutoFix {
           }
 
           this.logger.verbose('process', filename)
+
           const ast = gonzales.parse(file.toString(), {
-            syntax: 'scss'
+            syntax: path.extname(filename)
           });
 
           const config = sassLintConfig({}, 'node_modules/sass-lint/config/')
