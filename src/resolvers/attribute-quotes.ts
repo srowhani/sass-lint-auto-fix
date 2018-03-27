@@ -1,9 +1,10 @@
 import BaseResolver from './base-resolver';
 
 export default class AttributeQuotes extends BaseResolver {
+  _quotePattern: RegExp;
 
-  constructor () {
-    super(...arguments);
+  constructor (ast, rule) {
+    super(ast, rule);
     this._quotePattern = /("|')((?:\\.|[^"\\])*)("|')/;
   }
 

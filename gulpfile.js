@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 
+const ts = require('gulp-typescript');
 const babel = require('gulp-babel');
 const watch = require('gulp-watch');
 const chmod = require('gulp-chmod');
@@ -12,7 +13,10 @@ const err = function (err) {
 }
 
 const fn = _ => {
-  gulp.src('src/**/*.js')
+  const tsProject = ts.createProject('tsconfig.json');
+
+  gulp.src('src/**/*.ts')
+    .pipe(tsProject())
     .pipe(babel({ presets: ['env'] }))
     .on('error', err)
     .pipe(gulp.dest('dist/src'))

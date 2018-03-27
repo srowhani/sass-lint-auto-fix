@@ -3,13 +3,16 @@ const slHelpers = require('sass-lint/lib/helpers');
 const yaml = require('js-yaml');
 
 export default class NoColorKeywords extends BaseResolver {
-  constructor() {
-    super(...arguments);
+  _cssColors: Array<string>;
+  _cssColorRegex: RegExp;
+
+  constructor(ast, parser) {
+    super(ast, parser);
     this._cssColors = slHelpers.loadConfigFile('../../data/literals.yml').split(' ');
     this._cssColorRegex = new RegExp(`(${this._cssColors.join('|')})`);
   }
 
-  fix() {
+  fix () {
     this.ast.traverseByType('value', valueNodes => {
       valueNodes.traverseByTypes('ident', (identNode, identIndex, identParent) => {
         if (!identParent.is('variable')) {
@@ -26,7 +29,7 @@ export default class NoColorKeywords extends BaseResolver {
     return this.ast;
   };
 
-  colorKeywordIndex (node) {
+  colorKeywordIndex (node) : number {
     return this._cssColors.indexOf(node.content.toLowerCase());
   }
 }

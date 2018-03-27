@@ -11,6 +11,9 @@ const slConfig = require('sass-lint/lib/config');
 const slRules = require('sass-lint/lib/rules');
 
 export default class SlAutoFix {
+  _logger: Logger;
+  _defaultOptions: any;
+
   constructor (defaultOptions) {
     this._logger = new Logger(defaultOptions.verbose);
 

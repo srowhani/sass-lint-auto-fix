@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import SlAutoFix from './src/sass-lint-fix';
 import Logger from './src/helpers/logger';
-import config from './src/config/config';
+
+const config = require('./src/config');
 
 (() => {
   const program = require('commander');

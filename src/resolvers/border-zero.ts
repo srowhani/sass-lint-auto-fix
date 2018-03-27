@@ -1,8 +1,11 @@
 import BaseResolver from './base-resolver';
 
 export default class BorderZero extends BaseResolver {
-  constructor () {
-    super(...arguments);
+  private _borders: Array<string>;
+  private _allowedConventions: Array<string>;
+
+  constructor (ast, parser) {
+    super(ast, parser);
     this._borders = ['border', 'border-top', 'border-right', 'border-bottom', 'border-left'];
     this._allowedConventions = ['0', 'none'];
   }

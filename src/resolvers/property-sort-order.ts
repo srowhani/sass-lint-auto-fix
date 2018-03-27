@@ -1,5 +1,4 @@
 import BaseResolver from './base-resolver';
-
 const sassLintHelpers = require('sass-lint/lib/helpers')
 
 export default class PropertySortOrder extends BaseResolver {
