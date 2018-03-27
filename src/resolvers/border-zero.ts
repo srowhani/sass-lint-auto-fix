@@ -1,28 +1,32 @@
 import BaseResolver from './base-resolver';
+import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
+import SlRule from './typings/sass-lint-rule';
 
 export default class BorderZero extends BaseResolver {
   private _borders: Array<string>;
   private _allowedConventions: Array<string>;
 
-  constructor (ast, parser) {
+  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
     this._borders = ['border', 'border-top', 'border-right', 'border-bottom', 'border-left'];
     this._allowedConventions = ['0', 'none'];
   }
 
-  fix () {
-    this.traverse(this.ast, this.parser, node => node.content = this.parser.options.convention);
-    return this.ast;
+  fix() : AbstractSyntaxTree {
+    return this.traverse(
+      this.ast, this.parser,
+      (node: TreeNode) => node.content = this.parser.options.convention,
+    );
   }
 
-  traverse (ast, parser, callback) {
-    ast.traverseByType('declaration', decl => {
+  traverse(ast: AbstractSyntaxTree, parser: SlRule, callback: Function) : AbstractSyntaxTree {
+    ast.traverseByType('declaration', (decl: TreeNode) => {
       let isBorder = false;
 
-      decl.traverse(item => {
+      decl.traverse((item: TreeNode) => {
         if (item.type === 'property') {
-          item.traverse(child => {
-            if (this.borders.indexOf(child.content) !== -1) {
+          item.traverse((childNode: TreeNode) => {
+            if (this.borders.indexOf(childNode.content) !== -1) {
               isBorder = true;
             }
           });
@@ -41,13 +45,14 @@ export default class BorderZero extends BaseResolver {
         return item;
       });
     });
+    return ast;
   }
 
-  get borders () {
+  get borders() : string[] {
     return this._borders;
   }
 
-  get allowedConventions () {
+  get allowedConventions() : string[] {
     return this._allowedConventions;
   }
 }

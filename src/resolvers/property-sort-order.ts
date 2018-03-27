@@ -1,25 +1,27 @@
 import BaseResolver from './base-resolver';
-const sassLintHelpers = require('sass-lint/lib/helpers')
+import AbstractSyntaxTree, { TreeNode, SortNode } from './typings/abstract-syntax-tree';
+
+const sassLintHelpers = require('sass-lint/lib/helpers');
 
 export default class PropertySortOrder extends BaseResolver {
-  fix () {
-    this.ast.traverseByType('block', block => {
-      const collectedDecl = [];
-      const matchingIndices = [];
-      block.forEach('declaration', (declaration, index) => {
+  fix() {
+    this.ast.traverseByType('block', (block: TreeNode) => {
+      const collectedDecl : SortNode[] = [];
+      const matchingIndices : number[] = [];
+      block.forEach('declaration', (declaration: TreeNode, index: number) => {
         const prop = declaration.first('property');
 
-        const name = prop.first('ident') || prop.first('variable').first('ident');
+        const nodeContainingName : TreeNode = prop.first('ident') || prop.first('variable').first('ident');
 
-        if (name) {
+        if (nodeContainingName) {
           const variable = prop.first('variable');
 
           // Avoid sorting variables, could potentially cause issues when
           // referencing variable before being declared, after sorting.
           if (!variable) {
             collectedDecl.push({
-              name: name.toString(),
-              node: declaration
+              name: nodeContainingName.toString(),
+              node: declaration,
             });
             matchingIndices.push(index);
           }
@@ -30,7 +32,7 @@ export default class PropertySortOrder extends BaseResolver {
         collectedDecl.sort((p, c) => p.name.localeCompare(c.name));
       } else {
         collectedDecl.sort((p, c) => {
-          const order = this.parser.options.order;
+          const { order } = this.parser.options;
           const priorities = this.getOrderConfig(order) || order || [];
 
           if (priorities.includes(p.name)) {
@@ -42,28 +44,25 @@ export default class PropertySortOrder extends BaseResolver {
           return priorities.indexOf(p.name) - priorities.indexOf(c.name);
         });
       }
-      collectedDecl.forEach(
-        e => block.content[matchingIndices.shift()] = e.node);
+      collectedDecl.forEach(e => block.content[matchingIndices.shift()] = e.node);
     });
     return this.ast;
   }
 
-  getOrderConfig(order) {
-    if (typeof order === 'string') {
-      if (this.orderPresets[order] !== undefined) {
-        const filename = this.orderPresets[order];
-        const orderConfig = sassLintHelpers.loadConfigFile('property-sort-orders/' + filename);
-        return orderConfig.order;
-      }
+  getOrderConfig(order: string) {
+    if (this.orderPresets[order] !== undefined) {
+      const filename = this.orderPresets[order];
+      const orderConfig = sassLintHelpers.loadConfigFile(`property-sort-orders/${filename}`);
+      return orderConfig.order;
     }
-    return false;
+    return null;
   }
 
-  get orderPresets() {
+  get orderPresets(): any {
     return {
       recess: 'recess.yml',
       smacss: 'smacss.yml',
-      concentric: 'concentric.yml'
-    }
+      concentric: 'concentric.yml',
+    };
   }
-};
+}

@@ -3,8 +3,12 @@
         "target": "es5",
         "noImplicitAny": true,
         "removeComments": false,
+        "module": "commonjs",
         "preserveConstEnums": true,
         "sourceMap": true,
+        "typeRoots": [
+          "node_modules/@types"
+        ],
         "lib": [ "es2015" ]
     },
     "include": [
@@ -16,8 +20,5 @@
     ],
     "types": [
       "node"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
     ]
 }

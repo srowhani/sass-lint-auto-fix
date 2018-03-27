@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 import SlAutoFix from './src/sass-lint-fix';
+import { SlfRunOptions } from './src/typings.d';
 import Logger from './src/helpers/logger';
 
 const config = require('./src/config');
 
+const program = require('commander');
+
+const pkg = require('../package.json');
+const fs = require('fs');
+
 (() => {
-  const program = require('commander');
-
-  const pkg = require('../package.json')
-  const fs = require('fs');
-
-  const defaultOptions = {...config};
+  const defaultOptions = { ...config };
 
   program
     .version(pkg.version)
@@ -26,12 +27,12 @@ const config = require('./src/config');
 
   defaultOptions.files.include = pattern || defaultOptions.files.include;
 
-  const sassLintAutoFix = new SlAutoFix(defaultOptions)
+  const sassLintAutoFix = new SlAutoFix(defaultOptions);
 
   sassLintAutoFix.run({
-    onResolve (filename, rule, ast) {
+    onResolve(filename, rule, ast) {
       fs.writeFileSync(filename, ast.toString());
-      this.logger.verbose('write', `Writing resolved tree to ${filename}`)
-    }
+      this.logger.verbose('write', `Writing resolved tree to ${filename}`);
+    },
   });
 })();

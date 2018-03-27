@@ -4,13 +4,15 @@
   "description": "Automatically resolve sass-linting issues through CLI",
   "main": "dist/index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "fix": "./node_modules/eslint/bin/eslint.js src/**/*.ts"
   },
   "author": "Seena Rowhani (srowhani)",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
+    "glob": "^7.1.2",
     "gonzales-pe-sl": "^4.2.3",
     "js-yaml": "^3.11.0",
     "require-yml": "^1.3.1",
@@ -24,12 +26,16 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-chmod": "^2.0.0",
+    "gulp-eslint": "^4.0.2",
     "gulp-typescript": "^4.0.1",
     "gulp-watch": "^5.0.0",
     "mocha": "^5.0.4",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "typescript-eslint-parser": "^14.0.0"
   }
 }

@@ -1,17 +1,19 @@
+/* eslint-disable no-console */
+
 const chalk = require('chalk');
 
 export default class Logger {
-  private _verbose: boolean;
+  _verbose: boolean;
 
-  constructor (verbose) {
+  constructor(verbose: boolean) {
     this._verbose = verbose;
   }
-  verbose (tag: string, ...terms: string[]): void {
+  verbose(tag: string, ...terms: string[]): void {
     if (this._verbose) {
       console.log(
         chalk.green(`[${tag}]`),
-        chalk.blue(...terms)
-      )
+        chalk.blue(...terms),
+      );
     }
   }
 }
