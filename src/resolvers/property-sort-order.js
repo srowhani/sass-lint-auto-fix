@@ -5,24 +5,32 @@ const sassLintHelpers = require('sass-lint/lib/helpers')
 export default class PropertySortOrder extends BaseResolver {
   fix () {
     this.ast.traverseByType('block', block => {
-      const collectedBlocks = [];
-      const indexes = [];
+      const collectedDecl = [];
+      const matchingIndices = [];
       block.forEach('declaration', (declaration, index) => {
         const prop = declaration.first('property');
+
         const name = prop.first('ident') || prop.first('variable').first('ident');
 
         if (name) {
-          collectedBlocks.push({
-            name: name.toString(),
-            node: declaration
-          });
-          indexes.push(index);
+          const variable = prop.first('variable');
+
+          // Avoid sorting variables, could potentially cause issues when
+          // referencing variable before being declared, after sorting.
+          if (!variable) {
+            collectedDecl.push({
+              name: name.toString(),
+              node: declaration
+            });
+            matchingIndices.push(index);
+          }
         }
       });
+
       if (this.parser.options.order === 'alphabetical') {
-        collectedBlocks.sort((p, c) => p.name.localeCompare(c.name));
+        collectedDecl.sort((p, c) => p.name.localeCompare(c.name));
       } else {
-        collectedBlocks.sort((p, c) => {
+        collectedDecl.sort((p, c) => {
           const order = this.parser.options.order;
           const priorities = this.getOrderConfig(order) || order || [];
 
@@ -35,7 +43,8 @@ export default class PropertySortOrder extends BaseResolver {
           return priorities.indexOf(p.name) - priorities.indexOf(c.name);
         });
       }
-      collectedBlocks.forEach(e => block.content[indexes.shift()] = e.node);
+      collectedDecl.forEach(
+        e => block.content[matchingIndices.shift()] = e.node);
     });
     return this.ast;
   }
