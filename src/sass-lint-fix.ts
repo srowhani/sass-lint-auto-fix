@@ -25,14 +25,6 @@ export default class SlAutoFix {
     };
   }
 
-  get logger() {
-    return this._logger;
-  }
-
-  set logger(logger) {
-    this._logger = logger;
-  }
-
   run({ onResolve } : SlfRunOptions) {
     if (typeof onResolve !== 'function') {
       throw new Error('onResolve must be provided');
@@ -76,5 +68,13 @@ export default class SlAutoFix {
         });
       });
     });
+  }
+
+  get logger() {
+    return this._logger;
+  }
+
+  set logger(logger) {
+    this._logger = logger;
   }
 }

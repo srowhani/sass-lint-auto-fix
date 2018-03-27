@@ -1,0 +1,11 @@
+.*
+*.md
+LICENSE
+gulpfile.js
+index.ts
+package.json
+package-lock.json
+tsconfig.json
+
+test/
+src/

@@ -1,14 +1,16 @@
 {
   "name": "sass-lint-auto-fix",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Automatically resolve sass-linting issues through CLI",
-  "main": "dist/index.js",
+  "main": "./dist/src/sass-lint-fix.js",
+  "bin": {
+    "sass-lint-auto-fix": "./dist/index.js"
+  },
   "scripts": {
-    "test": "mocha",
-    "fix": "./node_modules/eslint/bin/eslint.js src/**/*.ts"
+    "test": "mocha"
   },
   "author": "Seena Rowhani (srowhani)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
