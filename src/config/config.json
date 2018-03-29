@@ -16,6 +16,7 @@
     "no-color-keywords": 1,
     "no-css-comments": 1,
     "no-important": 1,
-    "no-trailing-zero": 1
+    "no-trailing-zero": 1,
+    "space-after-bang": 1
   }
 }
