@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 import SlAutoFix from './src/sass-lint-fix';
-import { SlfRunOptions } from './src/typings.d';
-import Logger from './src/helpers/logger';
 
-const config = require('./src/config');
-
+const config = require('./src/config/config');
 const program = require('commander');
 
 const pkg = require('../package.json');
@@ -15,7 +12,7 @@ const fs = require('fs');
 
   program
     .version(pkg.version)
-    .usage('<pattern> [options]')
+    .usage('"<pattern>" [options]')
     .option('-y, --yes', 'auto resolve any issues')
     .option('-c, --config', 'custom config path')
     .option('-v, --verbose', 'verbose logging')

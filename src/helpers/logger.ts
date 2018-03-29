@@ -16,4 +16,7 @@ export default class Logger {
       );
     }
   }
+  error(...values: string[]): void {
+    console.log(...values.map(chalk.red.bold));
+  }
 }

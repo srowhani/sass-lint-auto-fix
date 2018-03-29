@@ -3,12 +3,19 @@
     "include": "**/*.s+(a|c)ss",
     "ignore": []
   },
+  "syntax": {
+    "include": [
+      "scss",
+      "sass"
+    ]
+  },
   "resolvers": {
     "property-sort-order": 1,
     "attribute-quotes": 1,
     "border-zero": 1,
     "no-color-keywords": 1,
     "no-css-comments": 1,
-    "no-important": 1
+    "no-important": 1,
+    "no-trailing-zero": 1
   }
 }

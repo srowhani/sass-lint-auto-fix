@@ -29,11 +29,13 @@ export default class SlAutoFix {
     if (typeof onResolve !== 'function') {
       throw new Error('onResolve must be provided');
     }
-    glob(this._defaultOptions.files.include, {}, (_globError: string, files: any[]) => {
+
+    glob(this._defaultOptions.files.include, {}, (_globError: string, files: string[]) => {
       if (_globError !== null) {
         this.logger.verbose('error', _globError);
         return;
       }
+
       files.forEach((filename: string) => {
         fs.readFile(filename, (_readError: string, file: any) => {
           if (_readError) {
@@ -43,9 +45,22 @@ export default class SlAutoFix {
 
           this.logger.verbose('process', filename);
 
-          const ast = gonzales.parse(file.toString(), {
-            syntax: path.extname(filename).substr(1),
-          });
+          const fileExtension = path.extname(filename).substr(1);
+
+          if (!this.isValidExtension(fileExtension)) {
+            return;
+          }
+
+          let ast: any;
+
+          try {
+            ast = gonzales.parse(file.toString(), {
+              syntax: fileExtension,
+            });
+          } catch (e) {
+            this.logger.error(`Unable to parse ${filename}`);
+            return;
+          }
 
           const rules = slRules(slConfig());
 
@@ -63,11 +78,14 @@ export default class SlAutoFix {
                   const resolvedTree = resolver.fix();
                   return onResolve.call(this, filename, rule, resolvedTree);
                 }
-                return null;
               }));
         });
       });
     });
+  }
+
+  isValidExtension(fileExtension: string): boolean {
+    return this._defaultOptions.syntax.include.includes(fileExtension);
   }
 
   get logger() {

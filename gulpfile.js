@@ -20,13 +20,13 @@ const err = function (err) {
 
 const fn = _ => {
   const tsProject = ts.createProject('tsconfig.json');
-
+  const project = tsProject();
   gulp.src(['src/**/*.ts'])
     .pipe(eslint(eslintConfig))
     .pipe(eslint.format())
     .pipe(eslint.failOnError())
     .on('error', err)
-    .pipe(tsProject())
+    .pipe(project)
     .pipe(babel({ presets: ['env'] }))
     .on('error', err)
     .pipe(gulp.dest('dist/src'))
