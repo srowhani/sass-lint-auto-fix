@@ -18,6 +18,7 @@
     "no-important": 1,
     "no-trailing-zero": 1,
     "space-after-bang": 1,
-    "space-before-bang": 1
+    "space-before-bang": 1,
+    "hex-length": 1
   }
 }
