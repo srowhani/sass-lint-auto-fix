@@ -16,5 +16,6 @@ export interface TreeNode extends AbstractSyntaxTree {
 
 export interface SortNode {
   name: string,
-  node: TreeNode
+  type: string,
+  node: TreeNode,
 }

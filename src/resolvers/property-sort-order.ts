@@ -16,32 +16,47 @@ export default class PropertySortOrder extends BaseResolver {
         if (nodeContainingName) {
           const variable = prop.first('variable');
 
-          // Avoid sorting variables, could potentially cause issues when
-          // referencing variable before being declared, after sorting.
-          if (!variable) {
-            collectedDecl.push({
-              name: nodeContainingName.toString(),
-              node: declaration,
-            });
-            matchingIndices.push(index);
-          }
+          collectedDecl.push({
+            name: nodeContainingName.toString(),
+            node: declaration,
+            type: variable !== null ? 'variable' : 'property',
+          });
+          matchingIndices.push(index);
         }
       });
 
       if (this.parser.options.order === 'alphabetical') {
-        collectedDecl.sort((p, c) => p.name.localeCompare(c.name));
+        collectedDecl.sort((p, c) => {
+          const endsEarlyOnVariablePrioritization = this.shouldEndEarly(p, c);
+
+          if (endsEarlyOnVariablePrioritization !== null) {
+            return endsEarlyOnVariablePrioritization;
+          }
+
+          return p.name.localeCompare(c.name);
+        });
       } else {
         collectedDecl.sort((p, c) => {
           const { order } = this.parser.options;
           const priorities = this.getOrderConfig(order) || order || [];
+          // addresses special cases when sorting variables
+          // give priority to variables
+          // sorting variables based on same metrics solves issue
+          // with replacing property declarations
+          const endsEarlyOnVariablePrioritization = this.shouldEndEarly(p, c);
 
-          if (priorities.includes(p.name)) {
+          if (endsEarlyOnVariablePrioritization !== null) {
+            return endsEarlyOnVariablePrioritization;
+          }
+
+          if (priorities.includes(p.name) && priorities.includes(c.name)) {
+            return priorities.indeOf(p.name) - priorities.indexOf(c.name);
+          } else if (priorities.includes(p.name)) {
             return 1;
           } else if (priorities.includes(c.name)) {
             return -1;
           }
-
-          return priorities.indexOf(p.name) - priorities.indexOf(c.name);
+          return 0;
         });
       }
       collectedDecl.forEach(e => block.content[matchingIndices.shift()] = e.node);
@@ -54,6 +69,15 @@ export default class PropertySortOrder extends BaseResolver {
       const filename = this.orderPresets[order];
       const orderConfig = sassLintHelpers.loadConfigFile(`property-sort-orders/${filename}`);
       return orderConfig.order;
+    }
+    return null;
+  }
+
+  shouldEndEarly (a: SortNode, b: SortNode): number | null {
+    if (a.type === 'variable' && b.type !== 'variable') {
+      return -1;
+    } else if (a.type !== 'variable' && b.type === 'variable') {
+      return 1;
     }
     return null;
   }
