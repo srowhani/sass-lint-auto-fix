@@ -8,10 +8,6 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 
 (() => {
-  const config = yaml.safeLoad(fs.readFileSync('./src/config/default.yml'))
-  console.log(config);
-  const defaultOptions = { ...config };
-
   program
     .version(pkg.version)
     .usage('"<pattern>" [options]')
@@ -20,7 +16,17 @@ const fs = require('fs');
     .option('-v, --verbose', 'verbose logging')
     .parse(process.argv);
 
-  defaultOptions.verbose = program.verbose;
+  const config = yaml.safeLoad(fs.readFileSync('./src/config/default.yml'))
+
+  let defaultOptions = { ...config };
+
+  if (program.config) {
+    // TOOD: Handle different configuration types
+    const customConfiguration = JSON.parse(fs.readFileSync(program.config));
+    defaultOptions = { ...defaultOptions,  customConfiguration };
+  }
+
+  defaultOptions.verbose = program.verbose || defaultOptions.verbose;
 
   const pattern = program.args[0];
 

@@ -15,4 +15,6 @@ resolvers:
   no-trailing-zero: 1
   space-after-bang: 1
   space-before-bang: 1
+  space-after-colon: 1
+  space-before-colon: 1
   hex-length: 1
