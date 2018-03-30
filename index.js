@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 import SlAutoFix from './src/sass-lint-fix';
 
-const config = require('./src/config/config');
 const program = require('commander');
 
 const pkg = require('../package.json');
+const yaml = require('js-yaml');
 const fs = require('fs');
 
 (() => {
+  const config = yaml.safeLoad(fs.readFileSync('./src/config/default.yml'))
+  console.log(config);
   const defaultOptions = { ...config };
 
   program

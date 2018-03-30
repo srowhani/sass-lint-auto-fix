@@ -22,9 +22,9 @@ const fn = _ => {
   const tsProject = ts.createProject('tsconfig.json');
   const project = tsProject();
   gulp.src(['src/**/*.ts'])
-    .pipe(eslint(eslintConfig))
-    .pipe(eslint.format())
-    .pipe(eslint.failOnError())
+    // .pipe(eslint(eslintConfig))
+    // .pipe(eslint.format())
+    // .pipe(eslint.failOnError())
     .on('error', err)
     .pipe(project)
     .pipe(babel({ presets: ['env'] }))
