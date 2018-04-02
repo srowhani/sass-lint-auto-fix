@@ -8,18 +8,24 @@ export default class BorderZero extends BaseResolver {
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
-    this._borders = ['border', 'border-top', 'border-right', 'border-bottom', 'border-left'];
+    this._borders = [
+      'border',
+      'border-top',
+      'border-right',
+      'border-bottom',
+      'border-left',
+    ];
     this._allowedConventions = ['0', 'none'];
   }
 
-  fix() : AbstractSyntaxTree {
+  fix(): AbstractSyntaxTree {
     return this.traverse(
-      this.ast, this.parser,
-      (node: TreeNode) => node.content = this.parser.options.convention,
+      this.ast,
+      (node: TreeNode) => (node.content = this.parser.options.convention),
     );
   }
 
-  traverse(ast: AbstractSyntaxTree, parser: SlRule, callback: Function) : AbstractSyntaxTree {
+  traverse(ast: AbstractSyntaxTree, callback: Function): AbstractSyntaxTree {
     ast.traverseByType('declaration', (decl: TreeNode) => {
       let isBorder = false;
 
@@ -48,11 +54,11 @@ export default class BorderZero extends BaseResolver {
     return ast;
   }
 
-  get borders() : string[] {
+  get borders(): string[] {
     return this._borders;
   }
 
-  get allowedConventions() : string[] {
+  get allowedConventions(): string[] {
     return this._allowedConventions;
   }
 }

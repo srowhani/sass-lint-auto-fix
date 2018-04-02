@@ -1,17 +1,21 @@
-import BaseResolver from './base-resolver';
-import AbstractSyntaxTree, { TreeNode, SortNode } from './typings/abstract-syntax-tree';
+import BaseResolver from '@src/resolvers/base-resolver';
+import {
+  TreeNode,
+  SortNode,
+} from '@src/resolvers/typings/abstract-syntax-tree';
 
 const sassLintHelpers = require('sass-lint/lib/helpers');
 
 export default class PropertySortOrder extends BaseResolver {
   fix() {
     this.ast.traverseByType('block', (block: TreeNode) => {
-      const collectedDecl : SortNode[] = [];
-      const matchingIndices : number[] = [];
+      const collectedDecl: SortNode[] = [];
+      const matchingIndices: number[] = [];
       block.forEach('declaration', (declaration: TreeNode, index: number) => {
         const prop = declaration.first('property');
 
-        const nodeContainingName : TreeNode = prop.first('ident') || prop.first('variable').first('ident');
+        const nodeContainingName: TreeNode =
+          prop.first('ident') || prop.first('variable').first('ident');
 
         if (nodeContainingName) {
           const variable = prop.first('variable');
@@ -59,7 +63,10 @@ export default class PropertySortOrder extends BaseResolver {
           return 0;
         });
       }
-      collectedDecl.forEach(e => block.content[matchingIndices.shift()] = e.node);
+
+      collectedDecl.forEach(
+        e => (block.content[matchingIndices.shift() || 0] = e.node),
+      );
     });
     return this.ast;
   }
@@ -67,13 +74,15 @@ export default class PropertySortOrder extends BaseResolver {
   getOrderConfig(order: string) {
     if (this.orderPresets[order] !== undefined) {
       const filename = this.orderPresets[order];
-      const orderConfig = sassLintHelpers.loadConfigFile(`property-sort-orders/${filename}`);
+      const orderConfig = sassLintHelpers.loadConfigFile(
+        `property-sort-orders/${filename}`,
+      );
       return orderConfig.order;
     }
     return null;
   }
 
-  shouldEndEarly (a: SortNode, b: SortNode): number | null {
+  shouldEndEarly(a: SortNode, b: SortNode): number | null {
     if (a.type === 'variable' && b.type !== 'variable') {
       return -1;
     } else if (a.type !== 'variable' && b.type === 'variable') {

@@ -13,37 +13,41 @@ export default class SpaceAfterBang extends BaseResolver {
   }
 
   fix(): AbstractSyntaxTree {
-    const {
-      ast,
-      parser,
-    } = this;
-    ast.traverseByTypes(['important', 'default', 'global', 'optional'], (node: TreeNode) => {
-      const value = node.content;
+    const { ast } = this;
 
-      if (this.shouldAddSpaceAfterBang(value)) {
-        node.content = this.injectSpaceAfterBang(value);
-      } else if (this.shouldRemoveSpaceAfterBang (value)) {
-        node.content = this.removeSpaceAfterBang(value);
-      }
-    });
+    ast.traverseByTypes(
+      ['important', 'default', 'global', 'optional'],
+      (node: TreeNode) => {
+        const value = node.content;
+
+        if (this.shouldAddSpaceAfterBang(value)) {
+          node.content = this.injectSpaceAfterBang(value);
+        } else if (this.shouldRemoveSpaceAfterBang(value)) {
+          node.content = this.removeSpaceAfterBang(value);
+        }
+      },
+    );
     return ast;
   }
 
-  injectSpaceAfterBang (value: string): string {
-    return value.replace(this._noSpaceAfterBang, '! ')
+  injectSpaceAfterBang(value: string): string {
+    return value.replace(this._noSpaceAfterBang, '! ');
   }
 
-  shouldAddSpaceAfterBang (value: string) : boolean {
-    return this.parser.options.include
-      && value.match(this._noSpaceAfterBang) !== null;
+  shouldAddSpaceAfterBang(value: string): boolean {
+    return (
+      this.parser.options.include &&
+      value.match(this._noSpaceAfterBang) !== null
+    );
   }
 
-  removeSpaceAfterBang (value: string): string {
+  removeSpaceAfterBang(value: string): string {
     return value.replace(this._spaceAfterBang, '!');
   }
 
-  shouldRemoveSpaceAfterBang (value: string) : boolean {
-    return !this.parser.options.include
-      && value.match(this._spaceAfterBang) !== null;
+  shouldRemoveSpaceAfterBang(value: string): boolean {
+    return (
+      !this.parser.options.include && value.match(this._spaceAfterBang) !== null
+    );
   }
 }

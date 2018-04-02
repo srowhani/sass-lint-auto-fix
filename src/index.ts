@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import SlAutoFix from './src/sass-lint-fix';
+
+import SlAutoFix from './sass-lint-fix';
 
 const program = require('commander');
 
@@ -16,14 +17,14 @@ const fs = require('fs');
     .option('-v, --verbose', 'verbose logging')
     .parse(process.argv);
 
-  const config = yaml.safeLoad(fs.readFileSync('./src/config/default.yml'))
+  const config = yaml.safeLoad(fs.readFileSync('./src/config/default.yml'));
 
   let defaultOptions = { ...config };
 
   if (program.config) {
     // TOOD: Handle different configuration types
     const customConfiguration = JSON.parse(fs.readFileSync(program.config));
-    defaultOptions = { ...defaultOptions,  customConfiguration };
+    defaultOptions = { ...defaultOptions, customConfiguration };
   }
 
   defaultOptions.verbose = program.verbose || defaultOptions.verbose;
@@ -35,7 +36,7 @@ const fs = require('fs');
   const sassLintAutoFix = new SlAutoFix(defaultOptions);
 
   sassLintAutoFix.run({
-    onResolve(filename, rule, ast) {
+    onResolve({ filename, ast }) {
       fs.writeFileSync(filename, ast.toString());
       this.logger.verbose('write', `Writing resolved tree to ${filename}`);
     },

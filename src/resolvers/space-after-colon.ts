@@ -1,13 +1,11 @@
-import BaseResolver from './base-resolver';
-import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
-import SlRule from './typings/sass-lint-rule';
+import BaseResolver from '@src/resolvers/base-resolver';
+import AbstractSyntaxTree, {
+  TreeNode,
+} from '@src/resolvers/typings/abstract-syntax-tree';
 
 export default class SpaceAfterColon extends BaseResolver {
   fix(): AbstractSyntaxTree {
-    const {
-      ast,
-      parser
-    } = this;
+    const { ast, parser } = this;
 
     this.traverse((delimiter: TreeNode, i: number, parent: TreeNode) => {
       if (delimiter.content === ':') {
@@ -17,20 +15,22 @@ export default class SpaceAfterColon extends BaseResolver {
           if (!include) {
             parent.content = parent.content.splice(i + 1, 1);
           }
-        }
-        else if (parser.options.include) {
+        } else if (parser.options.include) {
           delimiter.content += ' ';
         }
       }
-    })
+    });
 
     return ast;
   }
 
   traverse(callback: Function): AbstractSyntaxTree {
-    this.ast.traverseByTypes(['propertyDelimiter', 'operator'],
-      (delimiter: TreeNode, i: number, parent: TreeNode) => callback(delimiter, i, parent));
+    this.ast.traverseByTypes(
+      ['propertyDelimiter', 'operator'],
+      (delimiter: TreeNode, i: number, parent: TreeNode) =>
+        callback(delimiter, i, parent),
+    );
 
     return this.ast;
-  };
+  }
 }

@@ -12,18 +12,15 @@ export default class NoTrailingZero extends BaseResolver {
     this._trailingPeriodRegex = /(.*)\./;
   }
 
-  fix() : AbstractSyntaxTree {
-    const {
-      ast,
-      parser,
-    } = this;
+  fix(): AbstractSyntaxTree {
+    const { ast } = this;
 
-    ast.traverseByType('number', (n: TreeNode) => {
-      let value = n.content;
+    ast.traverseByType('number', (node: TreeNode) => {
+      let value = node.content;
       if (this.hasTrailingZero(value) !== null) {
         value = this.removeTrailingZero(value);
         value = this.removeTrailingPeriod(value);
-        n.content = value;
+        node.content = value;
       }
     });
 
@@ -31,7 +28,7 @@ export default class NoTrailingZero extends BaseResolver {
   }
 
   hasTrailingZero(value: string): string[] | null {
-    return value.match(this._trailingZeroRegex)
+    return value.match(this._trailingZeroRegex);
   }
 
   removeTrailingZero(value: string): string {

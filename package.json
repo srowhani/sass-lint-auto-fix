@@ -1,14 +1,36 @@
 {
   "name": "sass-lint-auto-fix",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Automatically resolve sass-linting issues through CLI",
-  "main": "./dist/src/sass-lint-fix.js",
+  "main": "./dist/sass-lint-auto-fix.js",
   "bin": {
     "sass-lint-auto-fix": "./dist/index.js"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
+    "tsc": "tsc --noEmit -p ./tsconfig.json",
+    "format": "find ./src/ -name '*.ts*' | xargs prettier --write --config ./.prettierrc --config-precedence file-override",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --project . --fix",
+    "prebuild": "rm -rf dist/",
+    "build": "npm run prebuild && tsc -p ./tsconfig-build.json --module commonjs && rollup -c rollup.config.ts --experimentalDynamicImport",
+    "precommit": "lint-staged",
+    "prepush": "npm run lint && npm run tsc"
   },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "npm run format",
+      "git add"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/srowhani/sass-lint-auto-fix/issues"
+  },
+  "files": [
+    "dist"
+  ],
   "author": "Seena Rowhani (srowhani)",
   "license": "MIT",
   "dependencies": {
@@ -21,23 +43,41 @@
     "sass-lint": "^1.12.1"
   },
   "devDependencies": {
-    "@types/node": "^9.6.0",
-    "babel-core": "^6.26.0",
+    "@types/jest": "^22.2.0",
+    "@types/node": "^9.4.6",
     "babel-plugin-dynamic-import-node": "^1.2.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.9.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.1",
-    "gulp-chmod": "^2.0.0",
-    "gulp-eslint": "^4.0.2",
-    "gulp-typescript": "^4.0.1",
-    "gulp-watch": "^5.0.0",
-    "mocha": "^5.0.4",
-    "typescript": "^2.7.2",
-    "typescript-eslint-parser": "^14.0.0"
+    "husky": "^0.14.3",
+    "jest": "^22.4.2",
+    "lint-staged": "^7.0.0",
+    "prettier": "^1.10.2",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^1.0.0",
+    "rollup-plugin-hashbang": "^1.0.1",
+    "rollup-plugin-typescript2": "^0.12.0",
+    "ts-jest": "^22.4.1",
+    "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.8.0",
+    "typescript": "^2.7.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "moduleNameMapper": {
+      "@src/(.*)": "<rootDir>/src/$1",
+      "@test/(.*)": "<rootDir>/__test__/$1"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts$",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "__test__"
+    ]
   }
 }

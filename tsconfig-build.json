@@ -1,26 +1,29 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "target": "es2017",
+    "outDir": "./dist/",
+    "target": "es6",
     "sourceMap": false,
+    "strictNullChecks": true,
     "module": "esnext",
+    "allowJs": false,
     "baseUrl": "./",
     "lib": ["es2017"],
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@src*": ["src/*"],
+      "@src*": ["src*"],
       "@test*": ["test*"]
     },
     "moduleResolution": "node",
     "noEmitOnError": false,
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitThis": true,
-    "pretty": true
+    "noUnusedParameters": true
   },
-  "include": ["./src/", "./test/"]
+  "include": ["./src/**/*", "index.ts"],
+  "inlineSources": true,
+  "inlineSourceMap": true,
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
