@@ -1,5 +1,6 @@
-import BaseResolver from './base-resolver';
 import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
+
+import BaseResolver from './base-resolver';
 import SlRule from './typings/sass-lint-rule';
 
 export default class SpaceAfterBang extends BaseResolver {
@@ -12,7 +13,7 @@ export default class SpaceAfterBang extends BaseResolver {
     this._spaceAfterBang = /!\s\b/;
   }
 
-  fix(): AbstractSyntaxTree {
+  public fix(): AbstractSyntaxTree {
     const { ast } = this;
 
     ast.traverseByTypes(
@@ -30,22 +31,22 @@ export default class SpaceAfterBang extends BaseResolver {
     return ast;
   }
 
-  injectSpaceAfterBang(value: string): string {
+  private injectSpaceAfterBang(value: string): string {
     return value.replace(this._noSpaceAfterBang, '! ');
   }
 
-  shouldAddSpaceAfterBang(value: string): boolean {
+  private shouldAddSpaceAfterBang(value: string): boolean {
     return (
       this.parser.options.include &&
       value.match(this._noSpaceAfterBang) !== null
     );
   }
 
-  removeSpaceAfterBang(value: string): string {
+  private removeSpaceAfterBang(value: string): string {
     return value.replace(this._spaceAfterBang, '!');
   }
 
-  shouldRemoveSpaceAfterBang(value: string): boolean {
+  private shouldRemoveSpaceAfterBang(value: string): boolean {
     return (
       !this.parser.options.include && value.match(this._spaceAfterBang) !== null
     );

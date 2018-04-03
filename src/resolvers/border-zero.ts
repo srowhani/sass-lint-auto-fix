@@ -1,10 +1,11 @@
-import BaseResolver from './base-resolver';
 import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
+
+import BaseResolver from './base-resolver';
 import SlRule from './typings/sass-lint-rule';
 
 export default class BorderZero extends BaseResolver {
-  private _borders: Array<string>;
-  private _allowedConventions: Array<string>;
+  private _borders: string[];
+  private _allowedConventions: string[];
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
@@ -18,14 +19,17 @@ export default class BorderZero extends BaseResolver {
     this._allowedConventions = ['0', 'none'];
   }
 
-  fix(): AbstractSyntaxTree {
+  public fix(): AbstractSyntaxTree {
     return this.traverse(
       this.ast,
       (node: TreeNode) => (node.content = this.parser.options.convention),
     );
   }
 
-  traverse(ast: AbstractSyntaxTree, callback: Function): AbstractSyntaxTree {
+  private traverse(
+    ast: AbstractSyntaxTree,
+    callback: (node: TreeNode) => void,
+  ): AbstractSyntaxTree {
     ast.traverseByType('declaration', (decl: TreeNode) => {
       let isBorder = false;
 

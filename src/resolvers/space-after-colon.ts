@@ -1,10 +1,11 @@
-import BaseResolver from '@src/resolvers/base-resolver';
 import AbstractSyntaxTree, {
   TreeNode,
 } from '@src/resolvers/typings/abstract-syntax-tree';
 
+import BaseResolver from '@src/resolvers/base-resolver';
+
 export default class SpaceAfterColon extends BaseResolver {
-  fix(): AbstractSyntaxTree {
+  public fix(): AbstractSyntaxTree {
     const { ast, parser } = this;
 
     this.traverse((delimiter: TreeNode, i: number, parent: TreeNode) => {
@@ -24,7 +25,9 @@ export default class SpaceAfterColon extends BaseResolver {
     return ast;
   }
 
-  traverse(callback: Function): AbstractSyntaxTree {
+  private traverse(
+    callback: (delimiter: TreeNode, i: number, parent: TreeNode) => void,
+  ): AbstractSyntaxTree {
     this.ast.traverseByTypes(
       ['propertyDelimiter', 'operator'],
       (delimiter: TreeNode, i: number, parent: TreeNode) =>

@@ -5,4 +5,4 @@ export default interface Resolver {
   ast: AbstractSyntaxTree;
   parser: SlRule;
   fix(): AbstractSyntaxTree;
-}
+};

@@ -1,5 +1,5 @@
-import { SlfRunOptions } from './typings.d';
 import SlRule from './resolvers/typings/sass-lint-rule';
+import { SlfRunOptions } from './typings.d';
 
 import Logger from './helpers/logger';
 import resolve from './helpers/module-resolver';
@@ -13,8 +13,8 @@ const slConfig = require('sass-lint/lib/config');
 const slRules = require('sass-lint/lib/rules');
 
 export default class SlAutoFix {
-  _logger: Logger;
-  _defaultOptions: any;
+  public _logger: Logger;
+  public _defaultOptions: any;
 
   constructor(defaultOptions: any) {
     this._logger = new Logger(defaultOptions.verbose);
@@ -24,7 +24,7 @@ export default class SlAutoFix {
     };
   }
 
-  run({ onResolve }: SlfRunOptions) {
+  public run({ onResolve }: SlfRunOptions) {
     if (typeof onResolve !== 'function') {
       throw new Error('onResolve must be provided');
     }
@@ -103,7 +103,7 @@ export default class SlAutoFix {
     );
   }
 
-  isValidExtension(fileExtension: string): boolean {
+  public isValidExtension(fileExtension: string): boolean {
     return this._defaultOptions.syntax.include.includes(fileExtension);
   }
 

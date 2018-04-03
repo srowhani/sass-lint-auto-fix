@@ -1,10 +1,11 @@
-import BaseResolver from './base-resolver';
 import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
+
+import BaseResolver from './base-resolver';
 
 const gonzales = require('gonzales-pe-sl');
 
 export default class SpaceBeforeBang extends BaseResolver {
-  fix(): AbstractSyntaxTree {
+  public fix(): AbstractSyntaxTree {
     const { ast } = this;
 
     ast.traverseByTypes(
@@ -29,7 +30,7 @@ export default class SpaceBeforeBang extends BaseResolver {
     return ast;
   }
 
-  shouldAddSpaceBeforeBang(): boolean {
+  private shouldAddSpaceBeforeBang(): boolean {
     return this.parser.options.include;
   }
 }

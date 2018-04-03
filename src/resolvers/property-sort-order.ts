@@ -1,13 +1,13 @@
 import BaseResolver from '@src/resolvers/base-resolver';
 import {
-  TreeNode,
   SortNode,
+  TreeNode,
 } from '@src/resolvers/typings/abstract-syntax-tree';
 
 const sassLintHelpers = require('sass-lint/lib/helpers');
 
 export default class PropertySortOrder extends BaseResolver {
-  fix() {
+  public fix() {
     this.ast.traverseByType('block', (block: TreeNode) => {
       const collectedDecl: SortNode[] = [];
       const matchingIndices: number[] = [];
@@ -71,7 +71,7 @@ export default class PropertySortOrder extends BaseResolver {
     return this.ast;
   }
 
-  getOrderConfig(order: string) {
+  private getOrderConfig(order: string) {
     if (this.orderPresets[order] !== undefined) {
       const filename = this.orderPresets[order];
       const orderConfig = sassLintHelpers.loadConfigFile(
@@ -82,7 +82,7 @@ export default class PropertySortOrder extends BaseResolver {
     return null;
   }
 
-  shouldEndEarly(a: SortNode, b: SortNode): number | null {
+  private shouldEndEarly(a: SortNode, b: SortNode): number | null {
     if (a.type === 'variable' && b.type !== 'variable') {
       return -1;
     } else if (a.type !== 'variable' && b.type === 'variable') {
@@ -91,7 +91,7 @@ export default class PropertySortOrder extends BaseResolver {
     return null;
   }
 
-  get orderPresets(): any {
+  private get orderPresets(): any {
     return {
       recess: 'recess.yml',
       smacss: 'smacss.yml',

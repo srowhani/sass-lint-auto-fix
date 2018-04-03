@@ -1,9 +1,10 @@
-import BaseResolver from './base-resolver';
 import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
+
+import BaseResolver from './base-resolver';
 import SlRule from './typings/sass-lint-rule';
 
 export default class HexLength extends BaseResolver {
-  _lengths: any;
+  private _lengths: any;
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
@@ -13,7 +14,7 @@ export default class HexLength extends BaseResolver {
     };
   }
 
-  fix(): AbstractSyntaxTree {
+  public fix(): AbstractSyntaxTree {
     const { ast } = this;
     ast.traverseByType('color', (node: TreeNode) => {
       const colorValue = node.content;
@@ -27,17 +28,17 @@ export default class HexLength extends BaseResolver {
     return ast;
   }
 
-  shouldShorten(hex: string): boolean {
+  private shouldShorten(hex: string): boolean {
     return this.parser.options.style === 'short' && this.canShorten(hex);
   }
 
-  shouldLengthen(hex: string): boolean {
+  private shouldLengthen(hex: string): boolean {
     return (
       this.parser.options.style === 'long' && hex.length === this._lengths.short
     );
   }
 
-  canShorten(hex: string): boolean {
+  private canShorten(hex: string): boolean {
     return (
       hex.length === this._lengths.long &&
       hex[0] === hex[1] &&
@@ -46,11 +47,11 @@ export default class HexLength extends BaseResolver {
     );
   }
 
-  transformLongToShort(hex: string): string {
+  private transformLongToShort(hex: string): string {
     return [0, 2, 4].reduce((acc: string, idx: number) => acc + hex[idx], '');
   }
 
-  transformShortToLong(hex: string): string {
+  private transformShortToLong(hex: string): string {
     return hex.split('').reduce((acc: string, c: string) => acc + c + c, '');
   }
 }

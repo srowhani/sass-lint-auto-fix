@@ -1,5 +1,6 @@
-import Resolver from './typings/resolver';
 import AbstractSyntaxTree from './typings/abstract-syntax-tree';
+
+import Resolver from './typings/resolver';
 import SlRule from './typings/sass-lint-rule';
 
 export default class BaseResolver implements Resolver {
@@ -11,7 +12,7 @@ export default class BaseResolver implements Resolver {
     this._parser = parser;
   }
 
-  fix(): AbstractSyntaxTree {
+  public fix(): AbstractSyntaxTree {
     throw new Error('Must be implemented');
   }
 

@@ -1,5 +1,6 @@
-import BaseResolver from './base-resolver';
 import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
+
+import BaseResolver from './base-resolver';
 import SlRule from './typings/sass-lint-rule';
 
 export default class NoTrailingZero extends BaseResolver {
@@ -12,7 +13,7 @@ export default class NoTrailingZero extends BaseResolver {
     this._trailingPeriodRegex = /(.*)\./;
   }
 
-  fix(): AbstractSyntaxTree {
+  public fix(): AbstractSyntaxTree {
     const { ast } = this;
 
     ast.traverseByType('number', (node: TreeNode) => {
@@ -27,15 +28,15 @@ export default class NoTrailingZero extends BaseResolver {
     return ast;
   }
 
-  hasTrailingZero(value: string): string[] | null {
+  private hasTrailingZero(value: string): string[] | null {
     return value.match(this._trailingZeroRegex);
   }
 
-  removeTrailingZero(value: string): string {
+  private removeTrailingZero(value: string): string {
     return value.replace(this._trailingZeroRegex, '$1' + '$2'); // eslint-disable-line no-useless-concat
   }
 
-  removeTrailingPeriod(value: string): string {
+  private removeTrailingPeriod(value: string): string {
     return value.replace(this._trailingPeriodRegex, '$1') || '0';
   }
 }

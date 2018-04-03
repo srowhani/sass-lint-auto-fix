@@ -1,22 +1,18 @@
-/* eslint-disable no-console */
-
+/* tslint:disable:no-console */
 const chalk = require('chalk');
 
 export default class Logger {
-  _verbose: boolean;
+  private isVerbose: boolean;
 
   constructor(verbose: boolean) {
-    this._verbose = verbose;
+    this.isVerbose = verbose;
   }
-  verbose(tag: string, ...terms: string[]): void {
-    if (this._verbose) {
-      console.log(
-        chalk.green(`[${tag}]`),
-        chalk.blue(...terms),
-      );
+  public verbose(tag: string, ...terms: string[]): void {
+    if (this.isVerbose) {
+      console.log(chalk.green(`[${tag}]`), chalk.blue(...terms));
     }
   }
-  error(...values: string[]): void {
+  public error(...values: string[]): void {
     console.log(...values.map(chalk.red.bold));
   }
 }

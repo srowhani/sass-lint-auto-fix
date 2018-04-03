@@ -1,12 +1,13 @@
-import BaseResolver from './base-resolver';
 import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
+
+import BaseResolver from './base-resolver';
 import SlRule from './typings/sass-lint-rule';
 
 const slHelpers = require('sass-lint/lib/helpers');
 
 export default class NoColorKeywords extends BaseResolver {
-  _cssColors: string[];
-  _cssColorRegex: RegExp;
+  private _cssColors: string[];
+  private _cssColorRegex: RegExp;
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
@@ -16,7 +17,7 @@ export default class NoColorKeywords extends BaseResolver {
     this._cssColorRegex = new RegExp(`(${this._cssColors.join('|')})`);
   }
 
-  fix() {
+  public fix() {
     this.ast.traverseByType('value', (valueNode: TreeNode) => {
       valueNode.traverseByType(
         'ident',
@@ -36,7 +37,7 @@ export default class NoColorKeywords extends BaseResolver {
     return this.ast;
   }
 
-  colorKeywordIndex(node: TreeNode): number {
+  private colorKeywordIndex(node: TreeNode): number {
     return this._cssColors.indexOf(node.content.toLowerCase());
   }
 }

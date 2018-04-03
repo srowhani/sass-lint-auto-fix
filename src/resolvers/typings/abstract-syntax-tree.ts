@@ -1,21 +1,32 @@
 export default interface AbstractSyntaxTree {
   is(nodeType: string): boolean;
-  traverse(callback: Function): void;
-  traverseByType(nodeType: string, callback: Function) : void;
-  traverseByTypes(nodeTypes: string[], callback: Function) : void;
-  removeChild(index: number) : TreeNode;
-}
+  traverse(
+    callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,
+  ): void;
+  traverseByType(
+    nodeType: string,
+    callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,
+  ): void;
+  traverseByTypes(
+    nodeTypes: string[],
+    callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,
+  ): void;
+  removeChild(index: number): TreeNode;
+};
 
 export interface TreeNode extends AbstractSyntaxTree {
   type: string;
   content: any;
-  forEach(nodeType: string, callback: Function) : void;
+  forEach(
+    nodeType: string,
+    callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,
+  ): void;
   first(nodeType?: string): TreeNode;
-  toString() : string;
+  toString(): string;
 }
 
 export interface SortNode {
-  name: string,
-  type: string,
-  node: TreeNode,
+  name: string;
+  type: string;
+  node: TreeNode;
 }
