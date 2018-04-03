@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+import Logger from './helpers/logger';
 import SlAutoFix from './sass-lint-fix';
 
 const program = require('commander');
@@ -17,6 +17,7 @@ const fs = require('fs');
     .option('-v, --verbose', 'verbose logging')
     .parse(process.argv);
 
+  const logger = new Logger(program.verbose);
   const config = yaml.safeLoad(fs.readFileSync('./src/config/default.yml'));
 
   let defaultOptions = { ...config };
@@ -38,7 +39,7 @@ const fs = require('fs');
   sassLintAutoFix.run({
     onResolve({ filename, ast }) {
       fs.writeFileSync(filename, ast.toString());
-      this.logger.verbose('write', `Writing resolved tree to ${filename}`);
+      logger.verbose('write', `Writing resolved tree to ${filename}`);
     },
   });
 })();
