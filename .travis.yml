@@ -1,4 +1,14 @@
 language: node_js
+node_js:
+  - '9'
+  - '8'
+  - '6'
+  - '4'
+install:
+  - npm install
+script:
+  - npm run build
+  - npm run test
 cache:
   directories:
     - "node_modules"
