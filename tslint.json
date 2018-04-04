@@ -16,6 +16,8 @@
     "no-var-requires": false,
     "comment-format": false,
     "ordered-imports": true,
-    "variable-name": false
+    "variable-name": false,
+    "no-shadowed-variable": false
+
   }
 }
