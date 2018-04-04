@@ -12,8 +12,8 @@ describe('property-sort-order.scss', () => {
           ast(`./sass/${filename}`),
         );
         const postResolveDetects = detect('property-sort-order', resolvedTree);
-        console.log(detects.length, postResolveDetects.length);
         expect(postResolveDetects.length).toBeLessThan(detects.length);
+        expect(detects.length).toBe(0);
       },
     );
   });
