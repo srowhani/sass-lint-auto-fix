@@ -1,5 +1,5 @@
-import AbstractSyntaxTree from '@src/resolvers/typings/abstract-syntax-tree';
-import SlRule from '@src/resolvers/typings/sass-lint-rule';
+import AbstractSyntaxTree from './resolvers/typings/abstract-syntax-tree';
+import SlRule from './resolvers/typings/sass-lint-rule';
 
 export interface SlfRunOptions {
   onResolve(slRunConfig: SlfRunConfig): void;
@@ -8,5 +8,5 @@ export interface SlfRunOptions {
 export interface SlfRunConfig {
   filename: string;
   rule: SlRule;
-  ast: AbstractSyntaxTree;
+  resolvedTree: AbstractSyntaxTree;
 }

@@ -60,7 +60,7 @@ export default class SlAutoFix {
                 syntax: fileExtension,
               });
             } catch (e) {
-              this.logger.error(`Unable to parse ${filename}`);
+              this.logger.error(Error(`Unable to parse ${filename}`));
               return;
             }
 
@@ -76,7 +76,7 @@ export default class SlAutoFix {
                   const detects = rule.rule.detect(ast, rule);
                   this.logger.verbose(
                     `${filename} - detect`,
-                    Module.name,
+                    rule.rule.name,
                     '-',
                     detects.length,
                   );

@@ -1,8 +1,6 @@
-import AbstractSyntaxTree, {
-  TreeNode,
-} from '@src/resolvers/typings/abstract-syntax-tree';
+import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
 
-import BaseResolver from '@src/resolvers/base-resolver';
+import BaseResolver from './base-resolver';
 
 export default class SpaceAfterColon extends BaseResolver {
   public fix(): AbstractSyntaxTree {

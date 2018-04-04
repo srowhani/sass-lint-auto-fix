@@ -3,6 +3,7 @@ import Logger from './helpers/logger';
 import SlAutoFix from './sass-lint-fix';
 
 const program = require('commander');
+const process = require('process');
 
 const pkg = require('../package.json');
 const yaml = require('js-yaml');
@@ -18,6 +19,9 @@ const fs = require('fs');
     .parse(process.argv);
 
   const logger = new Logger(program.verbose);
+
+  process.on('unhandledRejection', (error: Error) => logger.error(error));
+
   const config = yaml.safeLoad(fs.readFileSync('./src/config/default.yml'));
 
   let defaultOptions = { ...config };
@@ -37,8 +41,8 @@ const fs = require('fs');
   const sassLintAutoFix = new SlAutoFix(defaultOptions);
 
   sassLintAutoFix.run({
-    onResolve({ filename, ast }) {
-      fs.writeFileSync(filename, ast.toString());
+    onResolve({ filename, resolvedTree }) {
+      fs.writeFileSync(filename, resolvedTree.toString());
       logger.verbose('write', `Writing resolved tree to ${filename}`);
     },
   });

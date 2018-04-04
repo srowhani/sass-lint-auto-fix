@@ -1,8 +1,5 @@
-import BaseResolver from '@src/resolvers/base-resolver';
-import {
-  SortNode,
-  TreeNode,
-} from '@src/resolvers/typings/abstract-syntax-tree';
+import BaseResolver from './base-resolver';
+import { SortNode, TreeNode } from './typings/abstract-syntax-tree';
 
 const sassLintHelpers = require('sass-lint/lib/helpers');
 
