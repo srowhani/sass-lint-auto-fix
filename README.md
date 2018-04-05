@@ -6,7 +6,6 @@ Project Status: [wip - not ready]
 | Project Status| |
 |-----------------	|---	|
 | **Version** |[![NPM Version](https://badge.fury.io/js/sass-lint-auto-fix.svg?style=flat)](https://npmjs.org/package/sass-lint-auto-fix)|
-| **Downloads** |[![NPM Download Stats](https://nodei.co/npm/sass-lint-auto-fix.png?downloads=true&mini=true)](https://www.npmjs.com/package/sass-lint-auto-fix)|
 | **Status**    	|![Build Status](https://travis-ci.org/srowhani/sass-lint-auto-fix.svg?branch=master)|
 
 Build Status: 
