@@ -35,10 +35,10 @@ export function ast(filename: string): AbstractSyntaxTree {
   });
 }
 
-export function detect(content: string, format: string, options: any) {
+export function detect(text: string, format: string, options: any) {
   const file = {
-    text: content,
-    format: format,
+    text,
+    format,
     filename: null,
   };
 

@@ -5,7 +5,6 @@ const sassLintHelpers = require('sass-lint/lib/helpers');
 
 export default class PropertySortOrder extends BaseResolver {
   public fix() {
-    console.log(this.parser.options);
     this.ast.traverseByType('block', (block: TreeNode) => {
       const collectedDecl: SortNode[] = [];
       const matchingIndices: number[] = [];
