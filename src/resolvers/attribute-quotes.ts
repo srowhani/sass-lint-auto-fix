@@ -24,11 +24,11 @@ export default class AttributeQuotes extends BaseResolver {
   }
 
   private shouldRemoveQuotes(item: TreeNode) {
-    return item.content[0].is('string') && !this.parser.options.include;
+    return item.content[0].is('string') && this.parser.options.include;
   }
 
   private shouldAddQuotes(item: TreeNode) {
-    return item.content[0].is('ident') && this.parser.options.include;
+    return item.content[0].is('ident') && !this.parser.options.include;
   }
 
   private traverse(callback: (node: TreeNode) => void): AbstractSyntaxTree {

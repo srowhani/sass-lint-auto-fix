@@ -1,6 +1,6 @@
 {
   "name": "sass-lint-auto-fix",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Automatically resolve sass-linting issues through CLI",
   "main": "./dist/sass-lint-auto-fix.js",
   "bin": {
@@ -10,6 +10,7 @@
     "test": "jest --verbose --coverage --no-watchman",
     "test:watch": "jest --watch",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
+    "coverage": "open ./coverage/lcov-report/index.html",
     "tsc": "tsc --noEmit -p ./tsconfig.json",
     "format": "find ./src/ -name '*.ts*' | xargs prettier --write --config ./.prettierrc --config-precedence file-override",
     "lint": "tslint --project .",
