@@ -46,7 +46,6 @@ export default class SlAutoFix {
             }
 
             this.logger.verbose('process', filename);
-
             const fileExtension = path.extname(filename).substr(1);
 
             if (!this.isValidExtension(fileExtension)) {

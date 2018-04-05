@@ -8,6 +8,8 @@ const gonzales = require('gonzales-pe-sl');
 const slConfig = require('sass-lint/lib/config');
 const slRules = require('sass-lint/lib/rules');
 
+const sassLint = require('sass-lint');
+
 const rules = slRules(slConfig());
 
 export default (
@@ -20,6 +22,9 @@ export default (
       include: pattern,
     },
     resolvers: enabledResolvers,
+    syntax: {
+      include: ['scss', 'sass'],
+    },
   };
 
   const slaf = new SlAutoFix(options);
@@ -31,7 +36,8 @@ export default (
 export function ast(filename: string): AbstractSyntaxTree {
   const fileExtension = path.extname(filename).substr(1);
 
-  return gonzales.parse(fs.readFileSync(filename), {
+  const file = fs.readFileSync(filename);
+  return gonzales.parse(file.toString(), {
     syntax: fileExtension,
   });
 }
@@ -46,4 +52,20 @@ export function detect(detectRule: string, ast: AbstractSyntaxTree): any[] {
       ],
       [],
     );
+}
+
+export function lint(filename: string, options: any): any {
+  const file = {
+    text: fs.readFileSync(filename).toString(),
+    format: path.extname(filename).substr(1),
+    filename,
+  };
+
+  return sassLint.lintText(file, {
+    options: {
+      'merge-default-rules': false,
+      'cache-config': false,
+    },
+    rules: options,
+  });
 }

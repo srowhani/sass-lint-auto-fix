@@ -1,20 +1,58 @@
-import resolve, { ast, detect } from '@test/helpers/resolve';
+import resolve, { detect, lint } from '@test/helpers/resolve';
 
-describe('property-sort-order.scss', () => {
-  it('corrects the file', () => {
-    const filename = './sass/property-sort-order.scss';
-    resolve(
-      `./sass/${filename}`,
-      { 'property-sort-order': 1 },
-      ({ resolvedTree }) => {
-        const detects = detect(
-          'property-sort-order',
-          ast(`./sass/${filename}`),
-        );
-        const postResolveDetects = detect('property-sort-order', resolvedTree);
-        expect(postResolveDetects.length).toBeLessThan(detects.length);
-        expect(detects.length).toBe(0);
-      },
-    );
+describe('property-sort-order', () => {
+  describe('- scss', () => {
+    describe('- alphabetical', () => {
+      it('resolves', done => {
+        const filename = 'test/sass/property-sort-order.scss';
+        resolve(filename, { 'property-sort-order': 1 }, ({ resolvedTree }) => {
+          const preResolve = lint(filename, { 'property-sort-order': 1 });
+          const postResolve = detect('property-sort-order', resolvedTree);
+          expect(preResolve.warningCount).toBe(15);
+          expect(postResolve.length).toBe(0);
+          done();
+        });
+      });
+    });
+
+    describe('- smacss', () => {
+      it('resolves', done => {
+        const filename = 'test/sass/property-sort-order.scss';
+        resolve(filename, { 'property-sort-order': 1 }, ({ resolvedTree }) => {
+          const preResolve = lint(filename, {
+            'property-sort-order': [
+              1,
+              {
+                order: 'smacss',
+              },
+            ],
+          });
+          const postResolve = detect('property-sort-order', resolvedTree);
+          expect(preResolve.warningCount).toBe(12);
+          expect(postResolve.length).toBe(0);
+          done();
+        });
+      });
+    });
+
+    describe('- recess', () => {
+      it('resolves', done => {
+        const filename = 'test/sass/property-sort-order.scss';
+        resolve(filename, { 'property-sort-order': 1 }, ({ resolvedTree }) => {
+          const preResolve = lint(filename, {
+            'property-sort-order': [
+              1,
+              {
+                order: 'recess',
+              },
+            ],
+          });
+          const postResolve = detect('property-sort-order', resolvedTree);
+          expect(preResolve.warningCount).toBe(12);
+          expect(postResolve.length).toBe(0);
+          done();
+        });
+      });
+    });
   });
 });

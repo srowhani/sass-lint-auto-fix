@@ -7,7 +7,7 @@
     "sass-lint-auto-fix": "./dist/index.js"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose --no-watchman",
     "test:watch": "jest --watch",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
     "tsc": "tsc --noEmit -p ./tsconfig.json",
