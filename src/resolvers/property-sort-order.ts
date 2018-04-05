@@ -5,6 +5,7 @@ const sassLintHelpers = require('sass-lint/lib/helpers');
 
 export default class PropertySortOrder extends BaseResolver {
   public fix() {
+    console.log(this.parser.options);
     this.ast.traverseByType('block', (block: TreeNode) => {
       const collectedDecl: SortNode[] = [];
       const matchingIndices: number[] = [];
@@ -45,19 +46,17 @@ export default class PropertySortOrder extends BaseResolver {
           // sorting variables based on same metrics solves issue
           // with replacing property declarations
           const endsEarlyOnVariablePrioritization = this.shouldEndEarly(p, c);
-
           if (endsEarlyOnVariablePrioritization !== null) {
             return endsEarlyOnVariablePrioritization;
           }
 
-          if (priorities.includes(p.name) && priorities.includes(c.name)) {
-            return priorities.indeOf(p.name) - priorities.indexOf(c.name);
-          } else if (priorities.includes(p.name)) {
+          if (priorities.indexOf(p.name) === -1) {
             return 1;
-          } else if (priorities.includes(c.name)) {
+          }
+          if (priorities.indexOf(c.name) === -1) {
             return -1;
           }
-          return 0;
+          return priorities.indexOf(p.name) - priorities.indexOf(c.name);
         });
       }
 

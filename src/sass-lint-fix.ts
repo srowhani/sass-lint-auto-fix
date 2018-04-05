@@ -1,5 +1,5 @@
+import AbstractSyntaxTree from './resolvers/typings/abstract-syntax-tree';
 import SlRule from './resolvers/typings/sass-lint-rule';
-import { SlfRunOptions } from './typings.d';
 
 import Logger from './helpers/logger';
 import resolve from './helpers/module-resolver';
@@ -15,7 +15,6 @@ const slRules = require('sass-lint/lib/rules');
 export default class SlAutoFix {
   public _logger: Logger;
   public _defaultOptions: any;
-
   constructor(defaultOptions: any) {
     this._logger = new Logger(defaultOptions.verbose);
 
@@ -24,7 +23,14 @@ export default class SlAutoFix {
     };
   }
 
-  public run({ onResolve }: SlfRunOptions) {
+  public run(
+    lintOptions: any,
+    onResolve: (
+      filename: string,
+      rule: SlRule,
+      ast: AbstractSyntaxTree,
+    ) => void,
+  ) {
     if (typeof onResolve !== 'function') {
       throw new Error('onResolve must be provided');
     }
@@ -63,7 +69,7 @@ export default class SlAutoFix {
               return;
             }
 
-            const rules = slRules(slConfig());
+            const rules = slRules(slConfig(lintOptions));
 
             return rules
               .filter(
@@ -88,11 +94,7 @@ export default class SlAutoFix {
                     );
 
                     const resolvedTree = resolver.fix();
-                    return onResolve.call(this, {
-                      filename,
-                      rule,
-                      resolvedTree,
-                    });
+                    return onResolve(filename, rule, resolvedTree);
                   }
                 }),
               );

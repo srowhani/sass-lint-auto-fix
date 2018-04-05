@@ -1,36 +1,29 @@
 import AbstractSyntaxTree from '@src/resolvers/typings/abstract-syntax-tree';
+import SlRule from '@src/resolvers/typings/sass-lint-rule';
 import SlAutoFix from '@src/sass-lint-fix';
-import { SlfRunConfig } from '@src/typings.d';
 const path = require('path');
 const fs = require('fs');
 const gonzales = require('gonzales-pe-sl');
 
-const slConfig = require('sass-lint/lib/config');
-const slRules = require('sass-lint/lib/rules');
-
 const sassLint = require('sass-lint');
-
-const rules = slRules(slConfig());
 
 export default (
   pattern: string,
-  enabledResolvers: any,
-  onResolve: (config: SlfRunConfig) => void,
+  lintOptions: any,
+  onResolve: (filename: string, rule: SlRule, ast: AbstractSyntaxTree) => void,
 ) => {
   const options = {
     files: {
       include: pattern,
     },
-    resolvers: enabledResolvers,
+    resolvers: { [Object.keys(lintOptions)[0]]: 1 },
     syntax: {
       include: ['scss', 'sass'],
     },
   };
 
   const slaf = new SlAutoFix(options);
-  slaf.run({
-    onResolve,
-  });
+  slaf.run(lintOptions, onResolve);
 };
 
 export function ast(filename: string): AbstractSyntaxTree {
@@ -42,17 +35,32 @@ export function ast(filename: string): AbstractSyntaxTree {
   });
 }
 
-export function detect(detectRule: string, ast: AbstractSyntaxTree): any[] {
-  return rules
-    .filter((rule: any) => rule.rule.name === detectRule)
-    .reduce(
-      (accumulator: any[], rule: any) => [
-        ...accumulator,
-        ...rule.rule.detect(ast, rule),
-      ],
-      [],
-    );
+export function detect(content: string, format: string, options: any) {
+  const file = {
+    text: content,
+    format: format,
+    filename: null,
+  };
+
+  return sassLint.lintText(file, {
+    options: {
+      'merge-default-rules': false,
+      'cache-config': true,
+    },
+    rules: options,
+  });
 }
+//
+// export function detect(detectRule: string, ast: AbstractSyntaxTree): any[] {
+//   return rules
+//     .filter((rule: any) => rule.rule.name === detectRule)
+//     .reduce(
+//       (accumulator: any[], rule: any) => {
+//           accumulator.push(...rule.rule.detect(ast, rule))
+//           return accumulator;
+//       }, []
+//     );
+// }
 
 export function lint(filename: string, options: any): any {
   const file = {

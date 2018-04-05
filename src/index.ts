@@ -40,10 +40,8 @@ const fs = require('fs');
 
   const sassLintAutoFix = new SlAutoFix(defaultOptions);
 
-  sassLintAutoFix.run({
-    onResolve({ filename, resolvedTree }) {
-      fs.writeFileSync(filename, resolvedTree.toString());
-      logger.verbose('write', `Writing resolved tree to ${filename}`);
-    },
+  sassLintAutoFix.run({}, (filename, _, resolvedTree) => {
+    fs.writeFileSync(filename, resolvedTree.toString());
+    logger.verbose('write', `Writing resolved tree to ${filename}`);
   });
 })();
