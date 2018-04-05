@@ -7,7 +7,7 @@
     "sass-lint-auto-fix": "./dist/index.js"
   },
   "scripts": {
-    "test": "jest --verbose --no-watchman",
+    "test": "jest --verbose --coverage --no-watchman  && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:watch": "jest --watch",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
     "tsc": "tsc --noEmit -p ./tsconfig.json",
@@ -46,6 +46,7 @@
     "@types/jest": "^22.2.0",
     "@types/node": "^9.4.6",
     "@types/stacktrace-js": "0.0.32",
+    "coveralls": "^3.0.0",
     "husky": "^0.14.3",
     "jest": "^22.4.2",
     "lint-staged": "^7.0.0",
