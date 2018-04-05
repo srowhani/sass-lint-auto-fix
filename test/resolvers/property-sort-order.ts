@@ -1,6 +1,21 @@
 import resolve, { detect, lint } from '@test/helpers/resolve';
 
 describe('property-sort-order', () => {
+  describe('- sass', () => {
+    describe('- alphabetical', () => {
+      const options = { 'property-sort-order': 1 };
+      it('resolves', done => {
+        const filename = 'test/sass/property-sort-order.sass';
+        resolve(filename, { ...options }, (_, __, resolvedTree) => {
+          const preResolve = lint(filename, options);
+          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+          expect(preResolve.warningCount).toBe(15);
+          expect(postResolve.warningCount).toBe(0);
+          done();
+        });
+      });
+    });
+  });
   describe('- scss', () => {
     describe('- alphabetical', () => {
       const options = { 'property-sort-order': 1 };
