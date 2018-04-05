@@ -7,6 +7,8 @@ Project Status: [wip - not ready]
 |-----------------	|---	|
 | **Version** |[![NPM Version](https://badge.fury.io/js/sass-lint-auto-fix.svg?style=flat)](https://npmjs.org/package/sass-lint-auto-fix)|
 | **Status**    	|![Build Status](https://travis-ci.org/srowhani/sass-lint-auto-fix.svg?branch=master)|
+| **Coverage** |[![Coverage Status](https://coveralls.io/repos/github/srowhani/sass-lint-auto-fix/badge.svg?branch=master)](https://coveralls.io/github/srowhani/sass-lint-auto-fix?branch=master)|
+
 
 Build Status: 
 
