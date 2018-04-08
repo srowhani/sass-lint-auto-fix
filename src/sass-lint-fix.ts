@@ -15,6 +15,7 @@ const slRules = require('sass-lint/lib/rules');
 export default class SlAutoFix {
   public _logger: Logger;
   public _defaultOptions: any;
+
   constructor(defaultOptions: any) {
     this._logger = new Logger(defaultOptions.verbose);
 
@@ -31,10 +32,6 @@ export default class SlAutoFix {
       ast: AbstractSyntaxTree,
     ) => void,
   ) {
-    if (typeof onResolve !== 'function') {
-      throw new Error('onResolve must be provided');
-    }
-
     glob(
       this._defaultOptions.files.include,
       {},
