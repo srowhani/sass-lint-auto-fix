@@ -44,7 +44,7 @@ export default class BorderZero extends BaseResolver {
           if (item.type === 'value') {
             const node = item.content[0];
             if (node.type === 'number' || node.type === 'ident') {
-              if (node.content == '0' || node.content == 'none') {
+              if (this.allowedConventions.includes(node.content)) {
                 callback(item);
               }
             }
