@@ -1,6 +1,7 @@
 import typescript from 'rollup-plugin-typescript2';
 import hashbang from 'rollup-plugin-hashbang'
 import babel from 'rollup-plugin-babel';
+import copy from 'rollup-plugin-copy';
 
 const pkg = require('./package.json');
 
@@ -20,18 +21,10 @@ const globals = {};
 
 export default {
   input: `src/index.ts`,
-  // Build flags
-  experimentalDynamicImport: true,
-
   output: [
     {
       file: pkg.bin["sass-lint-auto-fix"],
       name: libraryName,
-      format: 'umd',
-      globals
-    },
-    {
-      file: pkg.main,
       format: 'umd',
       globals
     },
@@ -44,6 +37,10 @@ export default {
   },
   plugins: [
     // Compile TypeScript files
+    copy({
+      "src/config/default.yml": "dist/config/default.yml",
+      verbose: true
+    }),
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfig: './tsconfig-build.json',

@@ -22,7 +22,10 @@ const fs = require('fs');
 
   process.on('unhandledRejection', (error: Error) => logger.error(error));
 
-  const config = yaml.safeLoad(fs.readFileSync('./src/config/default.yml'));
+  const dir = process.cwd();
+  const config = yaml.safeLoad(
+    fs.readFileSync(`${dir}/dist/config/default.yml`),
+  );
 
   let defaultOptions = { ...config };
 

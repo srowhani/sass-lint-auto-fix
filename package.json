@@ -54,6 +54,7 @@
     "prettier": "^1.10.2",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^1.0.0",
+    "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-hashbang": "^1.0.1",
     "rollup-plugin-typescript2": "^0.12.0",
     "ts-jest": "^22.4.1",
