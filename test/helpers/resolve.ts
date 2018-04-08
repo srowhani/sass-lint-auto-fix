@@ -23,7 +23,16 @@ export default (
   };
 
   const slaf = new SlAutoFix(options);
-  slaf.run(lintOptions, onResolve);
+  slaf.run(
+    {
+      options: {
+        'merge-default-rules': false,
+        'cache-config': false,
+      },
+      rules: { ...lintOptions },
+    },
+    onResolve,
+  );
 };
 
 export function ast(filename: string): AbstractSyntaxTree {
@@ -45,9 +54,9 @@ export function detect(text: string, format: string, options: any) {
   return sassLint.lintText(file, {
     options: {
       'merge-default-rules': false,
-      'cache-config': true,
+      'cache-config': false,
     },
-    rules: options,
+    rules: { ...options },
   });
 }
 //
@@ -74,6 +83,6 @@ export function lint(filename: string, options: any): any {
       'merge-default-rules': false,
       'cache-config': false,
     },
-    rules: options,
+    rules: { ...options },
   });
 }

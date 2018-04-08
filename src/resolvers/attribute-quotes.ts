@@ -18,17 +18,17 @@ export default class AttributeQuotes extends BaseResolver {
       if (this.shouldRemoveQuotes(item)) {
         item.content[0].content = content.replace(this.quotePattern, '$2');
       } else if (this.shouldAddQuotes(item)) {
-        item.content[0].content = content.replace(/(.*)/, '"$1"');
+        item.content[0].content = content.replace(/(.*)/, `"$1"`);
       }
     });
   }
 
   private shouldRemoveQuotes(item: TreeNode) {
-    return item.content[0].is('string') && this.parser.options.include;
+    return item.content[0].is('string') && !this.parser.options.include;
   }
 
   private shouldAddQuotes(item: TreeNode) {
-    return item.content[0].is('ident') && !this.parser.options.include;
+    return item.content[0].is('ident') && this.parser.options.include;
   }
 
   private traverse(callback: (node: TreeNode) => void): AbstractSyntaxTree {

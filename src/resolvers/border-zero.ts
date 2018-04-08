@@ -6,6 +6,7 @@ import SlRule from './typings/sass-lint-rule';
 export default class BorderZero extends BaseResolver {
   private _borders: string[];
   private _allowedConventions: string[];
+  private convention: any;
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
@@ -16,21 +17,18 @@ export default class BorderZero extends BaseResolver {
       'border-bottom',
       'border-left',
     ];
+
+    this.convention = this.parser.options.convention;
+
     this._allowedConventions = ['0', 'none'];
   }
 
   public fix(): AbstractSyntaxTree {
-    return this.traverse(
-      this.ast,
-      (node: TreeNode) => (node.content = this.parser.options.convention),
-    );
+    return this.traverse((node: TreeNode) => (node.content = this.convention));
   }
 
-  private traverse(
-    ast: AbstractSyntaxTree,
-    callback: (node: TreeNode) => void,
-  ): AbstractSyntaxTree {
-    ast.traverseByType('declaration', (decl: TreeNode) => {
+  private traverse(callback: (node: TreeNode) => void): AbstractSyntaxTree {
+    this.ast.traverseByType('declaration', (decl: TreeNode) => {
       let isBorder = false;
 
       decl.traverse((item: TreeNode) => {
@@ -46,8 +44,8 @@ export default class BorderZero extends BaseResolver {
           if (item.type === 'value') {
             const node = item.content[0];
             if (node.type === 'number' || node.type === 'ident') {
-              if (node.content === '0' || node.content === 'none') {
-                return callback(node);
+              if (node.content == '0' || node.content == 'none') {
+                callback(item);
               }
             }
           }
@@ -55,7 +53,7 @@ export default class BorderZero extends BaseResolver {
         return item;
       });
     });
-    return ast;
+    return this.ast;
   }
 
   get borders(): string[] {
