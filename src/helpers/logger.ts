@@ -3,10 +3,10 @@ import StackTrace from 'stacktrace-js';
 const chalk = require('chalk');
 
 export default class Logger {
-  private isVerbose: boolean;
-
   public _verbose = console.log;
   public _error = console.log;
+
+  private isVerbose: boolean;
 
   constructor(verbose: boolean) {
     this.isVerbose = verbose;
