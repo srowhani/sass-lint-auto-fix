@@ -1,8 +1,6 @@
 import resolve, { detect, lint } from '@test/helpers/resolve';
 
 describe('hex-length', () => {
-  const options = { 'hex-length': 1 };
-
   describe('scss', () => {
     describe('[style: short]', () => {
       const options = {
