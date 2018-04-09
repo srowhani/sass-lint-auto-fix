@@ -79,6 +79,7 @@
     },
     "testRegex": "(/test/resolvers/.*|(\\.|/)(test|spec))\\.ts$",
     "coveragePathIgnorePatterns": [
+      "dist",
       "/node_modules/",
       "test"
     ]

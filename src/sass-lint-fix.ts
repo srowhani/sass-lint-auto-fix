@@ -2,7 +2,6 @@ import AbstractSyntaxTree from './resolvers/typings/abstract-syntax-tree';
 import SlRule from './resolvers/typings/sass-lint-rule';
 
 import Logger from './helpers/logger';
-import resolve from './helpers/module-resolver';
 
 const gonzales = require('gonzales-pe-sl');
 const fs = require('fs');
@@ -74,7 +73,9 @@ export default class SlAutoFix {
                   !!this._defaultOptions.resolvers[rule.rule.name],
               )
               .map((rule: SlRule) =>
-                resolve(`${rule.rule.name}`).then(Module => {
+                Promise.resolve(
+                  require(`./resolvers/${rule.rule.name}`).default,
+                ).then((Module: any) => {
                   const detects = rule.rule.detect(ast, rule);
                   this.logger.verbose(
                     `${filename} - detect`,
