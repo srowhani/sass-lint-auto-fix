@@ -4,37 +4,83 @@ describe('hex-length', () => {
   const options = { 'hex-length': 1 };
 
   describe('scss', () => {
-    it('resolves', done => {
-      const filename = 'test/sass/hex-length.scss';
-      resolve(filename, options, (_, __, resolvedTree) => {
-        const preResolve = lint(filename, {
-          'hex-length': 1,
-        });
-        const postResolve = detect(resolvedTree.toString(), 'scss', {
-          'hex-length': 1,
-        });
+    describe('[style: short]', () => {
+      const options = {
+        'hex-length': 1,
+      };
+      it('resolves', done => {
+        const filename = 'test/sass/hex-length.scss';
+        resolve(filename, options, (_, __, resolvedTree) => {
+          const preResolve = lint(filename, options);
+          const postResolve = detect(resolvedTree.toString(), 'scss', options);
 
-        expect(preResolve.warningCount).toBe(4);
-        expect(postResolve.warningCount).toBe(0);
-        done();
+          expect(preResolve.warningCount).toBe(4);
+          expect(postResolve.warningCount).toBe(0);
+          done();
+        });
+      });
+    });
+
+    describe('[style: long]', () => {
+      const options = {
+        'hex-length': [
+          1,
+          {
+            style: 'long',
+          },
+        ],
+      };
+      it('resolves', done => {
+        const filename = 'test/sass/hex-length.scss';
+        resolve(filename, options, (_, __, resolvedTree) => {
+          const preResolve = lint(filename, options);
+          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+
+          expect(preResolve.warningCount).toBe(4);
+          expect(postResolve.warningCount).toBe(0);
+          done();
+        });
       });
     });
   });
 
   describe('sass', () => {
-    it('resolves', done => {
-      const filename = 'test/sass/hex-length.sass';
-      resolve(filename, options, (_, __, resolvedTree) => {
-        const preResolve = lint(filename, {
-          'hex-length': 1,
-        });
-        const postResolve = detect(resolvedTree.toString(), 'sass', {
-          'hex-length': 1,
-        });
+    describe('[style: short]', () => {
+      const options = {
+        'hex-length': 1,
+      };
+      it('resolves', done => {
+        const filename = 'test/sass/hex-length.sass';
+        resolve(filename, options, (_, __, resolvedTree) => {
+          const preResolve = lint(filename, options);
+          const postResolve = detect(resolvedTree.toString(), 'sass', options);
 
-        expect(preResolve.warningCount).toBe(4);
-        expect(postResolve.warningCount).toBe(0);
-        done();
+          expect(preResolve.warningCount).toBe(4);
+          expect(postResolve.warningCount).toBe(0);
+          done();
+        });
+      });
+    });
+
+    describe('[style: long]', () => {
+      const options = {
+        'hex-length': [
+          1,
+          {
+            style: 'long',
+          },
+        ],
+      };
+      it('resolves', done => {
+        const filename = 'test/sass/hex-length.sass';
+        resolve(filename, options, (_, __, resolvedTree) => {
+          const preResolve = lint(filename, options);
+          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+
+          expect(preResolve.warningCount).toBe(4);
+          expect(postResolve.warningCount).toBe(0);
+          done();
+        });
       });
     });
   });

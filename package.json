@@ -12,7 +12,8 @@
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
     "coverage": "open ./coverage/lcov-report/index.html",
     "tsc": "tsc --noEmit -p ./tsconfig.json",
-    "format": "find ./src/ -name '*.ts*' | xargs prettier --write --config ./.prettierrc --config-precedence file-override",
+    "format:src": "find ./src/ -name '*.ts*' | xargs prettier --write --config ./.prettierrc --config-precedence file-override",
+    "format:test": "find ./test/ -name '*.ts*' | xargs prettier --write --config ./.prettierrc --config-precedence file-override",
     "lint": "tslint --project .",
     "lint:fix": "tslint --project . --fix",
     "prebuild": "rm -rf dist/",
@@ -22,7 +23,8 @@
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
-      "npm run format",
+      "npm run format:src",
+      "npm run format:test",
       "git add"
     ]
   },
