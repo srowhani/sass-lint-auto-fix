@@ -79,7 +79,7 @@
       "@src/(.*)": "<rootDir>/src/$1",
       "@test/(.*)": "<rootDir>/test/$1"
     },
-    "testRegex": "(/test/resolvers/.*|(\\.|/)(test|spec))\\.ts$",
+    "testRegex": "(/test/src/.*|(\\.|/)(test|spec))\\.ts$",
     "coveragePathIgnorePatterns": [
       "dist",
       "/node_modules/",
