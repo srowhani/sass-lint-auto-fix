@@ -1,4 +1,4 @@
-# auto-fix  [![NPM Version](https://badge.fury.io/js/sass-lint-auto-fix.svg?style=flat)](https://npmjs.org/package/sass-lint-auto-fix) [![Build Status](https://travis-ci.org/srowhani/sass-lint-auto-fix.svg?branch=master)](https://travis-ci.org/srowhani/sass-lint-auto-fix/) [![Coverage Status](https://coveralls.io/repos/github/srowhani/sass-lint-auto-fix/badge.svg?branch=master)](https://coveralls.io/github/srowhani/sass-lint-auto-fix?branch=master)
+# sass-lint-auto-fix  [![NPM Version](https://badge.fury.io/js/sass-lint-auto-fix.svg?style=flat)](https://npmjs.org/package/sass-lint-auto-fix) [![Build Status](https://travis-ci.org/srowhani/sass-lint-auto-fix.svg?branch=master)](https://travis-ci.org/srowhani/sass-lint-auto-fix/) [![Coverage Status](https://coveralls.io/repos/github/srowhani/sass-lint-auto-fix/badge.svg?branch=master)](https://coveralls.io/github/srowhani/sass-lint-auto-fix?branch=master)
 ![](https://i.imgur.com/mpxlhLX.png)
 
 ## Description
