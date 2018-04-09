@@ -14,7 +14,7 @@ const fs = require('fs');
     .version(pkg.version)
     .usage('"<pattern>" [options]')
     .option('-y, --yes', 'auto resolve any issues')
-    .option('-c, --config', 'custom config path')
+    .option('-c, --config <path>', 'custom config path')
     .option('-v, --verbose', 'verbose logging')
     .parse(process.argv);
 
@@ -22,17 +22,15 @@ const fs = require('fs');
 
   process.on('unhandledRejection', (error: Error) => logger.error(error));
 
-  const dir = process.cwd();
   const config = yaml.safeLoad(
-    fs.readFileSync(`${dir}/dist/config/default.yml`),
+    fs.readFileSync(require.resolve(`./config/default.yml`)),
   );
 
   let defaultOptions = { ...config };
-
   if (program.config) {
     // TOOD: Handle different configuration types
     const customConfiguration = JSON.parse(fs.readFileSync(program.config));
-    defaultOptions = { ...defaultOptions, customConfiguration };
+    defaultOptions = { ...defaultOptions, ...customConfiguration };
   }
 
   defaultOptions.verbose = program.verbose || defaultOptions.verbose;
