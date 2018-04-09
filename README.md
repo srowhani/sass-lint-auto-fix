@@ -63,6 +63,53 @@ Add the following to your `package.json`
 npm install -g sass-lint-auto-fix
 ```
 
+## Configuration
+
+Configuration can be provided through as either json, yml, or js.
+
+The generic structure of the configuration file you would provide would look something like [this](https://github.com/srowhani/sass-lint-auto-fix/blob/master/src/config/default.yml):
+
+```yml
+files:
+  include: "**/*.s+(a|c)ss"
+  ignore: []
+syntax:
+    include:
+      - scss
+      - sass
+resolvers:
+  property-sort-order: 1
+  attribute-quotes: 1
+  border-zero: 1
+  no-color-keywords: 1
+  no-css-comments: 1
+  no-important: 1
+  no-trailing-zero: 1
+  space-after-bang: 1
+  space-before-bang: 1
+  space-after-colon: 1
+  space-before-colon: 1
+  hex-length: 1
+```
+
+By default, all rule "resolvers" are enabled. If you wish to change that, specify a config file when running.
+
+```
+  sass-lint-auto-fix -c path/to/config.file
+```
+
+#### Disabling Rules
+
+```yml
+resolvers:
+  property-sort-order: 1
+  attribute-quotes: 0
+```
+
+In this snippet example, the only rule enabled is `property-sort-order`. If you wish to manually enable certain resolvers, you would do so for each one you wish to include.
+
+For more information about the rules themselves, you can read the [documentation from sass-lint](https://github.com/sasstools/sass-lint/tree/develop/docs/rules)
+
 ## Developing
 
 ### Setup
