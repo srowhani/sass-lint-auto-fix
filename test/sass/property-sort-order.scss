@@ -43,6 +43,18 @@
   }
 }
 
+@mixin variable-order {
+  $z: none;
+  display: $z;
+  border: 0;
+}
+
+@mixin variable-order-swap {
+  display: none;
+  $z: none;
+  border: $z;
+}
+
 @function em($target, $context: $base-font-size) {
   @if not unitless($target) {
     $target: strip-units($target);
@@ -50,6 +62,8 @@
   @if not unitless($context) {
     $context: strip-units($context);
   }
-  @if $target == 0 { @return 0 }
+  @if $target == 0 {
+    @return 0
+  }
   @return $target / $context + 0em;
 }

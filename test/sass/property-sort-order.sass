@@ -37,8 +37,15 @@
     &:#{$placeholder}-placeholder
       @content
 
+=variable-order
+  $z: none
+  border: 0
+  display: $z
 
-
+=variable-order-swap
+  $z: none
+  border: $z
+  display: none
 
 @function em($target, $context: $base-font-size)
   @if not unitless($target)
@@ -47,5 +54,6 @@
   @if not unitless($context)
     $context: strip-units($context)
 
-  @if $target == 0 @return 0
+  @if $target == 0
+    @return 0
   @return $target / $context + 0em
