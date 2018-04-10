@@ -15,7 +15,7 @@ export default class SlAutoFix {
   public _logger: Logger;
   public _defaultOptions: any;
 
-  constructor(defaultOptions: any) {
+  constructor(defaultOptions: any = {}) {
     this._logger = new Logger(defaultOptions.verbose);
 
     this._defaultOptions = {
@@ -61,7 +61,7 @@ export default class SlAutoFix {
                 syntax: fileExtension,
               });
             } catch (e) {
-              this.logger.error(Error(`Unable to parse ${filename}`));
+              this.logger.verbose('parse', `Unable to parse ${filename}`);
               return;
             }
 

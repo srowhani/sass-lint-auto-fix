@@ -5,7 +5,7 @@ import copy from 'rollup-plugin-copy';
 
 const pkg = require('./package.json');
 
-const libraryName = 'ts-package-boilerplate';
+const libraryName = pkg.name;
 
 /**
  * Include all of the dependencies here to exclude all node modules from the build
