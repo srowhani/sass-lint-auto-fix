@@ -1,7 +1,6 @@
 import { SlfParserOptions } from '@src/typings.d';
 
 const process = require('process');
-const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 
