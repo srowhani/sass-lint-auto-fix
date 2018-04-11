@@ -1,6 +1,6 @@
 import { SlfParserOptions } from '@src/typings.d';
 
-const process = require('process');
+const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 
@@ -14,9 +14,7 @@ const _configurationProxy = new Proxy(
   {
     get: (target: any, filename: string) => {
       const possibleResolutions = Object.keys(target)
-        .map(key => {
-          return target[key](filename);
-        })
+        .map(key => target[key](filename))
         .filter(result => result !== null);
 
       if (possibleResolutions.length === 0) {
@@ -47,9 +45,8 @@ function parseJSON(filename: string): SlfParserOptions | null {
 }
 
 function parseModule(filename: string): SlfParserOptions | null {
-  const localDirectory = process.cwd();
   try {
-    return require(`${localDirectory}/${filename}`);
+    return require(path.resolve(filename));
   } catch (e) {
     return null;
   }
