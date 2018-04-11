@@ -13,7 +13,6 @@ const fs = require('fs');
   program
     .version(pkg.version)
     .usage('"<pattern>" [options]')
-    .option('-y, --yes', 'auto resolve any issues')
     .option('-c, --config <path>', 'custom config path')
     .option('-v, --verbose', 'verbose logging')
     .parse(process.argv);

@@ -19,14 +19,20 @@
     "prebuild": "rm -rf dist/",
     "build": "npm run prebuild && tsc -p ./tsconfig-build.json --module commonjs && rollup -c rollup.config.ts",
     "precommit": "lint-staged",
-    "prepush": "npm run lint && npm run tsc"
+    "prepush": "npm run lint && npm run tsc",
+    "docs": "typedoc --out ./docs ./src --excludeExternals --excludePrivate --externalPattern '*node_modules*' --tsconfig ./tsconfig-build.json  --mode file  --theme minimal"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
+      "npm run lint:fix",
       "npm run format:src",
       "npm run format:test",
       "git add"
     ]
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/srowhani/sass-lint-auto-fix.git"
   },
   "bugs": {
     "url": "https://github.com/srowhani/sass-lint-auto-fix/issues"
@@ -34,6 +40,7 @@
   "files": [
     "dist"
   ],
+  "homepage": "https://github.com/srowhani/sass-lint-auto-fix#README.md",
   "author": "Seena Rowhani (srowhani)",
   "license": "MIT",
   "dependencies": {
@@ -62,6 +69,7 @@
     "ts-jest": "^22.4.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.8.0",
+    "typedoc": "^0.11.1",
     "typescript": "^2.7.2"
   },
   "jest": {

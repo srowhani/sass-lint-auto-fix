@@ -15,7 +15,6 @@ simple linting issues with an easy to use command line interface. Issues are res
   Options:
 
     -V, --version        output the version number
-    -y, --yes            auto resolve any issues
     -c, --config <path>  custom config path
     -v, --verbose        verbose logging
     -h, --help           output usage information
@@ -42,7 +41,7 @@ Modify `package.json` scripts to include `lint:fix`
 }
 ```
 
-`lint:fix` works really well with [husky](https://github.com/typicode/husky), which allows you to run commands on hooks that fire when 
+`lint:fix` works really well with [husky](https://github.com/typicode/husky), which allows you to run commands on hooks that fire when
 running git commands
 
 Add the following to your `package.json`
@@ -124,4 +123,3 @@ npm run build;
 ```
 npm run test
 ```
-
