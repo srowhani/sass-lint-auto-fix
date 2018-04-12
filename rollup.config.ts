@@ -1,6 +1,5 @@
 import typescript from 'rollup-plugin-typescript2';
 import hashbang from 'rollup-plugin-hashbang'
-import babel from 'rollup-plugin-babel';
 import copy from 'rollup-plugin-copy';
 
 const pkg = require('./package.json');
