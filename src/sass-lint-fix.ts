@@ -1,5 +1,4 @@
 import AbstractSyntaxTree from './resolvers/typings/abstract-syntax-tree';
-import Resolver from './resolvers/typings/resolver';
 import SlRule from './resolvers/typings/sass-lint-rule';
 
 import Logger from './helpers/logger';
