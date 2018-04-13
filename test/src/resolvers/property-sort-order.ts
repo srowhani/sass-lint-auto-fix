@@ -57,6 +57,27 @@ describe('property-sort-order', () => {
         });
       });
     });
+
+    describe('- custom', () => {
+      const options = {
+        'property-sort-order': [
+          1,
+          {
+            order: ['height', 'width', 'display', 'color'],
+          },
+        ],
+      };
+      it('resolves', done => {
+        const filename = 'test/sass/property-sort-order.scss';
+        resolve(filename, { ...options }, (_, __, resolvedTree) => {
+          const preResolve = lint(filename, options);
+          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+          expect(preResolve.warningCount).toBe(8);
+          expect(postResolve.warningCount).toBe(0);
+          done();
+        });
+      });
+    });
   });
 
   describe('- sass', () => {
@@ -110,6 +131,27 @@ describe('property-sort-order', () => {
           const preResolve = lint(filename, options);
           const postResolve = detect(resolvedTree.toString(), 'sass', options);
           expect(preResolve.warningCount).toBe(16);
+          expect(postResolve.warningCount).toBe(0);
+          done();
+        });
+      });
+    });
+
+    describe('- custom', () => {
+      const options = {
+        'property-sort-order': [
+          1,
+          {
+            order: ['height', 'width', 'display', 'color'],
+          },
+        ],
+      };
+      it('resolves', done => {
+        const filename = 'test/sass/property-sort-order.sass';
+        resolve(filename, { ...options }, (_, __, resolvedTree) => {
+          const preResolve = lint(filename, options);
+          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+          expect(preResolve.warningCount).toBe(10);
           expect(postResolve.warningCount).toBe(0);
           done();
         });
