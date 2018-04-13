@@ -7,12 +7,8 @@ describe('space-before-colon', () => {
     it('resolves', done => {
       const filename = 'test/sass/space-before-colon.scss';
       resolve(filename, options, (_, __, resolvedTree) => {
-        const preResolve = lint(filename, {
-          'space-before-colon': 1,
-        });
-        const postResolve = detect(resolvedTree.toString(), 'scss', {
-          'space-before-colon': 1,
-        });
+        const preResolve = lint(filename, options);
+        const postResolve = detect(resolvedTree.toString(), 'scss', options);
 
         expect(preResolve.warningCount).toBe(3);
         expect(postResolve.warningCount).toBe(0);
@@ -25,12 +21,8 @@ describe('space-before-colon', () => {
     it('resolves', done => {
       const filename = 'test/sass/space-before-colon.sass';
       resolve(filename, options, (_, __, resolvedTree) => {
-        const preResolve = lint(filename, {
-          'space-before-colon': 1,
-        });
-        const postResolve = detect(resolvedTree.toString(), 'sass', {
-          'space-before-colon': 1,
-        });
+        const preResolve = lint(filename, options);
+        const postResolve = detect(resolvedTree.toString(), 'sass', options);
 
         expect(preResolve.warningCount).toBe(3);
         expect(postResolve.warningCount).toBe(0);
