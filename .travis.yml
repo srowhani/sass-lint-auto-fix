@@ -11,15 +11,26 @@ script:
 - npm run test
 after_script:
 - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-- npm run docs:publish
 cache:
   directories:
   - node_modules
+before_deploy:
+- git config --local user.name "srowhani"
+- git config --local user.email "seenarowhani95@gmail.com"
+- git tag "v$(node -e \"console.log(require('./package.json').version)\")"
 deploy:
-  provider: npm
-  email: seenarowhani95@gmail.com
-  api_key:
-    secure: E7OHPovO6Uy/mGC0sGLNghPWyF75LWbZE/cGwMa4sekbjsPFuXSV7rw4W7bY6vUkZzArjkGyhLNYiJY3a59/XATUDzky0I9cFcs5Rgb9vevCQxWjuzARy01zwT3ZyPvKq3aFT9yBGlNG4aVeAIDomLsj48+WWPJm1vE1hCjMIqbj9Z5OYLDgEHomo6/gf3F/X+RkkMN9UBDL/B3WzJ+NVfg/Cpltu6NvOB3yC7koNSect+YZ9yHyi6TTfnHQfz0Yvz/qjjVnkUp1bM3MsDOTJO8aoRcuAZrIVFVClMLAGbmAuXttTAUOvzoKrZdd24wjRrhMogVrCw4vK6JIuuvXyqA5GYMez9BLOzRSMRffB+3MvSJ1/jIDqazhQIKzfkYKFAWVfmK+CQETHNhyoWBgzHjIYUOfO0x/QxVFzloSiQU4mPrVzUMLHKX2BAjJuKLLU6PQv+/dDaThCnHfiHPvUeYI4H06VIsEUJdMrGwJ74lw2D/FIpNISyIByD7/+AQE39HNK5MLh5KE65aRGoC1+wzNjj1J+uBLAayX9nIzvKjk2DMuxuJ+p4OmCRh3GhsTac8KTl1KdozybNN//iHrzNIqJRl6IdLerGXUeXhoB2zDEXASMZcfuQyKK55mf5x980N+obdAhTrYnpvPYwYlRBYo9QPqWQjVoaaHx5ilwAI=
-  on:
-    tags: true
-    repo: srowhani/sass-lint-auto-fix
+  - provider: npm
+    email: seenarowhani95@gmail.com
+    api_key:
+      secure: E7OHPovO6Uy/mGC0sGLNghPWyF75LWbZE/cGwMa4sekbjsPFuXSV7rw4W7bY6vUkZzArjkGyhLNYiJY3a59/XATUDzky0I9cFcs5Rgb9vevCQxWjuzARy01zwT3ZyPvKq3aFT9yBGlNG4aVeAIDomLsj48+WWPJm1vE1hCjMIqbj9Z5OYLDgEHomo6/gf3F/X+RkkMN9UBDL/B3WzJ+NVfg/Cpltu6NvOB3yC7koNSect+YZ9yHyi6TTfnHQfz0Yvz/qjjVnkUp1bM3MsDOTJO8aoRcuAZrIVFVClMLAGbmAuXttTAUOvzoKrZdd24wjRrhMogVrCw4vK6JIuuvXyqA5GYMez9BLOzRSMRffB+3MvSJ1/jIDqazhQIKzfkYKFAWVfmK+CQETHNhyoWBgzHjIYUOfO0x/QxVFzloSiQU4mPrVzUMLHKX2BAjJuKLLU6PQv+/dDaThCnHfiHPvUeYI4H06VIsEUJdMrGwJ74lw2D/FIpNISyIByD7/+AQE39HNK5MLh5KE65aRGoC1+wzNjj1J+uBLAayX9nIzvKjk2DMuxuJ+p4OmCRh3GhsTac8KTl1KdozybNN//iHrzNIqJRl6IdLerGXUeXhoB2zDEXASMZcfuQyKK55mf5x980N+obdAhTrYnpvPYwYlRBYo9QPqWQjVoaaHx5ilwAI=
+    on:
+      tags: true
+      repo: srowhani/sass-lint-auto-fix
+  - provider: releases
+    file_glob: true
+    file: dist/**/*
+    skip_cleanup: true
+    api_key:
+      secure: Kvpq+PinmdI7JsoloRQ5D4sBCkoyULALJm/lkExc09ZcHSOqeVMN9+TvbuSBRopgl5Jxq/y6hRXCjY+JATrOMoECKfva1/EhxHnkPLa5EUYt+XT/Ce9fiEI3t7PisHfsuatDRTdvvn11BAzEgeVtMpnk6eZvXFPuaOii7hALd/MTT77vnB6dLIkbDLE7Ru9/09Zg8wu+iqwQ3tllZSEzHergVcUg3cx87UcItM63GGj8bIMgGruexwN+kbGMegEXdC9GIREw47hV1o4pVK4LcaCaAShv0mRdG3fC3ax2bYDtpBretRkckQDYgMxrGfAsmxlORfM4jYoLiG2GfOYLrGAbdV7DqR/GoWmaQ+Q3W8cq1BGTQgHq9ft3I80UMqobVHT2MEfonqCRUaqd4UyKl+Vk7/m4O7btFASVyiFXdqfF79KiDva2V8t3huX12Vo+k9Yq6o6NItDSkrZocwX/J/aZTrI6Jo8TuXDC8y60rcixhUe+65PuTMw+g4UL9Ra70T6kW3IRztgwfmJvw27Gy072VMvK5jJ0TSTeYVMrNtUHmisyBFou4oH6FhVgsFGwhzLW2XfYshl9dkd34g/lxpnT7nf3uIwSi8zmQ6Wy0a8k4t/AKZku/5QnQ2k4QgBh/Vv3x2B9XrVT1aA+NJiCQtQu2TrXoCHMAVjCBhFSKZU=
+    on:
+      tags: true
