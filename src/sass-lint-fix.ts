@@ -33,7 +33,9 @@ export default class SlAutoFix {
   ) {
     glob(
       this._defaultOptions.files.include,
-      {},
+      {
+        ignore: this._defaultOptions.files.ignore,
+      },
       (_globError: string, files: string[]) => {
         if (_globError === null) {
           files.forEach((filename: string) =>
