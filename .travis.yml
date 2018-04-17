@@ -17,7 +17,7 @@ cache:
 before_deploy:
 - git config --local user.name "srowhani"
 - git config --local user.email "seenarowhani95@gmail.com"
-- rm .gitignore # https://docs.travis-ci.com/user/deployment/npm/#Note-on-.gitignore
+- touch .npmignore # https://docs.travis-ci.com/user/deployment/npm/#Note-on-.gitignore
 - npm pack
 - export RELEASE_PKG=$(ls sass-lint-auto-fix-*.tgz)
 deploy:
