@@ -21,6 +21,7 @@
     "precommit": "lint-staged",
     "prepush": "npm run lint && npm run tsc",
     "docs": "typedoc --out ./docs ./src --excludeExternals --excludePrivate --externalPattern '*node_modules*' --tsconfig ./tsconfig-build.json  --mode file  --theme minimal",
+    "docs:publish": "npm run docs && .scripts/publish-docs.sh",
     "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "lint-staged": {

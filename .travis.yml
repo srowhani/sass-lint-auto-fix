@@ -1,16 +1,25 @@
 language: node_js
 node_js:
-  - '9'
-  - '8'
-  - '7'
-  - '6'
+- '9'
+- '8'
+- '7'
+- '6'
 install:
-  - npm install
+- npm install
 script:
-  - npm run build
-  - npm run test
+- npm run build
+- npm run test
 after_script:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+- cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+- npm run docs:publish
 cache:
   directories:
-    - "node_modules"
+  - node_modules
+deploy:
+  provider: npm
+  email: seenarowhani95@gmail.com
+  api_key:
+    secure: E7OHPovO6Uy/mGC0sGLNghPWyF75LWbZE/cGwMa4sekbjsPFuXSV7rw4W7bY6vUkZzArjkGyhLNYiJY3a59/XATUDzky0I9cFcs5Rgb9vevCQxWjuzARy01zwT3ZyPvKq3aFT9yBGlNG4aVeAIDomLsj48+WWPJm1vE1hCjMIqbj9Z5OYLDgEHomo6/gf3F/X+RkkMN9UBDL/B3WzJ+NVfg/Cpltu6NvOB3yC7koNSect+YZ9yHyi6TTfnHQfz0Yvz/qjjVnkUp1bM3MsDOTJO8aoRcuAZrIVFVClMLAGbmAuXttTAUOvzoKrZdd24wjRrhMogVrCw4vK6JIuuvXyqA5GYMez9BLOzRSMRffB+3MvSJ1/jIDqazhQIKzfkYKFAWVfmK+CQETHNhyoWBgzHjIYUOfO0x/QxVFzloSiQU4mPrVzUMLHKX2BAjJuKLLU6PQv+/dDaThCnHfiHPvUeYI4H06VIsEUJdMrGwJ74lw2D/FIpNISyIByD7/+AQE39HNK5MLh5KE65aRGoC1+wzNjj1J+uBLAayX9nIzvKjk2DMuxuJ+p4OmCRh3GhsTac8KTl1KdozybNN//iHrzNIqJRl6IdLerGXUeXhoB2zDEXASMZcfuQyKK55mf5x980N+obdAhTrYnpvPYwYlRBYo9QPqWQjVoaaHx5ilwAI=
+  on:
+    tags: true
+    repo: srowhani/sass-lint-auto-fix
