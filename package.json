@@ -104,7 +104,15 @@
   "release": {
     "verifyConditions": [
       "@semantic-release/npm",
-      "@semantic-release/git",
+      {
+        "path": "@semantic-release/git",
+        "assets": [
+          "package.json",
+          "package-lock.json",
+          "npm-shrinkwrap.json",
+          "docs"
+        ]
+      },
       "@semantic-release/github"
     ],
     "prepare": [
