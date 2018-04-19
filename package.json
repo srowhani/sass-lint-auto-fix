@@ -1,6 +1,6 @@
 {
   "name": "sass-lint-auto-fix",
-  "version": "0.3.5",
+  "version": "0.3.7",
   "description": "Automatically resolve sass-linting issues through CLI",
   "main": "./dist/sass-lint-fix.js",
   "bin": {
@@ -70,7 +70,7 @@
     "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-hashbang": "^1.0.1",
     "rollup-plugin-typescript2": "^0.12.0",
-    "semantic-release": "^15.1.7",
+    "semantic-release": "15.0.2",
     "travis-deploy-once": "^4.4.1",
     "ts-jest": "^22.4.1",
     "tslint": "^5.9.1",
