@@ -23,7 +23,7 @@ after_success:
 deploy:
   provider: pages
   skip-cleanup: true
-  github-token: $GH_DEPLOY_TOKEN
+  github-token: $GH_TOKEN
   local-dir: docs
   on:
     branch: master
