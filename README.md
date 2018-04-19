@@ -1,4 +1,6 @@
-# sass-lint-auto-fix  [![NPM Version](https://badge.fury.io/js/sass-lint-auto-fix.svg?style=flat)](https://npmjs.org/package/sass-lint-auto-fix) [![Build Status](https://travis-ci.org/srowhani/sass-lint-auto-fix.svg?branch=master)](https://travis-ci.org/srowhani/sass-lint-auto-fix/) [![dependencies Status](https://david-dm.org/srowhani/sass-lint-auto-fix/status.svg)](https://david-dm.org/srowhani/sass-lint-auto-fix) [![Coverage Status](https://coveralls.io/repos/github/srowhani/sass-lint-auto-fix/badge.svg?branch=master)](https://coveralls.io/github/srowhani/sass-lint-auto-fix?branch=master)
+# sass-lint-auto-fix
+
+[![NPM Version](https://badge.fury.io/js/sass-lint-auto-fix.svg?style=flat)](https://npmjs.org/package/sass-lint-auto-fix) [![Build Status](https://travis-ci.org/srowhani/sass-lint-auto-fix.svg?branch=master)](https://travis-ci.org/srowhani/sass-lint-auto-fix/) [![dependencies Status](https://david-dm.org/srowhani/sass-lint-auto-fix/status.svg)](https://david-dm.org/srowhani/sass-lint-auto-fix) [![Coverage Status](https://coveralls.io/repos/github/srowhani/sass-lint-auto-fix/badge.svg?branch=master)](https://coveralls.io/github/srowhani/sass-lint-auto-fix?branch=master) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ![](https://i.imgur.com/mpxlhLX.png)
 
