@@ -19,11 +19,6 @@ after_script:
 after_success:
   - npm run docs
   - npm run travis-deploy-once "npm run semantic-release"
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  local-dir: docs
-  on:
-    branch: master
-    condition: $TRAVIS_NODE_VERSION = "9"
+branches:
+  only:
+    - master
