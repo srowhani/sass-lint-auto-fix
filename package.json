@@ -23,7 +23,7 @@
     "docs": "typedoc --out ./docs ./src --excludeExternals --excludePrivate --externalPattern '*node_modules*' --tsconfig ./tsconfig-build.json  --mode file  --theme minimal",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "travis-deploy-once": "travis-deploy-once",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release -e ./release.config.js"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
