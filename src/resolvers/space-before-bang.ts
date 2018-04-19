@@ -11,8 +11,8 @@ export default class SpaceBeforeBang extends BaseResolver {
     ast.traverseByTypes(
       ['important', 'default', 'global', 'optional'],
       (_: any, index: number, parent: TreeNode) => {
-        const prev = parent.content[index - 1];
-        const isSpace = prev.is('space');
+        const prev = parent.content[index - 1] || {};
+        const isSpace = prev.type === 'space';
 
         if (this.shouldAddSpaceBeforeBang()) {
           if (!isSpace) {
