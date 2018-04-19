@@ -21,8 +21,9 @@
     "precommit": "lint-staged",
     "prepush": "npm run lint && npm run tsc",
     "docs": "typedoc --out ./docs ./src --excludeExternals --excludePrivate --externalPattern '*node_modules*' --tsconfig ./tsconfig-build.json  --mode file  --theme minimal",
-    "docs:publish": "npm run docs && .scripts/publish-docs.sh",
-    "commitmsg": "commitlint -e $GIT_PARAMS"
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -69,6 +70,8 @@
     "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-hashbang": "^1.0.1",
     "rollup-plugin-typescript2": "^0.12.0",
+    "semantic-release": "^15.1.7",
+    "travis-deploy-once": "^4.4.1",
     "ts-jest": "^22.4.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.8.0",
