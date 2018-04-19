@@ -121,6 +121,13 @@ git clone https://github.com/srowhani/sass-lint-auto-fix.git;
 npm install;
 npm run build;
 ```
+
+### Contributing
+
+This project uses [semantic-release](https://github.com/semantic-release/commit-analyzer#rules-matching). Scope of the commit's included in a pull request will decide whether a new release is warranted.
+
+More information can be found [here](https://github.com/semantic-release/commit-analyzer/blob/master/lib/default-release-rules.js).
+
 ### Testing
 
 ```
