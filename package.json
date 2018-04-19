@@ -113,9 +113,7 @@
         "path": "@semantic-release/git",
         "assets": [
           "package.json",
-          "package-lock.json",
-          "npm-shrinkwrap.json",
-          "docs"
+          "package-lock.json"
         ]
       }
     ]
