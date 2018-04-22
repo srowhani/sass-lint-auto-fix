@@ -76,7 +76,7 @@ export default class SlAutoFix {
             syntax: fileExtension,
           });
         } catch (e) {
-          this.logger.warn('parse', `Unable to parse ${filename}`);
+          this.logger.warn('parse', { ...e, filename });
           return;
         }
 
