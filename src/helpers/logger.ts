@@ -15,14 +15,18 @@ export default class Logger {
     this._padding = 10;
   }
 
+  public pad(str: string): string {
+    return str + ' '.repeat(this._padding - str.length);
+  }
+
   public verbose(tag: string, ...terms: string[]): void {
     if (this.isVerbose) {
-      this._verbose(chalk.green(`@${tag}`.padEnd(this._padding)), ...terms);
+      this._verbose(chalk.green(this.pad(`@${tag}`)), ...terms);
     }
   }
 
   public warn(tag: string, ...terms: string[]): void {
-    this._warn(chalk.red(`@${tag}`.padEnd(this._padding)), ...terms);
+    this._warn(chalk.red(this.pad(`@${tag}`)), ...terms);
   }
 
   public error(...errors: (Error)[]): Promise<void[]> {
