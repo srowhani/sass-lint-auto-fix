@@ -96,10 +96,18 @@ resolvers:
 ```
 
 By default, all rule "resolvers" are enabled. If you wish to change that, specify a config file when running.
+Configuration of resolvers only allows you to enable or disable rules.
+
 
 ```
   sass-lint-auto-fix -c path/to/config.file
 ```
+
+By default, sass-lint will look for a `.sass-lint.yml` or `.sasslintrc`, or an entry in your `package.json`.
+When applying the resolver to a rule, **configuration is parsed from one of the above.**.
+
+More information is specified [here](https://github.com/srowhani/sass-lint-auto-fix/issues/10).
+
 
 #### Disabling Rules
 
