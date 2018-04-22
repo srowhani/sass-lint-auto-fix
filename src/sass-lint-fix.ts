@@ -66,7 +66,6 @@ export default class SlAutoFix {
     const { filename, content, options } = file;
 
     if (content !== null) {
-      this.logger.verbose('process', filename);
       const fileExtension = path.extname(filename).substr(1);
 
       if (this.isValidExtension(fileExtension)) {
@@ -76,30 +75,34 @@ export default class SlAutoFix {
           ast = gonzales.parse(content, {
             syntax: fileExtension,
           });
-
-          const rules = slRules(slConfig(options));
-          return rules
-            .filter(
-              (rule: SlRule) =>
-                !!this._defaultOptions.resolvers[rule.rule.name],
-            )
-            .map((rule: SlRule) => {
-              const { name } = rule.rule;
-              const Module = this.getModule(name);
-
-              const detects = rule.rule.detect(ast, rule);
-
-              if (detects.length > 0) {
-                const resolver = new Module(ast, rule);
-                this.logger.verbose('--fix', `${name}/${filename}`);
-
-                const resolvedTree = resolver.fix();
-                return onResolve(filename, rule, resolvedTree);
-              }
-            });
         } catch (e) {
-          this.logger.error(e);
+          this.logger.warn('parse', `Unable to parse ${filename}`);
+          return;
         }
+
+        const rules = slRules(slConfig(options));
+
+        return rules
+          .filter(
+            (rule: SlRule) => !!this._defaultOptions.resolvers[rule.rule.name],
+          )
+          .map((rule: SlRule) => {
+            const { name } = rule.rule;
+            const Module = this.getModule(name);
+
+            const detects = rule.rule.detect(ast, rule);
+
+            if (detects.length > 0) {
+              const resolver = new Module(ast, rule);
+              this.logger.verbose(
+                'fix',
+                `Running resolver ${name} on ${filename}`,
+              );
+
+              const resolvedTree = resolver.fix();
+              return onResolve(filename, rule, resolvedTree);
+            }
+          });
       }
     }
   }
