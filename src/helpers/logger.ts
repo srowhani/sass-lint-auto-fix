@@ -4,21 +4,32 @@ const chalk = require('chalk');
 
 export default class Logger {
   public _verbose = console.log;
+  public _warn = console.log;
   public _error = console.log;
 
   private isVerbose: boolean;
+  private _padding: number;
 
   constructor(verbose: boolean) {
     this.isVerbose = verbose;
+    this._padding = 10;
+  }
+
+  public pad(str: string): string {
+    return str + ' '.repeat(this._padding - str.length);
   }
 
   public verbose(tag: string, ...terms: string[]): void {
     if (this.isVerbose) {
-      this._verbose(chalk.green(`[${tag}]`), chalk.cyan(...terms));
+      this._verbose(chalk.green(this.pad(`@${tag}`)), ...terms);
     }
   }
 
-  public error(...errors: Error[]): Promise<void[]> {
+  public warn(tag: string, ...terms: string[]): void {
+    this._warn(chalk.red(this.pad(`@${tag}`)), ...terms);
+  }
+
+  public error(...errors: (Error)[]): Promise<void[]> {
     return Promise.all(
       errors.map((error: Error) => {
         return StackTrace.fromError(error).then(frames => {

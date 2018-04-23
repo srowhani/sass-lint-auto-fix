@@ -15,6 +15,16 @@ describe('logger', () => {
       expect(logger._verbose).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('warn', () => {
+    it('prints', () => {
+      const logger = new Logger(true);
+      logger._warn = jest.fn();
+      logger.warn('test');
+      expect(logger._warn).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('error', () => {
     it('prints all errors', done => {
       const logger = new Logger(false);
