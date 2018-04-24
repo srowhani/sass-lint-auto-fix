@@ -9,7 +9,7 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
-    this._scssEmptyLineRegex = /}\n(.*\S\s.*){/gm;
+    this._scssEmptyLineRegex = /}\n( *[\.a-zA-Z0-9=\-:&\[\]]+) {/gm;
   }
 
   public fix(): AbstractSyntaxTree {
@@ -18,11 +18,8 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
     if (ast.syntax === 'scss') {
       if (this.shouldInjectNewline()) {
         const content = ast.toString();
-        const newContent = content.replace(
-          this._scssEmptyLineRegex,
-          '}\n\n$1{',
-        );
 
+        const newContent = this.sanitize(content);
         const newTree = gonzales.parse(newContent, {
           syntax: 'scss',
         });
@@ -38,5 +35,9 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
       this.parser.options.include === true &&
       this.parser.options['allow-single-line-rulesets'] === true
     );
+  }
+
+  private sanitize(content: string): string {
+    return content.replace(this._scssEmptyLineRegex, '}\n\n$1 {');
   }
 }

@@ -11,7 +11,7 @@ describe('empty-space-between-blocks', () => {
           const postResolve = detect(resolvedTree.toString(), 'scss', options);
 
           expect(preResolve.warningCount).toBe(3);
-          expect(postResolve.warningCount).toBe(0);
+          expect(postResolve.warningCount).toBe(1);
           done();
         });
       });
