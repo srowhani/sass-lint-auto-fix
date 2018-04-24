@@ -31,28 +31,20 @@ export default class SlAutoFix {
       ast: AbstractSyntaxTree,
     ) => void,
   ) {
-    glob(
-      this._defaultOptions.files.include,
-      {
-        ignore: this._defaultOptions.files.ignore,
-      },
-      (_globError: string, files: string[]) => {
-        if (_globError === null) {
-          files.forEach((filename: string) =>
-            fs.readFile(filename, (_: string, content: any) => {
-              this.processFile(
-                {
-                  filename,
-                  content: content.toString(),
-                  options: lintOptions,
-                },
-                onResolve,
-              );
-            }),
-          );
-        }
-      },
-    );
+    const files = glob.sync(this._defaultOptions.files.include, {
+      ignore: this._defaultOptions.files.ignore,
+    });
+    files.forEach((filename: string) => {
+      const content = fs.readFileSync(filename).toString();
+      this.processFile(
+        {
+          filename,
+          content,
+          options: lintOptions,
+        },
+        onResolve,
+      );
+    });
   }
 
   public processFile(

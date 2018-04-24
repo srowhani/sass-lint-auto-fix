@@ -2,7 +2,7 @@ import Logger from '@src/helpers/logger';
 import SlAutoFix from '@src/sass-lint-fix';
 
 describe('sass-lint-auto-fix', () => {
-  it('gracefully handles ast parse errors', done => {
+  it('gracefully handles ast parse errors', () => {
     const options = {
       files: {
         include: 'test/sass/parse-error.scss',
@@ -21,9 +21,6 @@ describe('sass-lint-auto-fix', () => {
     slaf.run({}, () => {
       // empty fn
     });
-    setTimeout(() => {
-      expect(slaf._logger._warn).toHaveBeenCalledTimes(1);
-      done();
-    }, 350);
+    expect(slaf._logger._warn).toHaveBeenCalledTimes(1);
   });
 });
