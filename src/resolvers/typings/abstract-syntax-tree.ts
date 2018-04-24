@@ -1,4 +1,5 @@
 export default interface AbstractSyntaxTree {
+  syntax: string;
   is(nodeType: string): boolean;
   traverse(
     callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,

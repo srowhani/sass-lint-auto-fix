@@ -18,3 +18,4 @@ resolvers:
   space-after-colon: 1
   space-before-colon: 1
   hex-length: 1
+  empty-line-between-blocks: 1
