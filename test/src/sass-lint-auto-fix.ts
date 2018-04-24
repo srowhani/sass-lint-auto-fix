@@ -24,6 +24,6 @@ describe('sass-lint-auto-fix', () => {
     setTimeout(() => {
       expect(slaf._logger._warn).toHaveBeenCalledTimes(1);
       done();
-    }, 100);
+    }, 350);
   });
 });
