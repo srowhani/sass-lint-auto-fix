@@ -19,3 +19,4 @@ resolvers:
   space-before-colon: 1
   hex-length: 1
   empty-line-between-blocks: 1
+  url-quotes: 1
