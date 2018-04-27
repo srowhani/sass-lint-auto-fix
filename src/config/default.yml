@@ -20,3 +20,4 @@ resolvers:
   hex-length: 1
   empty-line-between-blocks: 1
   url-quotes: 1
+  zero-unit: 1
