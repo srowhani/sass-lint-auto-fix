@@ -1,6 +1,7 @@
 files:
   include: "**/*.s+(a|c)ss"
-  ignore: []
+  ignore:
+    - node_modules/**
 syntax:
     include:
       - scss

@@ -95,6 +95,14 @@ resolvers:
   hex-length: 1
 ```
 
+#### Disabling Rules
+
+```yml
+resolvers:
+  property-sort-order: 1
+  attribute-quotes: 0
+```
+
 By default, all rule "resolvers" are enabled. If you wish to change that, specify a config file when running.
 Configuration of resolvers only allows you to enable or disable rules.
 
@@ -103,19 +111,11 @@ Configuration of resolvers only allows you to enable or disable rules.
   sass-lint-auto-fix -c path/to/config.file
 ```
 
+#### Configuring which rules to run against
 By default, sass-lint will look for a `.sass-lint.yml` or `.sasslintrc`, or an entry in your `package.json`.
-When applying the resolver to a rule, **configuration is parsed from one of the above.**.
+When applying the resolver to a given rule, **configuration is parsed from one of the above files.**.
 
 More information is specified [here](https://github.com/srowhani/sass-lint-auto-fix/issues/10).
-
-
-#### Disabling Rules
-
-```yml
-resolvers:
-  property-sort-order: 1
-  attribute-quotes: 0
-```
 
 In this snippet example, the only rule enabled is `property-sort-order`. If you wish to manually enable certain resolvers, you would do so for each one you wish to include.
 
