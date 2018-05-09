@@ -1,6 +1,5 @@
-import { truncate } from 'fs';
 import BaseResolver from './base-resolver';
-import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
+import AbstractSyntaxTree from './typings/abstract-syntax-tree';
 import SlRule from './typings/sass-lint-rule';
 
 const gonzales = require('gonzales-pe-sl');

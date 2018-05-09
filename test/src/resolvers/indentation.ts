@@ -1,7 +1,5 @@
 import resolve, { detect, lint } from '@test/helpers/resolve';
 
-const fs = require('fs');
-
 describe('indentation', () => {
   describe('scss', () => {
     const options = { indentation: 1 };
