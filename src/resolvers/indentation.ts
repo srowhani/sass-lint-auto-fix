@@ -91,7 +91,7 @@ export default class Indentation extends BaseResolver {
     }
   }
 
-  private blockStillOpen(line) {
+  private blockStillOpen(line: string) {
     return !line.trimRight().endsWith('}');
   }
 
