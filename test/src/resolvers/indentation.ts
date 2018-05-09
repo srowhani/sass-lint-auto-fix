@@ -9,7 +9,7 @@ describe('indentation', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(resolvedTree.toString(), 'scss', options);
         expect(preResolve.warningCount).toBe(14);
-        expect(postResolve.warningCount).toBe(6);
+        expect(postResolve.warningCount).toBe(0);
         done();
       });
     });

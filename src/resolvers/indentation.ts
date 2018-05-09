@@ -8,14 +8,20 @@ export default class Indentation extends BaseResolver {
   private _depth: number;
   private _openingBraceRegex: RegExp;
   private _closingBraceRegex: RegExp;
+  private _atQueryDelimiter: string;
   private _newLineDelimiter: string;
+  private _commaDelimiter: string;
+  private _bumpNextLine: boolean;
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
     this._depth = 0;
     this._openingBraceRegex = /{|\(/g;
     this._closingBraceRegex = /}|\)/g;
+    this._atQueryDelimiter = '@';
     this._newLineDelimiter = '\n';
+    this._commaDelimiter = ',';
+    this._bumpNextLine = false;
   }
 
   public fix(): AbstractSyntaxTree {
@@ -42,6 +48,7 @@ export default class Indentation extends BaseResolver {
     if (this.isEmpty(line)) {
       return line;
     }
+
     const openMatches = line.match(this._openingBraceRegex) || [];
     const closeMatches = line.match(this._closingBraceRegex) || [];
 
@@ -49,7 +56,13 @@ export default class Indentation extends BaseResolver {
       this._depth = Math.max(this._depth - 1, 0);
     }
 
-    const resolvedLine = this.apply_indentation(line, this._depth);
+    let appliedDepth = this._depth;
+
+    if (this.shouldBumpNextLine(line)) {
+      appliedDepth += 1;
+    }
+
+    const resolvedLine = this.apply_indentation(line, appliedDepth);
 
     if (openMatches.length > closeMatches.length) {
       this._depth += 1;
@@ -62,6 +75,32 @@ export default class Indentation extends BaseResolver {
     return `${this._spacingUnit.repeat(
       depth * this.numSpaces,
     )}${line.trimLeft()}`;
+  }
+
+  private shouldBumpNextLine(line: string): boolean {
+    if (this._bumpNextLine) {
+      const cachedState = this._bumpNextLine;
+
+      this._bumpNextLine = this.blockStillOpen(line);
+      return cachedState;
+    } else {
+      const cachedState = this._bumpNextLine;
+
+      this._bumpNextLine = this.startsWithAt(line) && this.endsWithComma(line);
+      return cachedState;
+    }
+  }
+
+  private blockStillOpen(line) {
+    return !line.trimRight().endsWith('}');
+  }
+
+  private startsWithAt(line: string) {
+    return line.trimLeft().startsWith(this._atQueryDelimiter);
+  }
+
+  private endsWithComma(line: string): boolean {
+    return line.trimRight().endsWith(this._commaDelimiter);
   }
 
   private isEmpty(line: string): boolean {
