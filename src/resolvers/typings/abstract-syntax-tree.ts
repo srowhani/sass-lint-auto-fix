@@ -1,27 +1,30 @@
+type traversalCallback = (
+  node: TreeNode,
+  index?: number,
+  parent?: TreeNode,
+) => void;
+type traversalCallbackWithDepth = (
+  node: TreeNode,
+  index?: number,
+  parent?: TreeNode,
+  depth?: number,
+) => void;
+
 export default interface AbstractSyntaxTree {
   syntax: string;
+  length: number;
   is(nodeType: string): boolean;
-  traverse(
-    callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,
-  ): void;
-  traverseByType(
-    nodeType: string,
-    callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,
-  ): void;
-  traverseByTypes(
-    nodeTypes: string[],
-    callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,
-  ): void;
+  get(index: number): AbstractSyntaxTree | null;
+  traverse(callback: traversalCallbackWithDepth): void;
+  traverseByType(nodeType: string, callback: traversalCallback): void;
+  traverseByTypes(nodeTypes: string[], callback: traversalCallback): void;
   removeChild(index: number): TreeNode;
 };
 
 export interface TreeNode extends AbstractSyntaxTree {
   type: string;
   content: any;
-  forEach(
-    nodeType: string,
-    callback: (node: TreeNode, index?: number, parent?: TreeNode) => void,
-  ): void;
+  forEach(nodeType: string, callback: traversalCallback): void;
   first(nodeType?: string): TreeNode;
   toString(): string;
 }

@@ -88,10 +88,7 @@ describe('hex-notation', () => {
         resolve(filename, options, (_, __, resolvedTree) => {
           const preResolve = lint(filename, options);
           const postResolve = detect(resolvedTree.toString(), 'sass', options);
-          require('fs').writeFileSync(
-            'test/sass/hex-notation-1.sass',
-            resolvedTree.toString(),
-          );
+
           expect(preResolve.warningCount).toBe(6);
           expect(postResolve.warningCount).toBe(0);
           done();
