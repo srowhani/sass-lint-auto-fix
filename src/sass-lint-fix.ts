@@ -15,6 +15,9 @@ export default class SlAutoFix {
   public _logger: Logger;
   public _defaultOptions: any;
 
+  public _slConfig = slConfig;
+  public _slRules = slRules;
+
   constructor(defaultOptions: any = {}) {
     this._logger = new Logger(defaultOptions.verbose);
 
@@ -72,7 +75,7 @@ export default class SlAutoFix {
           return;
         }
 
-        const rules = slRules(slConfig(options));
+        const rules = this._slRules(this._slConfig(options));
 
         return rules
           .filter(
@@ -80,7 +83,14 @@ export default class SlAutoFix {
           )
           .map((rule: SlRule) => {
             const { name } = rule.rule;
-            const Module = this.getModule(name);
+            let Module;
+
+            try {
+              Module = this.getModule(name);
+            } catch (e) {
+              this.logger.warn('resolver', `Module '${name}' doesn't exist.`);
+              return;
+            }
 
             const detects = rule.rule.detect(ast, rule);
 
