@@ -24,3 +24,4 @@ resolvers:
   zero-unit: 1
   hex-notation: 1
   indentation: 0
+  final-newline: 1
