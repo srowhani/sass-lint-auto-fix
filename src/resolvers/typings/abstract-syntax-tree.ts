@@ -11,6 +11,7 @@ type traversalCallbackWithDepth = (
 ) => void;
 
 export default interface AbstractSyntaxTree {
+  content: any;
   syntax: string;
   length: number;
   is(nodeType: string): boolean;
@@ -23,9 +24,9 @@ export default interface AbstractSyntaxTree {
 
 export interface TreeNode extends AbstractSyntaxTree {
   type: string;
-  content: any;
   forEach(nodeType: string, callback: traversalCallback): void;
   first(nodeType?: string): TreeNode;
+  last(nodeType?: string): TreeNode;
   toString(): string;
 }
 
