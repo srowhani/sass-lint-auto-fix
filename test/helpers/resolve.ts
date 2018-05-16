@@ -1,6 +1,8 @@
-import AbstractSyntaxTree from '../../src/resolvers/typings/abstract-syntax-tree';
-import SlRule from '../../src/resolvers/typings/sass-lint-rule';
-import SlAutoFix from '../../src/sass-lint-fix';
+import Logger from '@src/helpers/logger';
+import AbstractSyntaxTree from '@src/resolvers/typings/abstract-syntax-tree';
+import SlRule from '@src/resolvers/typings/sass-lint-rule';
+import SlAutoFix from '@src/sass-lint-fix';
+
 const path = require('path');
 const fs = require('fs');
 const gonzales = require('gonzales-pe-sl');
@@ -23,6 +25,8 @@ export default (
   };
 
   const slaf = new SlAutoFix(options);
+  slaf._logger = new Logger(true);
+
   slaf.run(
     {
       options: {

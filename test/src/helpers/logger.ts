@@ -1,15 +1,15 @@
 import Logger from '@src/helpers/logger';
 
 describe('logger', () => {
-  describe('verbose', () => {
-    it('[=false]', () => {
-      const logger = new Logger(false);
+  describe('silent', () => {
+    it('[=true]', () => {
+      const logger = new Logger(true);
       logger._verbose = jest.fn();
       logger.verbose('test');
       expect(logger._verbose).toHaveBeenCalledTimes(0);
     });
-    it('[=true]', () => {
-      const logger = new Logger(true);
+    it('[=false]', () => {
+      const logger = new Logger(false);
       logger._verbose = jest.fn();
       logger.verbose('test');
       expect(logger._verbose).toHaveBeenCalledTimes(1);
@@ -18,7 +18,7 @@ describe('logger', () => {
 
   describe('warn', () => {
     it('prints', () => {
-      const logger = new Logger(true);
+      const logger = new Logger(false);
       logger._warn = jest.fn();
       logger.warn('test');
       expect(logger._warn).toHaveBeenCalledTimes(1);

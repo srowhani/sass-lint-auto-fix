@@ -14,10 +14,10 @@ const fs = require('fs');
     .version(pkg.version)
     .usage('"<pattern>" [options]')
     .option('-c, --config <path>', 'custom config path')
-    .option('-v, --verbose', 'verbose logging')
+    .option('-s, --silent', 'silent mode')
     .parse(process.argv);
 
-  const logger = new Logger(program.verbose);
+  const logger = new Logger(program.silent);
 
   process.on('unhandledRejection', (error: Error) => logger.error(error));
 
@@ -30,7 +30,7 @@ const fs = require('fs');
     defaultOptions = { ...defaultOptions, ...customConfiguration };
   }
 
-  defaultOptions.verbose = program.verbose || defaultOptions.verbose;
+  defaultOptions.silent = program.silent || defaultOptions.silent;
 
   const pattern = program.args[0];
 

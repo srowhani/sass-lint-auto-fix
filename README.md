@@ -19,7 +19,7 @@ simple linting issues with an easy to use command line interface. Issues are res
 
     -V, --version        output the version number
     -c, --config <path>  custom config path
-    -v, --verbose        verbose logging
+    -s, --silent         runs in silenced mode
     -h, --help           output usage information
 ```    
 
@@ -38,8 +38,8 @@ Modify `package.json` scripts to include `lint:fix`
 {
   ...,
   "scripts": {
-    "lint": "sass-lint --verbose",
-    "lint:fix": "sass-lint-auto-fix --verbose"
+    "lint": "sass-lint -v",
+    "lint:fix": "sass-lint-auto-fix"
   }
 }
 ```

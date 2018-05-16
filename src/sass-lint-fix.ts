@@ -19,7 +19,7 @@ export default class SlAutoFix {
   public _slRules = slRules;
 
   constructor(defaultOptions: any = {}) {
-    this._logger = new Logger(defaultOptions.verbose);
+    this._logger = new Logger(defaultOptions.silent);
 
     this._defaultOptions = {
       ...defaultOptions,
