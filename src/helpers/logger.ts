@@ -7,11 +7,11 @@ export default class Logger {
   public _warn = console.log;
   public _error = console.log;
 
-  private isVerbose: boolean;
+  private isSilent: boolean;
   private _padding: number;
 
-  constructor(verbose: boolean) {
-    this.isVerbose = verbose;
+  constructor(silent: boolean = false) {
+    this.isSilent = silent;
     this._padding = 10;
   }
 
@@ -20,13 +20,15 @@ export default class Logger {
   }
 
   public verbose(tag: string, ...terms: string[]): void {
-    if (this.isVerbose) {
+    if (!this.isSilent) {
       this._verbose(chalk.green(this.pad(`@${tag}`)), ...terms);
     }
   }
 
   public warn(tag: string, ...terms: string[]): void {
-    this._warn(chalk.red(this.pad(`@${tag}`)), ...terms);
+    if (!this.isSilent) {
+      this._warn(chalk.red(this.pad(`@${tag}`)), ...terms);
+    }
   }
 
   public error(...errors: (Error)[]): Promise<void[]> {
