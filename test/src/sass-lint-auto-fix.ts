@@ -1,5 +1,5 @@
 import Logger from '@src/helpers/logger';
-import SlAutoFix from '@src/sass-lint-fix';
+import SlAutoFix from '@src/sass-lint-auto-fix';
 
 describe('sass-lint-auto-fix', () => {
   it('gracefully handles ast parse errors', () => {
