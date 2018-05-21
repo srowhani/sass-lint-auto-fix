@@ -1,7 +1,7 @@
 import Logger from '@src/helpers/logger';
 import AbstractSyntaxTree from '@src/resolvers/typings/abstract-syntax-tree';
 import SlRule from '@src/resolvers/typings/sass-lint-rule';
-import SlAutoFix from '@src/sass-lint-fix';
+import SlAutoFix from '@src/sass-lint-auto-fix';
 
 const path = require('path');
 const fs = require('fs');
