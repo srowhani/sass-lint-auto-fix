@@ -134,8 +134,6 @@ You can opt out by adding a `optOut` flag in your sass-lint-auto-fix config file
 
 E.g
 ```yml
-
-```
 files:
   include: "**/*.s+(a|c)ss"
   ignore:
