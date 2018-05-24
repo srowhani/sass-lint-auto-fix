@@ -15,7 +15,10 @@ const fs = require('fs');
   program
     .version(pkg.version)
     .usage('"<pattern>" [options]')
-    .option('-c, --config <path>', 'custom config path (sass-lint-auto-fix.yml')
+    .option(
+      '-c, --config <path>',
+      'custom config path (e.g /path/to/sass-lint-auto-fix.yml)',
+    )
     .option('-s, --silent', 'runs in silent mode')
     .parse(process.argv);
 

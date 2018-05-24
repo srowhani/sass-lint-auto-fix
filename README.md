@@ -23,8 +23,8 @@ simple linting issues with an easy to use command line interface. Issues are res
   Options:
 
     -V, --version        output the version number
-    -c, --config <path>  custom config path
-    -s, --silent         runs in silenced mode
+    -c, --config <path>  custom config path (e.g /path/to/sass-lint-auto-fix.yml)
+    -s, --silent         runs in silent mode
     -h, --help           output usage information
 ```    
 
@@ -125,6 +125,30 @@ More information is specified [here](https://github.com/srowhani/sass-lint-auto-
 In this snippet example, the only rule enabled is `property-sort-order`. If you wish to manually enable certain resolvers, you would do so for each one you wish to include.
 
 For more information about the rules themselves, you can read the [documentation from sass-lint](https://github.com/sasstools/sass-lint/tree/develop/docs/rules)
+
+#### Opt out of error reporting
+
+By default, all errors captured while attempting to resolve issues are reported by sentry.
+
+You can opt out by adding a `optOut` flag in your sass-lint-auto-fix config file (yml, json, js, ts)
+
+E.g
+```yml
+
+```
+files:
+  include: "**/*.s+(a|c)ss"
+  ignore:
+    - node_modules/**
+syntax:
+    include:
+      - scss
+resolvers:
+  property-sort-order: 1
+  attribute-quotes: 1
+  ...
+optOut: true
+```
 
 ## Developing
 
