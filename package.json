@@ -1,6 +1,6 @@
 {
   "name": "sass-lint-auto-fix",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "description": "Automatically resolve sass-linting issues through CLI",
   "main": "./dist/sass-lint-auto-fix.js",
   "bin": {
@@ -68,6 +68,7 @@
     "jest": "^22.4.2",
     "lint-staged": "^7.0.5",
     "prettier": "^1.10.2",
+    "raven": "^2.6.2",
     "semantic-release": "15.0.2",
     "travis-deploy-once": "^4.4.1",
     "ts-jest": "^22.4.1",

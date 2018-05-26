@@ -10,12 +10,16 @@ const process = require('process');
 
 const pkg = require('../package.json');
 const fs = require('fs');
+
 (() => {
   program
     .version(pkg.version)
     .usage('"<pattern>" [options]')
-    .option('-c, --config <path>', 'custom config path')
-    .option('-s, --silent', 'silent mode')
+    .option(
+      '-c, --config <path>',
+      'custom config path (e.g /path/to/sass-lint-auto-fix.yml)',
+    )
+    .option('-s, --silent', 'runs in silent mode')
     .parse(process.argv);
 
   const logger = new Logger(program.silent);
@@ -33,6 +37,7 @@ const fs = require('fs');
   process.on('unhandledRejection', (error: Error) => logger.error(error));
   if (defaultOptions.optOut !== true) {
     logger.verbose('config', 'Setting up sentry');
+
     Raven.config(
       'https://01713b27b2bf4584a636aa5f2bb68ae7@sentry.io/1213043',
     ).install();

@@ -91,18 +91,21 @@ export default class SlAutoFix {
               this.logger.warn('resolver', `Module '${name}' doesn't exist.`);
               return;
             }
+            try {
+              const detects = rule.rule.detect(ast, rule);
 
-            const detects = rule.rule.detect(ast, rule);
+              if (detects.length > 0) {
+                const resolver = new Module(ast, rule);
+                this.logger.verbose(
+                  'fix',
+                  `Running resolver ${name} on ${filename}`,
+                );
 
-            if (detects.length > 0) {
-              const resolver = new Module(ast, rule);
-              this.logger.verbose(
-                'fix',
-                `Running resolver ${name} on ${filename}`,
-              );
-
-              const resolvedTree = resolver.fix();
-              return onResolve(filename, rule, resolvedTree);
+                const resolvedTree = resolver.fix();
+                return onResolve(filename, rule, resolvedTree);
+              }
+            } catch (e) {
+              throw { ...e, details: { file } };
             }
           });
       }
