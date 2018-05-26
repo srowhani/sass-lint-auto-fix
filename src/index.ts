@@ -3,12 +3,13 @@ import getConfig from './helpers/get-config';
 import Logger from './helpers/logger';
 import SlAutoFix from './sass-lint-auto-fix';
 
+const Raven = require('raven');
+
 const program = require('commander');
 const process = require('process');
 
 const pkg = require('../package.json');
 const fs = require('fs');
-
 (() => {
   program
     .version(pkg.version)
@@ -19,10 +20,7 @@ const fs = require('fs');
 
   const logger = new Logger(program.silent);
 
-  process.on('unhandledRejection', (error: Error) => logger.error(error));
-
   const config = getConfig(require.resolve('./config/default.yml'));
-
   let defaultOptions = { ...config };
   if (program.config) {
     // TOOD: Handle different configuration types
@@ -31,6 +29,20 @@ const fs = require('fs');
   }
 
   defaultOptions.silent = program.silent || defaultOptions.silent;
+
+  process.on('unhandledRejection', (error: Error) => logger.error(error));
+  if (defaultOptions.optOut !== true) {
+    logger.verbose('config', 'Setting up sentry');
+    Raven.config(
+      'https://01713b27b2bf4584a636aa5f2bb68ae7@sentry.io/1213043',
+    ).install();
+
+    process.on('uncaughtException', (error: Error) => {
+      Raven.captureException(error);
+      logger.error(error);
+      process.exit(1);
+    });
+  }
 
   const pattern = program.args[0];
 

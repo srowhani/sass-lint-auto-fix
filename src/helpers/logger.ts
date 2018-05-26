@@ -1,11 +1,11 @@
-import StackTrace from 'stacktrace-js';
 /* tslint:disable:no-console */
+
 const chalk = require('chalk');
 
 export default class Logger {
   public _verbose = console.log;
   public _warn = console.log;
-  public _error = console.log;
+  public _error = console.error;
 
   private isSilent: boolean;
   private _padding: number;
@@ -31,17 +31,7 @@ export default class Logger {
     }
   }
 
-  public error(...errors: (Error)[]): Promise<void[]> {
-    return Promise.all(
-      errors.map((error: Error) => {
-        return StackTrace.fromError(error).then(frames => {
-          const formattedError = chalk.black.bgRed.bold(
-            frames.reduce((acc, curr) => `${acc}\n${curr.toString()}`, ''),
-          );
-          this._error(formattedError);
-          return formattedError;
-        });
-      }),
-    );
+  public error(error: Error | string): void {
+    this._error(error);
   }
 }

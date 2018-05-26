@@ -1,0 +1,5 @@
+files:
+  include: "<none>"
+  ignore:
+    - "**/*"
+optOut: true

@@ -26,18 +26,12 @@ describe('logger', () => {
   });
 
   describe('error', () => {
-    it('prints all errors', done => {
+    it('prints all errors', () => {
       const logger = new Logger(false);
       const testError = Error('test');
       logger._error = jest.fn();
-
-      logger.error(testError).then(_ => {
-        expect(logger._error).toHaveBeenCalledTimes(1);
-        logger.error(testError, testError).then(_ => {
-          expect(logger._error).toHaveBeenCalledTimes(3);
-          done();
-        });
-      });
+      logger.error(testError);
+      expect(logger._error).toHaveBeenCalledTimes(1);
     });
   });
 });
