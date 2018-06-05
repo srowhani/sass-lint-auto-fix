@@ -25,7 +25,6 @@ const fs = require('fs');
   const logger = new Logger(program.silent);
 
   const config = getConfig(require.resolve('./config/default.yml'));
-
   let defaultOptions = { ...config };
   if (program.config) {
     // TOOD: Handle different configuration types
@@ -37,13 +36,16 @@ const fs = require('fs');
 
   process.on('unhandledRejection', (error: Error) => logger.error(error));
   if (defaultOptions.optOut !== true) {
+    logger.verbose('config', 'Setting up sentry');
+
     Raven.config(
       'https://01713b27b2bf4584a636aa5f2bb68ae7@sentry.io/1213043',
     ).install();
 
     process.on('uncaughtException', (error: Error) => {
       Raven.captureException(error);
-      throw error;
+      logger.error(error);
+      process.exit(1);
     });
   }
 
