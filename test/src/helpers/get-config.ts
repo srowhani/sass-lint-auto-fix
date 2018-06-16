@@ -1,6 +1,6 @@
-import getConfig from '@src/helpers/get-config';
+import { getConfig, mergeConfig } from '@src/helpers/get-config';
 describe('get-config', () => {
-  describe('parser', () => {
+  describe('getConfig', () => {
     it('[handles=yml]', () => {
       const config = getConfig('test/sample-config/config.yml');
       expect(typeof config).toBe('object');
@@ -35,6 +35,23 @@ describe('get-config', () => {
       expect(() => getConfig('test/sample-config/doesnt.exist')).toThrowError(
         /ParseError/,
       );
+    });
+  });
+
+  describe('mergeConfig', () => {
+    it('does not overwrite objects', () => {
+      const defaultConfig = { a: { b: 1 } };
+      const extendedConfig = { a: { c: 2 } };
+      const resultObject = mergeConfig(defaultConfig, extendedConfig);
+      expect(resultObject.a.b).toEqual(1);
+      expect(resultObject.a.c).toEqual(2);
+    });
+
+    it('overwrites properties', () => {
+      const defaultConfig = { a: { b: 1 } };
+      const extendedConfig = { a: { b: 2 } };
+      const resultObject = mergeConfig(defaultConfig, extendedConfig);
+      expect(resultObject.a.b).toEqual(2);
     });
   });
 });

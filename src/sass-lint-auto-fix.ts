@@ -19,7 +19,7 @@ export default class SlAutoFix {
   public _slRules = slRules;
 
   constructor(defaultOptions: any = {}) {
-    this._logger = new Logger(defaultOptions.silent);
+    this._logger = new Logger({ silentEnabled: defaultOptions.silent });
 
     this._defaultOptions = {
       ...defaultOptions,
@@ -98,7 +98,7 @@ export default class SlAutoFix {
                 const resolver = new Module(ast, rule);
                 this.logger.verbose(
                   'fix',
-                  `Running resolver ${name} on ${filename}`,
+                  `Running resolver "${name}" on "${filename}"`,
                 );
 
                 const resolvedTree = resolver.fix();

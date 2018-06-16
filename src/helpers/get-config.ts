@@ -1,5 +1,6 @@
 import { SlfParserOptions } from '@src/typings.d';
 
+const merge = require('merge');
 const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
@@ -58,6 +59,9 @@ function sanitize(obj: any) {
     .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
 }
 
-export default (filename: string): any => {
+export const getConfig = (filename: string): any => {
   return sanitize(_configurationProxy[filename]);
 };
+
+export const mergeConfig = (baseConfig: any, extendedConfig: any) =>
+  merge.recursive(true, baseConfig, extendedConfig);

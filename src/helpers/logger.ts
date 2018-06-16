@@ -1,32 +1,46 @@
 /* tslint:disable:no-console */
+import chalk from 'chalk';
 
-const chalk = require('chalk');
+export interface Configuration {
+  silentEnabled?: boolean;
+  debugEnabled?: boolean;
+  padding?: number;
+}
 
 export default class Logger {
   public _verbose = console.log;
   public _warn = console.log;
+  public _debug = console.debug;
   public _error = console.error;
 
-  private isSilent: boolean;
-  private _padding: number;
+  private silentEnabled: boolean;
+  private debugEnabled: boolean;
+  private padding: number;
 
-  constructor(silent: boolean = false) {
-    this.isSilent = silent;
-    this._padding = 10;
+  constructor(config: Configuration = {}) {
+    this.silentEnabled = config.silentEnabled || false;
+    this.debugEnabled = config.debugEnabled || false;
+    this.padding = config.padding || 10;
   }
 
   public pad(str: string): string {
-    return str + ' '.repeat(this._padding - str.length);
+    return str + ' '.repeat(this.padding - str.length);
   }
 
   public verbose(tag: string, ...terms: string[]): void {
-    if (!this.isSilent) {
+    if (!this.silentEnabled) {
       this._verbose(chalk.green(this.pad(`@${tag}`)), ...terms);
     }
   }
 
+  public debug(...terms: string[]): void {
+    if (this.debugEnabled) {
+      this._debug(...terms);
+    }
+  }
+
   public warn(tag: string, ...terms: string[]): void {
-    if (!this.isSilent) {
+    if (!this.silentEnabled) {
       this._warn(chalk.red(this.pad(`@${tag}`)), ...terms);
     }
   }

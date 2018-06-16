@@ -14,7 +14,7 @@ describe('sass-lint-auto-fix', () => {
 
     const slaf = new SlAutoFix(options);
 
-    const logger = new Logger(false);
+    const logger = new Logger();
     logger._warn = jest.fn();
 
     slaf._logger = logger;

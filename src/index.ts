@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import getConfig from './helpers/get-config';
+import { getConfig, mergeConfig } from './helpers/get-config';
 import Logger from './helpers/logger';
 import SlAutoFix from './sass-lint-auto-fix';
 
@@ -20,28 +20,31 @@ const fs = require('fs');
       'custom config path (e.g /path/to/sass-lint-auto-fix.yml)',
     )
     .option('-s, --silent', 'runs in silent mode')
+    .option('-d, --debug', 'runs in debug mode')
     .parse(process.argv);
 
-  const logger = new Logger(program.silent);
+  const logger = new Logger({
+    silentEnabled: program.silent,
+    debugEnabled: program.debug,
+  });
 
   const config = getConfig(require.resolve('./config/default.yml'));
   let defaultOptions = { ...config };
   if (program.config) {
     // TOOD: Handle different configuration types
     const customConfiguration = getConfig(program.config);
-    defaultOptions = { ...defaultOptions, ...customConfiguration };
+    defaultOptions = mergeConfig(defaultOptions, customConfiguration);
   }
 
   defaultOptions.silent = program.silent || defaultOptions.silent;
 
   process.on('unhandledRejection', (error: Error) => logger.error(error));
   if (defaultOptions.optOut !== true) {
-    logger.verbose('config', 'Setting up sentry');
-
     Raven.config(
       'https://01713b27b2bf4584a636aa5f2bb68ae7@sentry.io/1213043',
     ).install();
 
+    logger.debug('Installing sentry');
     process.on('uncaughtException', (error: Error) => {
       Raven.captureException(error);
       logger.error(error);

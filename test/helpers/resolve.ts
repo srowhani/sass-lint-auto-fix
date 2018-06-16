@@ -25,7 +25,7 @@ export default (
   };
 
   const slaf = new SlAutoFix(options);
-  slaf._logger = new Logger(true);
+  slaf._logger = new Logger({ silentEnabled: true });
 
   slaf.run(
     {
