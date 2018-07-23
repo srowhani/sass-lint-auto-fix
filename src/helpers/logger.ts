@@ -10,7 +10,7 @@ export interface Configuration {
 export default class Logger {
   public _verbose = console.log;
   public _warn = console.log;
-  public _debug = console.debug;
+  public _debug = console.log;
   public _error = console.error;
 
   private silentEnabled: boolean;
