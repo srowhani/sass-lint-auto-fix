@@ -3,6 +3,12 @@ import { SortNode, TreeNode } from './typings/abstract-syntax-tree';
 
 const sassLintHelpers = require('sass-lint/lib/helpers');
 
+enum SortOrderMethod {
+  RECESS = 'recess',
+  SMACSS = 'smacss',
+  CONCENTRIC = 'concentric',
+}
+
 export default class PropertySortOrder extends BaseResolver {
   public fix() {
     this.ast.traverseByType('block', (block: TreeNode) => {
@@ -66,7 +72,7 @@ export default class PropertySortOrder extends BaseResolver {
     return this.ast;
   }
 
-  private getOrderConfig(order: string) {
+  private getOrderConfig(order: SortOrderMethod) {
     if (this.orderPresets[order] !== undefined) {
       const filename = this.orderPresets[order];
       const orderConfig = sassLintHelpers.loadConfigFile(
@@ -86,7 +92,7 @@ export default class PropertySortOrder extends BaseResolver {
     return null;
   }
 
-  private get orderPresets(): any {
+  private get orderPresets(): { [K in SortOrderMethod]: string } {
     return {
       recess: 'recess.yml',
       smacss: 'smacss.yml',
