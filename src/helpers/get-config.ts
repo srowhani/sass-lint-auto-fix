@@ -5,7 +5,15 @@ const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 
-const _configurationProxy = new Proxy(
+type OptionParser = (filename: string) => SlfParserOptions | null;
+interface MappedParserOptions {
+  [key: string]: OptionParser;
+}
+interface JSONObject {
+  [key: string]: any;
+}
+
+const _configurationProxy = new Proxy<MappedParserOptions>(
   {
     yml: parseYaml,
     yaml: parseYaml,
@@ -13,7 +21,7 @@ const _configurationProxy = new Proxy(
     ['*']: parseModule,
   },
   {
-    get: (target: any, filename: string) => {
+    get: (target: MappedParserOptions, filename: string) => {
       const possibleResolutions = Object.keys(target)
         .map(key => target[key](filename))
         .filter(result => result !== null);
@@ -53,15 +61,10 @@ function parseModule(filename: string): SlfParserOptions | null {
   }
 }
 
-function sanitize(obj: any) {
-  return Object.keys(obj)
-    .filter(key => obj[key] !== null)
-    .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
-}
+export const getConfig = (filename: string): JSONObject =>
+  _configurationProxy[filename];
 
-export const getConfig = (filename: string): any => {
-  return sanitize(_configurationProxy[filename]);
-};
-
-export const mergeConfig = (baseConfig: any, extendedConfig: any) =>
-  merge.recursive(true, baseConfig, extendedConfig);
+export const mergeConfig = (
+  baseConfig: JSONObject,
+  extendedConfig: JSONObject,
+) => merge.recursive(true, baseConfig, extendedConfig);
