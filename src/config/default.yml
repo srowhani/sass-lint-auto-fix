@@ -12,7 +12,7 @@ resolvers:
   border-zero: 1
   no-color-keywords: 1
   no-css-comments: 0
-  no-important: 1
+  no-important: 0
   no-trailing-zero: 1
   space-after-bang: 1
   space-before-bang: 1
