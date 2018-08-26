@@ -1,15 +1,12 @@
 #!/usr/bin/env node
-import { getConfig, mergeConfig } from './helpers/get-config';
-import Logger from './helpers/logger';
+import { getConfig, Logger, mergeConfig, reportIncident } from './helpers';
 import SlAutoFix from './sass-lint-auto-fix';
-
-const Raven = require('raven');
 
 const program = require('commander');
 const process = require('process');
+const fs = require('fs');
 
 const pkg = require('../package.json');
-const fs = require('fs');
 
 (() => {
   program
@@ -38,19 +35,24 @@ const fs = require('fs');
 
   defaultOptions.silent = program.silent || defaultOptions.silent;
 
-  process.on('unhandledRejection', (error: Error) => logger.error(error));
-  if (defaultOptions.optOut !== true) {
-    Raven.config(
-      'https://01713b27b2bf4584a636aa5f2bb68ae7@sentry.io/1213043',
-    ).install();
-
+  if (!defaultOptions.optOut) {
     logger.debug('Installing sentry');
-    process.on('uncaughtException', (error: Error) => {
-      Raven.captureException(error);
-      logger.error(error);
-      process.exit(1);
-    });
   }
+
+  process.on('unhandledRejection', (error: Error) => {
+    if (!defaultOptions.optOut) {
+      reportIncident(error);
+    }
+    logger.error(error);
+  });
+
+  process.on('uncaughtException', (error: Error) => {
+    if (!defaultOptions.optOut) {
+      reportIncident(error);
+    }
+    logger.error(error);
+    process.exit(1);
+  });
 
   const pattern = program.args[0];
 

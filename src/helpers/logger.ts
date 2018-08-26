@@ -7,7 +7,7 @@ export interface Configuration {
   padding?: number;
 }
 
-export default class Logger {
+export class Logger {
   public _verbose = console.log;
   public _warn = console.log;
   public _debug = console.debug;

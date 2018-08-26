@@ -1,4 +1,4 @@
-import Logger from '@src/helpers/logger';
+import { Logger } from '@src/helpers';
 import AbstractSyntaxTree from '@src/resolvers/typings/abstract-syntax-tree';
 import SlRule from '@src/resolvers/typings/sass-lint-rule';
 import SlAutoFix from '@src/sass-lint-auto-fix';

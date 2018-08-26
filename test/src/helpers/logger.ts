@@ -1,4 +1,4 @@
-import Logger from '@src/helpers/logger';
+import { Logger } from '@src/helpers';
 
 describe('logger', () => {
   describe('silent', () => {

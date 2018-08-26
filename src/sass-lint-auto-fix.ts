@@ -1,7 +1,7 @@
 import AbstractSyntaxTree from './resolvers/typings/abstract-syntax-tree';
 import SlRule from './resolvers/typings/sass-lint-rule';
 
-import Logger from './helpers/logger';
+import { Logger, reportIncident } from './helpers';
 
 const gonzales = require('gonzales-pe-sl');
 const fs = require('fs');
@@ -51,7 +51,7 @@ export default class SlAutoFix {
   }
 
   public processFile(
-    file: any,
+    file: { filename: string; content: string | Buffer; options: any },
     onResolve: (
       filename: string,
       rule: SlRule,
@@ -105,7 +105,13 @@ export default class SlAutoFix {
                 return onResolve(filename, rule, resolvedTree);
               }
             } catch (e) {
-              throw { ...e, details: { file } };
+              if (!this._defaultOptions.optOut) {
+                reportIncident({
+                  ...e,
+                  details: file,
+                });
+              }
+              this.logger.warn(e);
             }
           });
       }
