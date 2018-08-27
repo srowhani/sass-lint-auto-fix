@@ -50,12 +50,12 @@
   "author": "Seena Rowhani (srowhani)",
   "license": "MIT",
   "dependencies": {
+    "@sentry/node": "^4.0.0-beta.12",
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
     "glob": "^7.1.2",
     "gonzales-pe-sl": "^4.2.3",
     "js-yaml": "^3.11.0",
-    "raven": "^2.6.2",
     "sass-lint": "^1.12.1"
   },
   "devDependencies": {

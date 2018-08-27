@@ -1,4 +1,4 @@
-import Logger from '@src/helpers/logger';
+import { Logger } from '@src/helpers';
 import SlAutoFix from '@src/sass-lint-auto-fix';
 
 describe('sass-lint-auto-fix', () => {
