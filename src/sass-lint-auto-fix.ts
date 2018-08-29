@@ -60,7 +60,7 @@ export default class SlAutoFix {
   ) {
     const { filename, content, options } = file;
 
-    if (content !== null) {
+    if (content !== null && content !== undefined && content.length > 0) {
       const fileExtension = path.extname(filename).substr(1);
 
       if (this.isValidExtension(fileExtension)) {

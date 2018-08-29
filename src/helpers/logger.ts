@@ -24,7 +24,7 @@ export class Logger {
   }
 
   public pad(str: string): string {
-    return str + ' '.repeat(this.padding - str.length);
+    return str + ' '.repeat(Math.max(0, this.padding - str.length));
   }
 
   public verbose(tag: string, ...terms: string[]): void {
