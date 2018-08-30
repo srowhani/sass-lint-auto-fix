@@ -50,4 +50,12 @@ describe('logger', () => {
       expect(logger._debug).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('pad', () => {
+    it('appends spaces at the end of a string', () => {
+      const logger = new Logger({ padding: 5 });
+      expect(logger.pad('foo')).toBe('foo  ');
+      expect(logger.pad('foobaz')).toBe('foobaz');
+    });
+  });
 });

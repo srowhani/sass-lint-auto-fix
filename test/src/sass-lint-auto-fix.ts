@@ -24,6 +24,29 @@ describe('sass-lint-auto-fix', () => {
     expect(slaf._logger._warn).toHaveBeenCalledTimes(1);
   });
 
+  it('skips empty files', () => {
+    const options = {
+      files: {
+        include: 'test/sass/empty-file.*',
+      },
+      syntax: {
+        include: ['scss', 'sass'],
+      },
+    };
+
+    const slaf = new SlAutoFix(options);
+    slaf.isValidExtension = jest.fn();
+
+    const logger = new Logger();
+    logger._warn = jest.fn();
+    slaf._logger = logger;
+
+    slaf.run({}, () => {
+      // empty fn
+    });
+    expect(slaf.isValidExtension).not.toHaveBeenCalled();
+  });
+
   it('handles the case where a resolver doesnt exist', () => {
     const ruleName = 'non-existent-rule';
     const options = {
