@@ -106,11 +106,9 @@ export default class SlAutoFix {
               }
             } catch (e) {
               if (!this._defaultOptions.optOut) {
-                reportIncident({
-                  ...e,
-                  details: file,
-                });
+                reportIncident(e);
               }
+              // TODO: Friendly way to inform user that an unexpected error occured
               this.logger.warn(e);
             }
           });

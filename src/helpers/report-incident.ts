@@ -6,12 +6,4 @@ Sentry.init({
 
 type ErrorLike = Error | string;
 
-type ReportDetails = ErrorLike & {
-  details: {
-    filename: string;
-    content: string | Buffer;
-    options: any;
-  };
-};
-export const reportIncident = (e: ErrorLike | ReportDetails) =>
-  Sentry.captureException(e);
+export const reportIncident = (e: ErrorLike) => Sentry.captureException(e);

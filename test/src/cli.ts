@@ -12,17 +12,21 @@ describe('cli', async () => {
     expect(result).toContain('-V, --version');
   });
 
-  it('sets up sentry by default', async () => {
-    const result = await exec(
-      'node dist/index.js -c "test/config/opt-in.yml" --debug',
+  it('sets up sentry by default', done => {
+    exec('node dist/index.js -c "test/config/opt-in.yml" --debug').then(
+      result => {
+        expect(result).toContain('Installing sentry');
+        done();
+      },
     );
-    expect(result).toContain('Installing sentry');
   });
 
-  it('opts out with config flag', async () => {
-    const result = await exec(
-      'node dist/index.js -c "test/config/opt-out.yml" --debug',
+  it('opts out with config flag', done => {
+    exec('node dist/index.js -c "test/config/opt-out.yml" --debug').then(
+      result => {
+        expect(result).not.toContain('Installing sentry');
+        done();
+      },
     );
-    expect(result).not.toContain('Installing sentry');
   });
 });
