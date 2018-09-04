@@ -7,7 +7,7 @@
     "sass-lint-auto-fix": "./dist/index.js"
   },
   "scripts": {
-    "test": "jest --verbose --coverage --no-watchman",
+    "test": "jest --verbose --coverage --no-watchman --runInBand",
     "test:watch": "jest --watch",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
     "coverage": "open ./coverage/lcov-report/index.html",
