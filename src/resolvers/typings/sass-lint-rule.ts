@@ -1,6 +1,6 @@
 import AbstractSyntaxTree from './abstract-syntax-tree';
 
-export default interface SlRule {
+export interface SlRule {
   options: any;
   rule: SLRuleDescriptor;
 };

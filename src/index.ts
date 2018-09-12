@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { getConfig, Logger, mergeConfig, reportIncident } from './helpers';
-import SlAutoFix from './sass-lint-auto-fix';
+import SlAutoFix, { autoFixSassFactory } from './sass-lint-auto-fix';
 
 const program = require('commander');
 const process = require('process');
@@ -58,10 +58,10 @@ const pkg = require('../package.json');
 
   defaultOptions.files.include = pattern || defaultOptions.files.include;
 
-  const sassLintAutoFix = new SlAutoFix(defaultOptions);
+  const sassLintAutoFix = autoFixSassFactory(defaultOptions);
 
-  sassLintAutoFix.run({}, (filename, _, resolvedTree) => {
-    fs.writeFileSync(filename, resolvedTree.toString());
+  for (const { filename, ast } of sassLintAutoFix({} as any)) {
+    fs.writeFileSync(filename, ast.toString());
     logger.verbose('write', `Writing resolved tree to ${filename}`);
-  });
+  }
 })();

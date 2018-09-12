@@ -10,7 +10,7 @@ type traversalCallbackWithDepth = (
   depth?: number,
 ) => void;
 
-export default interface AbstractSyntaxTree {
+export interface AbstractSyntaxTree {
   content: any;
   syntax: string;
   length: number;

@@ -1,7 +1,8 @@
-import AbstractSyntaxTree from './abstract-syntax-tree';
-import SlRule from './sass-lint-rule';
+import { AbstractSyntaxTree } from './abstract-syntax-tree';
+import { SlRule } from './sass-lint-rule';
 
-export default interface Resolver {
+export interface Resolver {
+  new(ast: AbstractSyntaxTree, parser: SlRule): Resolver;
   ast: AbstractSyntaxTree;
   parser: SlRule;
   fix(): AbstractSyntaxTree;
