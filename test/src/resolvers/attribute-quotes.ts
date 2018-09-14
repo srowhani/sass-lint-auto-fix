@@ -1,19 +1,20 @@
 import { resolve, detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@srctypings';
 
 describe('attribute-quotes', () => {
   describe('scss', () => {
     describe('default', () => {
       const options = { 'attribute-quotes': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/attribute-quotes.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const preResolve = lint(filename, options);
+        
+        for (const { ast } of resolve(filename, options)) {
+          const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
           expect(preResolve.warningCount).toBe(5);
           expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        }
       });
     });
     describe('exclude', () => {
