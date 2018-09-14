@@ -1,5 +1,5 @@
 import BaseResolver from './base-resolver';
-import { TreeNode } from './typings/abstract-syntax-tree';
+import { TreeNode } from './typings';
 
 export default class NoImportant extends BaseResolver {
   public fix() {

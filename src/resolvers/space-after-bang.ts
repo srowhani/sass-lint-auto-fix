@@ -1,7 +1,5 @@
-import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
-
 import BaseResolver from './base-resolver';
-import SlRule from './typings/sass-lint-rule';
+import { AbstractSyntaxTree, SlRule, TreeNode } from './typings';
 
 export default class SpaceAfterBang extends BaseResolver {
   private _noSpaceAfterBang: RegExp;

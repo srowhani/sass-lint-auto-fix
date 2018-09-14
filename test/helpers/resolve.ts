@@ -1,7 +1,8 @@
-import { Logger } from '@src/helpers';
-import AbstractSyntaxTree from '@src/resolvers/typings/abstract-syntax-tree';
-import SlRule from '@src/resolvers/typings/sass-lint-rule';
-import SlAutoFix from '@src/sass-lint-auto-fix';
+import { createLogger } from '@src/helpers';
+import { AbstractSyntaxTree, SlRule } from '@src/resolvers/typings';
+import { ConfigOpts, LintOpts, Resolution, Ruleset, ValidFileType } from '@src/typings';
+
+import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 
 const path = require('path');
 const fs = require('fs');
@@ -9,34 +10,39 @@ const gonzales = require('gonzales-pe-sl');
 
 const sassLint = require('sass-lint');
 
-export default (
+export function* resolve(
   pattern: string,
-  lintOptions: any,
-  onResolve: (filename: string, rule: SlRule, ast: AbstractSyntaxTree) => void,
-) => {
-  const options = {
+  lintRules: Ruleset,
+): Iterable<Resolution> {
+  const configOptions: ConfigOpts = {
+    logger: createLogger({ silentEnabled: true }),
     files: {
       include: pattern,
     },
-    resolvers: { [Object.keys(lintOptions)[0]]: 1 },
+    resolvers: { [Object.keys(lintRules)[0]]: 1 },
     syntax: {
-      include: ['scss', 'sass'],
+      include: [ValidFileType.scss, ValidFileType.sass],
     },
+    options: {
+      optOut: true,
+    }
   };
 
-  const slaf = new SlAutoFix(options);
-  slaf._logger = new Logger({ silentEnabled: true });
-
-  slaf.run(
-    {
-      options: {
-        'merge-default-rules': false,
-        'cache-config': false,
-      },
-      rules: { ...lintOptions },
+  const linterOptions: LintOpts = {
+    files: {
+      include: pattern,
     },
-    onResolve,
-  );
+    options: {
+      'merge-default-rules': false,
+      'cache-config': false,
+    },
+    rules: { ...lintRules },
+  };
+
+  const sassLintFix = autoFixSassFactory(configOptions);
+  for (const resolution of sassLintFix(linterOptions)) {
+    yield resolution;
+  }
 };
 
 export function ast(filename: string): AbstractSyntaxTree {

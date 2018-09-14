@@ -20,7 +20,7 @@ export interface AbstractSyntaxTree {
   traverseByType(nodeType: string, callback: traversalCallback): void;
   traverseByTypes(nodeTypes: string[], callback: traversalCallback): void;
   removeChild(index: number): TreeNode;
-};
+}
 
 export interface TreeNode extends AbstractSyntaxTree {
   type: string;

@@ -23,20 +23,22 @@ export enum ValidFileType {
   sass = 'sass',
 }
 
+export interface Ruleset {
+  [ruleName: string]: number | { [ruleOption: string]: any };
+}
+
 export interface ConfigOpts {
   logger: Logger;
   slRules?: any;
   slConfig?: any;
   files: {
     include: string;
-    ignore: string;
+    ignore?: string;
   };
   syntax: {
-    include: ValidFileType;
+    include: ValidFileType[];
   };
-  resolvers: {
-    [resolverName: string]: number | { [resolverOption: string]: any };
-  };
+  resolvers: Ruleset;
   options: {
     optOut: boolean;
   };
@@ -44,16 +46,14 @@ export interface ConfigOpts {
 
 export interface LintOpts {
   options: {
-    formatter: string;
-    'merge-default-rules': boolean;
-    'cache-config': boolean;
+    formatter?: string;
+    'merge-default-rules'?: boolean;
+    'cache-config'?: boolean;
   };
   files: {
     include: string;
   };
-  rules: {
-    [ruleName: string]: number | { [ruleOption: string]: any };
-  };
+  rules: Ruleset;
 }
 
 export interface CreateModuleConfig {

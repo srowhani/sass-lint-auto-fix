@@ -1,4 +1,4 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { resolve, detect, lint } from '@test/helpers/resolve';
 
 describe('attribute-quotes', () => {
   describe('scss', () => {
