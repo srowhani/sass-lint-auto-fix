@@ -1,7 +1,4 @@
-import AbstractSyntaxTree from './typings/abstract-syntax-tree';
-
-import Resolver from './typings/resolver';
-import SlRule from './typings/sass-lint-rule';
+import { AbstractSyntaxTree, Resolver, SlRule } from './typings';
 
 export default abstract class BaseResolver implements Resolver {
   private _ast: AbstractSyntaxTree;

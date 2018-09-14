@@ -49,3 +49,7 @@ export class Logger {
     this._error(error);
   }
 }
+
+export function createLogger(config: Configuration): Logger {
+  return new Logger(config);
+}
