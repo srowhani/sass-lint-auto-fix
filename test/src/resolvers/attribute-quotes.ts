@@ -1,5 +1,5 @@
-import { resolve, detect, lint } from '@test/helpers/resolve';
-import { ValidFileType } from '@srctypings';
+import { ValidFileType } from '@src/types';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('attribute-quotes', () => {
   describe('scss', () => {
@@ -8,13 +8,12 @@ describe('attribute-quotes', () => {
       it('resolves', () => {
         const filename = 'test/sass/attribute-quotes.scss';
         const preResolve = lint(filename, options);
-        
-        for (const { ast } of resolve(filename, options)) {
-          const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(5);
-          expect(postResolve.warningCount).toBe(0);
-        }
+        const { ast } = resolveFirst(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
+
+        expect(preResolve.warningCount).toBe(5);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('exclude', () => {
@@ -26,16 +25,15 @@ describe('attribute-quotes', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/attribute-quotes.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
 
-          expect(preResolve.warningCount).toBe(7);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
+
+        expect(preResolve.warningCount).toBe(7);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });
@@ -43,16 +41,14 @@ describe('attribute-quotes', () => {
   describe('sass', () => {
     describe('default', () => {
       const options = { 'attribute-quotes': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/attribute-quotes.sass';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(5);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(5);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('exclude', () => {
@@ -64,16 +60,14 @@ describe('attribute-quotes', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/attribute-quotes.sass';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(7);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(7);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });

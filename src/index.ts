@@ -3,7 +3,7 @@ import program from 'commander';
 import fs from 'fs';
 import process from 'process';
 
-import { ConfigOpts, LintOpts } from '@src/typings';
+import { ConfigOpts, LintOpts } from '@src/types';
 import {
   createLogger,
   getConfig,
@@ -12,7 +12,7 @@ import {
 } from './helpers';
 import { autoFixSassFactory } from './sass-lint-auto-fix';
 
-const pkg = require('../package.json');
+import pkg from '../package.json';
 
 (() => {
   program

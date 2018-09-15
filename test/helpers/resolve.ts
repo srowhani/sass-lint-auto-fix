@@ -1,6 +1,12 @@
 import { createLogger } from '@src/helpers';
 import { AbstractSyntaxTree, SlRule } from '@src/resolvers/typings';
-import { ConfigOpts, LintOpts, Resolution, Ruleset, ValidFileType } from '@src/typings';
+import {
+  ConfigOpts,
+  LintOpts,
+  Resolution,
+  Ruleset,
+  ValidFileType,
+} from '@src/types';
 
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 
@@ -10,10 +16,10 @@ const gonzales = require('gonzales-pe-sl');
 
 const sassLint = require('sass-lint');
 
-export function* resolve(
+export function* resolvePattern(
   pattern: string,
   lintRules: Ruleset,
-): Iterable<Resolution> {
+): IterableIterator<Resolution> {
   const configOptions: ConfigOpts = {
     logger: createLogger({ silentEnabled: true }),
     files: {
@@ -25,7 +31,7 @@ export function* resolve(
     },
     options: {
       optOut: true,
-    }
+    },
   };
 
   const linterOptions: LintOpts = {
@@ -43,7 +49,11 @@ export function* resolve(
   for (const resolution of sassLintFix(linterOptions)) {
     yield resolution;
   }
-};
+}
+
+export function resolveFirst(pattern: string, lintRules: Ruleset): Resolution {
+  return resolvePattern(pattern, lintRules).next().value;
+}
 
 export function ast(filename: string): AbstractSyntaxTree {
   const fileExtension = path.extname(filename).substr(1);
@@ -54,7 +64,7 @@ export function ast(filename: string): AbstractSyntaxTree {
   });
 }
 
-export function detect(text: string, format: string, options: any) {
+export function detect(text: string, format: ValidFileType, options: any) {
   const file = {
     text,
     format,

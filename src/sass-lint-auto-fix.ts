@@ -11,7 +11,7 @@ import {
   LintOpts,
   Resolution,
   ValidFileType,
-} from '@src/typings';
+} from '@src/types';
 import { reportIncident } from './helpers';
 
 import fs from 'fs';
@@ -33,7 +33,9 @@ export function autoFixSassFactory(config: ConfigOpts) {
     ignore: config.files.ignore,
   });
 
-  return function* autoFixSass(options: LintOpts): Iterable<Resolution> {
+  return function* autoFixSass(
+    options: LintOpts,
+  ): IterableIterator<Resolution> {
     for (const filename of files) {
       const content = fs.readFileSync(filename).toString();
       if (content !== null && content !== undefined && content.length > 0) {
