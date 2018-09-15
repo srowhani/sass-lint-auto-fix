@@ -1,7 +1,6 @@
 import BaseResolver from './base-resolver';
 import { AbstractSyntaxTree, SlRule } from './typings';
 
-
 const gonzales = require('gonzales-pe-sl');
 
 export default class EmptyLineBetweenBlocks extends BaseResolver {

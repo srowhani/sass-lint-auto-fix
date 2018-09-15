@@ -1,7 +1,6 @@
 import BaseResolver from './base-resolver';
 import { AbstractSyntaxTree, SlRule, TreeNode } from './typings';
 
-
 export default class HexNotation extends BaseResolver {
   private _letterRegex: RegExp;
 

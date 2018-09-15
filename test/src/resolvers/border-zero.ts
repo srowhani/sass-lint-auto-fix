@@ -1,4 +1,5 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@src/types';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('border-zero', () => {
   describe('scss', () => {
@@ -11,30 +12,26 @@ describe('border-zero', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/border-zero.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(3);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(3);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe("[convention: '0']", () => {
       const options = { 'border-zero': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/border-zero.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(3);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(3);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe("[convention: 'none']", () => {
@@ -46,16 +43,14 @@ describe('border-zero', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/border-zero.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
 
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
-          expect(preResolve.warningCount).toBe(2);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
+        expect(preResolve.warningCount).toBe(2);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe("invalid convention [convention: 'zero']", () => {
@@ -67,16 +62,14 @@ describe('border-zero', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/border-zero.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(4);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(4);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });
@@ -91,30 +84,27 @@ describe('border-zero', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/border-zero.sass';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
 
-          expect(preResolve.warningCount).toBe(3);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
+
+        expect(preResolve.warningCount).toBe(3);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe("[convention: '0']", () => {
       const options = { 'border-zero': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/border-zero.sass';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(3);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(3);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe("[convention: 'none']", () => {
@@ -126,16 +116,14 @@ describe('border-zero', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/border-zero.sass';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(2);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(2);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe("invalid convention [convention: 'zero']", () => {
@@ -147,16 +135,14 @@ describe('border-zero', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/border-zero.sass';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(4);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(4);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });
