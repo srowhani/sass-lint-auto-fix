@@ -1,5 +1,7 @@
 import { createLogger } from '@src/helpers';
-import { AbstractSyntaxTree, SlRule } from '@src/resolvers/typings';
+import { AbstractSyntaxTree } from '@src/resolvers/typings';
+import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
+
 import {
   ConfigOpts,
   LintOpts,
@@ -8,13 +10,32 @@ import {
   ValidFileType,
 } from '@src/types';
 
-import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
+import path from 'path';
+import fs from 'fs';
 
-const path = require('path');
-const fs = require('fs');
 const gonzales = require('gonzales-pe-sl');
-
 const sassLint = require('sass-lint');
+
+export interface MockLintConfigParams {
+  pattern?: string;
+  lintRules: Ruleset;
+}
+
+export function createMockLintOptions({ pattern, lintRules }: MockLintConfigParams): LintOpts {
+  const lintOpts = {
+    options: {
+      'merge-default-rules': false,
+      'cache-config': false,
+    },
+    rules: { ...lintRules },
+  } as LintOpts;
+
+  if (pattern) {
+    lintOpts.files.include = pattern;
+  }
+
+  return lintOpts;
+}
 
 export function* resolvePattern(
   pattern: string,
@@ -34,16 +55,7 @@ export function* resolvePattern(
     },
   };
 
-  const linterOptions: LintOpts = {
-    files: {
-      include: pattern,
-    },
-    options: {
-      'merge-default-rules': false,
-      'cache-config': false,
-    },
-    rules: { ...lintRules },
-  };
+  const linterOptions: LintOpts = createMockLintOptions({ pattern, lintRules });
 
   const sassLintFix = autoFixSassFactory(configOptions);
   for (const resolution of sassLintFix(linterOptions)) {
@@ -52,7 +64,13 @@ export function* resolvePattern(
 }
 
 export function resolveFirst(pattern: string, lintRules: Ruleset): Resolution {
-  return resolvePattern(pattern, lintRules).next().value;
+  const result = resolvePattern(pattern, lintRules).next();
+
+  if (result.value === undefined) {
+    throw Error(`No resolutions exist for given pattern: ${pattern}`);
+  }
+
+  return result.value;
 }
 
 export function ast(filename: string): AbstractSyntaxTree {
@@ -64,45 +82,25 @@ export function ast(filename: string): AbstractSyntaxTree {
   });
 }
 
-export function detect(text: string, format: ValidFileType, options: any) {
+export function detect(text: string, format: ValidFileType, lintRules: Ruleset) {
   const file = {
     text,
     format,
     filename: null,
   };
 
-  return sassLint.lintText(file, {
-    options: {
-      'merge-default-rules': false,
-      'cache-config': false,
-    },
-    rules: { ...options },
-  });
+  return sassLint.lintText(file, createMockLintOptions({ lintRules }));
 }
-//
-// export function detect(detectRule: string, ast: AbstractSyntaxTree): any[] {
-//   return rules
-//     .filter((rule: any) => rule.rule.name === detectRule)
-//     .reduce(
-//       (accumulator: any[], rule: any) => {
-//           accumulator.push(...rule.rule.detect(ast, rule))
-//           return accumulator;
-//       }, []
-//     );
-// }
 
-export function lint(filename: string, options: any): any {
+export function lint(filename: string, lintRules: Ruleset): any {
   const file = {
     text: fs.readFileSync(filename).toString(),
     format: path.extname(filename).substr(1),
     filename,
   };
 
-  return sassLint.lintText(file, {
-    options: {
-      'merge-default-rules': false,
-      'cache-config': false,
-    },
-    rules: { ...options },
-  });
+  return sassLint.lintText(file, createMockLintOptions({
+    pattern: filename,
+    lintRules
+  }));
 }
