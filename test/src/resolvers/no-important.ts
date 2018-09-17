@@ -1,5 +1,5 @@
 import { ValidFileType } from '@src/types';
-import resolve, { detect, lint, resolveFirst } from '@test/helpers/resolve';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('no-important', () => {
   const options = { 'no-important': 1 };
