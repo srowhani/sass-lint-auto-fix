@@ -1,4 +1,4 @@
-import { ValidFileType } from '@srctypes';
+import { ValidFileType } from '@src/types';
 import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('no-trailing-zero', () => {
@@ -18,7 +18,7 @@ describe('no-trailing-zero', () => {
   });
 
   describe('sass', () => {
-    it('resolves', done => {
+    it('resolves', () => {
       const filename = 'test/sass/no-trailing-zero.sass';
       const { ast } = resolveFirst(filename, options);
 

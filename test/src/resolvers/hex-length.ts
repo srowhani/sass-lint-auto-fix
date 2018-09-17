@@ -1,4 +1,4 @@
-import { ValidFileType } from '@srctypes';
+import { ValidFileType } from '@src/types';
 import resolve, { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('hex-length', () => {
@@ -27,7 +27,7 @@ describe('hex-length', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-length.scss';
         const { ast } = resolveFirst(filename, options);
         const preResolve = lint(filename, options);

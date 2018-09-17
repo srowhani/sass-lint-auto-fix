@@ -3,16 +3,17 @@ import program from 'commander';
 import fs from 'fs';
 import process from 'process';
 
-import { ConfigOpts, LintOpts } from '@src/types';
 import {
   createLogger,
   getConfig,
   mergeConfig,
   reportIncident,
 } from './helpers';
-import { autoFixSassFactory } from './sass-lint-auto-fix';
 
-import pkg from '../package.json';
+import { autoFixSassFactory } from './sass-lint-auto-fix';
+import { ConfigOpts, LintOpts } from './types';
+
+const pkg = require('../package.json');
 
 (() => {
   program

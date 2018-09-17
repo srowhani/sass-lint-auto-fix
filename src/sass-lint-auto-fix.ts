@@ -5,14 +5,14 @@ import {
   SlRule,
 } from './resolvers/typings';
 
+import { reportIncident } from './helpers';
 import {
   ConfigOpts,
   CreateModuleConfig,
   LintOpts,
   Resolution,
   ValidFileType,
-} from '@src/types';
-import { reportIncident } from './helpers';
+} from './types';
 
 import fs from 'fs';
 import glob from 'glob';

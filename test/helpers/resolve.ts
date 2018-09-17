@@ -34,7 +34,9 @@ export function createMockLintOptions({
   } as LintOpts;
 
   if (pattern) {
-    lintOpts.files.include = pattern;
+    lintOpts.files = {
+      include: pattern,
+    };
   }
 
   return lintOpts;
