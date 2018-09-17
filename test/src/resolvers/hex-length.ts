@@ -1,4 +1,5 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@srctypes';
+import resolve, { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('hex-length', () => {
   describe('scss', () => {
@@ -6,16 +7,14 @@ describe('hex-length', () => {
       const options = {
         'hex-length': 1,
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-length.scss';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const preResolve = lint(filename, options);
+        const { ast } = resolveFirst(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(4);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(4);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
 
@@ -30,14 +29,12 @@ describe('hex-length', () => {
       };
       it('resolves', done => {
         const filename = 'test/sass/hex-length.scss';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(4);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(4);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });
@@ -47,16 +44,15 @@ describe('hex-length', () => {
       const options = {
         'hex-length': 1,
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-length.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
 
-          expect(preResolve.warningCount).toBe(4);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
+
+        expect(preResolve.warningCount).toBe(4);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
 
@@ -69,16 +65,15 @@ describe('hex-length', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-length.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
 
-          expect(preResolve.warningCount).toBe(4);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
+
+        expect(preResolve.warningCount).toBe(4);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });

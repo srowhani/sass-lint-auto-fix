@@ -10,8 +10,8 @@ import {
   ValidFileType,
 } from '@src/types';
 
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 
 const gonzales = require('gonzales-pe-sl');
 const sassLint = require('sass-lint');
@@ -21,7 +21,10 @@ export interface MockLintConfigParams {
   lintRules: Ruleset;
 }
 
-export function createMockLintOptions({ pattern, lintRules }: MockLintConfigParams): LintOpts {
+export function createMockLintOptions({
+  pattern,
+  lintRules,
+}: MockLintConfigParams): LintOpts {
   const lintOpts = {
     options: {
       'merge-default-rules': false,
@@ -82,7 +85,11 @@ export function ast(filename: string): AbstractSyntaxTree {
   });
 }
 
-export function detect(text: string, format: ValidFileType, lintRules: Ruleset) {
+export function detect(
+  text: string,
+  format: ValidFileType,
+  lintRules: Ruleset,
+) {
   const file = {
     text,
     format,
@@ -99,8 +106,11 @@ export function lint(filename: string, lintRules: Ruleset): any {
     filename,
   };
 
-  return sassLint.lintText(file, createMockLintOptions({
-    pattern: filename,
-    lintRules
-  }));
+  return sassLint.lintText(
+    file,
+    createMockLintOptions({
+      pattern: filename,
+      lintRules,
+    }),
+  );
 }

@@ -1,19 +1,19 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@src/types';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('hex-notation', () => {
   describe('scss', () => {
     describe('[style=default]', () => {
       const options = { 'hex-notation': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-notation.scss';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
 
-          expect(preResolve.warningCount).toBe(6);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
+
+        expect(preResolve.warningCount).toBe(6);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('[style=lowercase]', () => {
@@ -25,16 +25,14 @@ describe('hex-notation', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-notation.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(6);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(6);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('[style=uppercase]', () => {
@@ -46,32 +44,28 @@ describe('hex-notation', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-notation.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(7);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(7);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });
   describe('sass', () => {
     describe('[style=default]', () => {
       const options = { 'hex-notation': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-notation.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(6);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(6);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('[style=lowercase]', () => {
@@ -83,16 +77,14 @@ describe('hex-notation', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-notation.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(6);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(6);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('[style=uppercase]', () => {
@@ -104,16 +96,14 @@ describe('hex-notation', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/hex-notation.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(7);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(7);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });

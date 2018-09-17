@@ -1,5 +1,5 @@
-import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 import { ValidFileType } from '@src/types';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('final-newline', () => {
   describe('scss', () => {

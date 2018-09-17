@@ -1,18 +1,19 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@srctypes';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('property-sort-order', () => {
   describe('- scss', () => {
     describe('- alphabetical', () => {
       const options = { 'property-sort-order': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/property-sort-order.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
-          expect(preResolve.warningCount).toBe(19);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const { ast } = resolveFirst(filename, options);
+
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
+
+        expect(preResolve.warningCount).toBe(19);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
 
@@ -25,15 +26,15 @@ describe('property-sort-order', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/property-sort-order.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
-          expect(preResolve.warningCount).toBe(12);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const { ast } = resolveFirst(filename, options);
+
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
+
+        expect(preResolve.warningCount).toBe(12);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
 

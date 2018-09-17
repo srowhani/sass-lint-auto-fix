@@ -1,5 +1,5 @@
-import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 import { ValidFileType } from '@src/types';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 const fs = require('fs');
 
@@ -15,7 +15,7 @@ describe('empty-space-between-blocks', () => {
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
         expect(preResolve.warningCount).toBe(3);
-        expect(postResolve.warningCount).toBe(1);       
+        expect(postResolve.warningCount).toBe(1);
       });
     });
   });
