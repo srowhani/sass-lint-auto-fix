@@ -1,10 +1,20 @@
-import { Logger } from '@src/helpers';
+import { createLogger, getConfig } from '@src/helpers';
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 import { ConfigOpts, LintOpts, ValidFileType } from '@src/typings';
 
+export const generateMockedRuleset = (ruleName: string) => [
+  {
+    rule: {
+      name: ruleName,
+      defaults: {},
+      detect: () => [1],
+    },
+  },
+];
+
 describe('sass-lint-auto-fix', () => {
   it('gracefully handles ast parse errors', () => {
-    const logger = new Logger();
+    const logger = createLogger();
     logger._warn = jest.fn();
 
     const options = {
@@ -25,7 +35,7 @@ describe('sass-lint-auto-fix', () => {
   });
 
   it('skips empty files', () => {
-    const logger = new Logger();
+    const logger = createLogger();
     logger._warn = jest.fn();
 
     const options = {
@@ -46,18 +56,8 @@ describe('sass-lint-auto-fix', () => {
   it('handles the case where a resolver doesnt exist', () => {
     const ruleName = 'non-existent-rule';
 
-    const logger = new Logger();
+    const logger = createLogger();
     logger._warn = jest.fn();
-
-    const generateMockedRuleset = () => [
-      {
-        rule: {
-          name: ruleName,
-          defaults: {},
-          detect: () => 1,
-        },
-      },
-    ];
 
     const configOpts: ConfigOpts = {
       logger,
@@ -70,7 +70,10 @@ describe('sass-lint-auto-fix', () => {
       syntax: {
         include: [ValidFileType.scss, ValidFileType.sass],
       },
-      slRules: generateMockedRuleset,
+      slRules: () => generateMockedRuleset(ruleName),
+      options: {
+        optOut: true,
+      },
     } as any;
 
     const lintOpts: LintOpts = {
@@ -89,5 +92,47 @@ describe('sass-lint-auto-fix', () => {
       expect.stringContaining('@resolver'),
       expect.stringContaining(`Module '${ruleName}' doesn't exist.`),
     );
+  });
+  it('can receive custom sl-config', () => {
+    const configOpts: ConfigOpts = {
+      logger: createLogger({ silentEnabled: true }),
+      resolvers: {
+        'final-newline': 1,
+      },
+      files: {
+        include: 'test/sass/custom-sl-config.scss',
+      },
+      syntax: {
+        include: [ValidFileType.scss],
+      },
+      options: {
+        optOut: true,
+      },
+    } as any;
+
+    const slaf = autoFixSassFactory(configOpts);
+
+    const customSlConfig = getConfig(
+      'test/config/custom-sl-config.yml',
+    ) as LintOpts;
+
+    expect(customSlConfig).toEqual({
+      options: {
+        formatter: 'stylish',
+      },
+      files: {
+        include: 'test/sass/custom-sl-config.scss',
+      },
+      rules: {
+        'final-newline': 1,
+      },
+    });
+    const resolutionSet = [...slaf(customSlConfig)];
+    expect(resolutionSet.length).toEqual(1);
+
+    customSlConfig.rules['final-newline'] = 0;
+
+    const emptyResolutionSet = [...slaf(customSlConfig)];
+    expect(emptyResolutionSet.length).toEqual(0);
   });
 });

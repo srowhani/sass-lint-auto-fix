@@ -21,11 +21,11 @@ const { version } = require('../package.json');
     .usage('"<pattern>" [options]')
     .option(
       '-c, --config <path>',
-      'custom config path (e.g /path/to/sass-lint-auto-fix.yml)',
+      'custom config path (e.g /path/to/.sass-lint-auto-fix.yml)',
     )
     .option(
-      '-slc, --slc <path>',
-      'custom sass lint config path (e.g /path/to/sass-lint.yml',
+      '-csl, --config-sass-lint <path>',
+      'custom sass lint config path (e.g /path/to/.sass-lint.yml',
     )
     .option('-s, --silent', 'runs in silent mode')
     .option('-d, --debug', 'runs in debug mode')
@@ -37,11 +37,18 @@ const { version } = require('../package.json');
   });
 
   const config = getConfig(require.resolve('./config/default.yml'));
+  let slConfig: Partial<LintOpts> = {};
+
   let defaultOptions = { ...config } as ConfigOpts;
   if (program.config) {
     // TOOD: Handle different configuration types
     const customConfiguration = getConfig(program.config);
     defaultOptions = mergeConfig(defaultOptions, customConfiguration);
+  }
+
+  // Pass in custom sass-lint configuration
+  if (program.configSassLint) {
+    slConfig = getConfig(program.configSassLint);
   }
 
   if (!defaultOptions.options.optOut) {
@@ -73,7 +80,7 @@ const { version } = require('../package.json');
   });
 
   // TODO: Add sass-lint config, right now will merge with default rule set
-  for (const { filename, ast } of sassLintAutoFix({} as LintOpts)) {
+  for (const { filename, ast } of sassLintAutoFix(slConfig as LintOpts)) {
     fs.writeFileSync(filename, ast.toString());
     logger.verbose('write', `Writing resolved tree to ${filename}`);
   }

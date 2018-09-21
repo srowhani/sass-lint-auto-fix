@@ -22,10 +22,12 @@ simple linting issues with an easy to use command line interface. Issues are res
 
   Options:
 
-    -V, --version        output the version number
-    -c, --config <path>  custom config path (e.g /path/to/sass-lint-auto-fix.yml)
-    -s, --silent         runs in silent mode
-    -h, --help           output usage information
+    -V, --version                    output the version number
+    -c, --config <path>              custom config path (e.g /path/to/.sass-lint-auto-fix.yml)
+    -csl, --config-sass-lint <path>  custom sass lint config path (e.g /path/to/.sass-lint.yml
+    -s, --silent                     runs in silent mode
+    -d, --debug                      runs in debug mode
+    -h, --help                       output usage information
 ```    
 
 
@@ -77,10 +79,36 @@ Configuration can be provided through as either json, yml, or js.
 
 The generic structure of the configuration file you would provide would look something like [this](https://github.com/srowhani/sass-lint-auto-fix/blob/master/src/config/default.yml):
 
+```ts
+interface Ruleset {
+  [ruleName: string]: number | { [ruleOption: string]: any };
+}
+
+interface ConfigOpts {
+  logger: Logger;
+  slRules?: any;
+  slConfig?: any;
+  files: {
+    include: string;
+    ignore?: string;
+  };
+  syntax: {
+    include: ValidFileType[];
+  };
+  resolvers: Ruleset;
+  options: {
+    optOut: boolean;
+  };
+}
+```
+
+An example of this in yaml.
+
 ```yml
 files:
   include: "**/*.s+(a|c)ss"
-  ignore: []
+  ignore:
+    - node_modules/**
 syntax:
     include:
       - scss
@@ -90,14 +118,22 @@ resolvers:
   attribute-quotes: 1
   border-zero: 1
   no-color-keywords: 1
-  no-css-comments: 1
-  no-important: 1
+  no-css-comments: 0
+  no-important: 0
   no-trailing-zero: 1
   space-after-bang: 1
   space-before-bang: 1
   space-after-colon: 1
   space-before-colon: 1
   hex-length: 1
+  empty-line-between-blocks: 1
+  url-quotes: 1
+  zero-unit: 1
+  hex-notation: 1
+  indentation: 0
+  final-newline: 1
+options:
+  optOut: false
 ```
 
 #### Disabling Rules
