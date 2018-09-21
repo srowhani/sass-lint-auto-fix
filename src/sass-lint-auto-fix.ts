@@ -1,22 +1,19 @@
-import {
-  AbstractSyntaxTree,
-  Resolver,
-  ResolverConstructable,
-  SlRule,
-} from './resolvers/typings';
-
 import { reportIncident } from './helpers';
 import {
+  AbstractSyntaxTree,
   ConfigOpts,
   CreateModuleConfig,
   LintOpts,
   Resolution,
+  Resolver,
+  ResolverConstructable,
+  SlRule,
   ValidFileType,
-} from './types';
+} from './typings';
 
-import fs from 'fs';
-import glob from 'glob';
-import path from 'path';
+const fs = require('fs');
+const glob = require('glob');
+const path = require('path');
 
 const slConfig = require('sass-lint/lib/config');
 const slRules = require('sass-lint/lib/rules');

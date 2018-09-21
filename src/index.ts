@@ -1,8 +1,4 @@
 #!/usr/bin/env node
-import program from 'commander';
-import fs from 'fs';
-import process from 'process';
-
 import {
   createLogger,
   getConfig,
@@ -11,13 +7,17 @@ import {
 } from './helpers';
 
 import { autoFixSassFactory } from './sass-lint-auto-fix';
-import { ConfigOpts, LintOpts } from './types';
+import { ConfigOpts, LintOpts } from './typings';
 
-const pkg = require('../package.json');
+const process = require('process');
+const program = require('commander');
+const fs = require('fs');
+
+const { version } = require('../package.json');
 
 (() => {
   program
-    .version(pkg.version)
+    .version(version)
     .usage('"<pattern>" [options]')
     .option(
       '-c, --config <path>',

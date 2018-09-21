@@ -1,5 +1,5 @@
+import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
 import BaseResolver from './base-resolver';
-import { AbstractSyntaxTree, SlRule, TreeNode } from './typings';
 
 export default class UrlQuotes extends BaseResolver {
   private _variableRegex: RegExp;

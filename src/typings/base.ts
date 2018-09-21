@@ -1,5 +1,5 @@
 import { Logger } from '@src/helpers';
-import { AbstractSyntaxTree, SlRule } from '@src/resolvers/typings';
+import { AbstractSyntaxTree, SlRule } from '@src/typings';
 
 export interface SlfParserOptions {
   include?: string;

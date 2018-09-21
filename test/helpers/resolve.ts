@@ -1,14 +1,14 @@
 import { createLogger } from '@src/helpers';
-import { AbstractSyntaxTree } from '@src/resolvers/typings';
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 
 import {
+  AbstractSyntaxTree,
   ConfigOpts,
   LintOpts,
   Resolution,
   Ruleset,
   ValidFileType,
-} from '@src/types';
+} from '@src/typings';
 
 import fs from 'fs';
 import path from 'path';
@@ -45,9 +45,10 @@ export function createMockLintOptions({
 export function* resolvePattern(
   pattern: string,
   lintRules: Ruleset,
+  debug?: boolean,
 ): IterableIterator<Resolution> {
   const configOptions: ConfigOpts = {
-    logger: createLogger({ silentEnabled: true }),
+    logger: createLogger({ silentEnabled: false }),
     files: {
       include: pattern,
     },
@@ -68,8 +69,12 @@ export function* resolvePattern(
   }
 }
 
-export function resolveFirst(pattern: string, lintRules: Ruleset): Resolution {
-  const result = resolvePattern(pattern, lintRules).next();
+export function resolveFirst(
+  pattern: string,
+  lintRules: Ruleset,
+  debug?: boolean,
+): Resolution {
+  const result = resolvePattern(pattern, lintRules, debug).next();
 
   if (result.value === undefined) {
     throw Error(`No resolutions exist for given pattern: ${pattern}`);

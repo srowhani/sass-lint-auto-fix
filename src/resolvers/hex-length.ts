@@ -1,6 +1,6 @@
 import BaseResolver from './base-resolver';
 
-import { AbstractSyntaxTree, SlRule, TreeNode } from './typings';
+import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
 
 export default class HexLength extends BaseResolver {
   private _lengths: any;

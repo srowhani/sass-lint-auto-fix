@@ -1,4 +1,4 @@
-import { SlfParserOptions } from '../types';
+import { SlfParserOptions } from '../typings';
 
 const merge = require('merge');
 const path = require('path');

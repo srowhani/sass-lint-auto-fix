@@ -1,4 +1,4 @@
-import { AbstractSyntaxTree, SlRule, TreeNode } from './typings';
+import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
 
 import BaseResolver from './base-resolver';
 

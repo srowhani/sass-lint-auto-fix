@@ -1,6 +1,6 @@
 import BaseResolver from './base-resolver';
 
-import { AbstractSyntaxTree, SlRule, TreeNode } from './typings';
+import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
 
 const slHelpers = require('sass-lint/lib/helpers');
 

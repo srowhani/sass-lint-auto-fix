@@ -1,6 +1,6 @@
 import { Logger } from '@src/helpers';
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
-import { ConfigOpts, LintOpts, ValidFileType } from '@src/types';
+import { ConfigOpts, LintOpts, ValidFileType } from '@src/typings';
 
 describe('sass-lint-auto-fix', () => {
   it('gracefully handles ast parse errors', () => {

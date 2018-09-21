@@ -1,12 +1,15 @@
+import { Nullable } from './generics';
+
 type traversalCallback = (
   node: TreeNode,
   index?: number,
-  parent?: TreeNode,
+  parent?: Nullable<TreeNode>,
 ) => void;
+
 type traversalCallbackWithDepth = (
   node: TreeNode,
   index?: number,
-  parent?: TreeNode,
+  parent?: Nullable<TreeNode>,
   depth?: number,
 ) => void;
 
@@ -25,8 +28,8 @@ export interface AbstractSyntaxTree {
 export interface TreeNode extends AbstractSyntaxTree {
   type: string;
   forEach(nodeType: string, callback: traversalCallback): void;
-  first(nodeType?: string): TreeNode;
-  last(nodeType?: string): TreeNode;
+  first(nodeType?: string): Nullable<TreeNode>;
+  last(nodeType?: string): Nullable<TreeNode>;
   toString(): string;
 }
 

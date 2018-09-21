@@ -1,4 +1,4 @@
-import { ValidFileType } from '@src/types';
+import { ValidFileType } from '@src/typings';
 import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('no-color-keywords', () => {

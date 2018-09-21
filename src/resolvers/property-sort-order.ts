@@ -1,5 +1,5 @@
+import { SortNode, TreeNode } from '@src/typings';
 import BaseResolver from './base-resolver';
-import { SortNode, TreeNode } from './typings/abstract-syntax-tree';
 
 const sassLintHelpers = require('sass-lint/lib/helpers');
 
@@ -16,19 +16,27 @@ export default class PropertySortOrder extends BaseResolver {
       const matchingIndices: number[] = [];
       block.forEach('declaration', (declaration: TreeNode, index: number) => {
         const prop = declaration.first('property');
+        if (prop) {
+          let nodeContainingName = prop.first('ident');
 
-        const nodeContainingName: TreeNode =
-          prop.first('ident') || prop.first('variable').first('ident');
+          // If the top level ident doesn't exist, we look for a nested variable ident instead
+          if (!nodeContainingName) {
+            const firstVariableNode = prop.first('variable');
+            if (firstVariableNode) {
+              nodeContainingName = firstVariableNode.first('ident');
+            }
+          }
 
-        if (nodeContainingName) {
-          const variable = prop.first('variable');
+          if (nodeContainingName) {
+            const variable = prop.first('variable');
 
-          collectedDecl.push({
-            name: nodeContainingName.toString(),
-            node: declaration,
-            type: variable !== null ? 'variable' : 'property',
-          });
-          matchingIndices.push(index);
+            collectedDecl.push({
+              name: nodeContainingName.toString(),
+              node: declaration,
+              type: variable !== null ? 'variable' : 'property',
+            });
+            matchingIndices.push(index);
+          }
         }
       });
 
