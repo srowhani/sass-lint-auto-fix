@@ -1,7 +1,7 @@
-const fs = require('fs');
-const childProcess = require('child_process');
+import childProcess from 'child_process';
+import fs from 'fs';
 
-export const maybeBuild = (): Promise<any> =>
+export const maybeBuild = () =>
   new Promise(resolve => {
     fs.stat(
       'dist/index.js',
@@ -10,7 +10,7 @@ export const maybeBuild = (): Promise<any> =>
     );
   });
 
-export const build = (): Promise<any> => exec('npm run build');
+export const build = () => exec('npm run build');
 
 export const exec = (
   command: string,

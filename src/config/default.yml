@@ -25,3 +25,5 @@ resolvers:
   hex-notation: 1
   indentation: 0
   final-newline: 1
+options:
+  optOut: false

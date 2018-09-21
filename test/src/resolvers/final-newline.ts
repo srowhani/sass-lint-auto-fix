@@ -1,4 +1,5 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@src/typings';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('final-newline', () => {
   describe('scss', () => {
@@ -11,16 +12,14 @@ describe('final-newline', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/final-newline-include.scss';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(1);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(1);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('[include: false]', () => {
@@ -32,16 +31,14 @@ describe('final-newline', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/final-newline-none.scss';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(1);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(1);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });
@@ -56,16 +53,14 @@ describe('final-newline', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/final-newline-include.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(1);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(1);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('[include: false]', () => {
@@ -77,16 +72,14 @@ describe('final-newline', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/final-newline-none.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-          expect(preResolve.warningCount).toBe(1);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(1);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });

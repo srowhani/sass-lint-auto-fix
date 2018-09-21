@@ -1,6 +1,5 @@
+import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
 import BaseResolver from './base-resolver';
-import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
-import SlRule from './typings/sass-lint-rule';
 
 export default class HexNotation extends BaseResolver {
   private _letterRegex: RegExp;

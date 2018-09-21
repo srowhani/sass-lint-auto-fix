@@ -1,41 +1,32 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@src/typings';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('no-important', () => {
   const options = { 'no-important': 1 };
 
   describe('scss', () => {
-    it('resolves', done => {
+    it('resolves', () => {
       const filename = 'test/sass/no-important.scss';
-      resolve(filename, options, (_, __, resolvedTree) => {
-        const preResolve = lint(filename, {
-          'no-important': 1,
-        });
-        const postResolve = detect(resolvedTree.toString(), 'scss', {
-          'no-important': 1,
-        });
+      const { ast } = resolveFirst(filename, options);
 
-        expect(preResolve.warningCount).toBe(1);
-        expect(postResolve.warningCount).toBe(0);
-        done();
-      });
+      const preResolve = lint(filename, options);
+      const postResolve = detect(ast.toString(), ValidFileType.scss, options);
+
+      expect(preResolve.warningCount).toBe(1);
+      expect(postResolve.warningCount).toBe(0);
     });
   });
 
   describe('sass', () => {
-    it('resolves', done => {
+    it('resolves', () => {
       const filename = 'test/sass/no-important.sass';
-      resolve(filename, options, (_, __, resolvedTree) => {
-        const preResolve = lint(filename, {
-          'no-important': 1,
-        });
-        const postResolve = detect(resolvedTree.toString(), 'sass', {
-          'no-important': 1,
-        });
+      const { ast } = resolveFirst(filename, options);
 
-        expect(preResolve.warningCount).toBe(1);
-        expect(postResolve.warningCount).toBe(0);
-        done();
-      });
+      const preResolve = lint(filename, options);
+      const postResolve = detect(ast.toString(), ValidFileType.sass, options);
+
+      expect(preResolve.warningCount).toBe(1);
+      expect(postResolve.warningCount).toBe(0);
     });
   });
 });

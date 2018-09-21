@@ -1,43 +1,87 @@
-import { Logger } from '@src/helpers';
-import AbstractSyntaxTree from '@src/resolvers/typings/abstract-syntax-tree';
-import SlRule from '@src/resolvers/typings/sass-lint-rule';
-import SlAutoFix from '@src/sass-lint-auto-fix';
+import { createLogger } from '@src/helpers';
+import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 
-const path = require('path');
-const fs = require('fs');
+import {
+  AbstractSyntaxTree,
+  ConfigOpts,
+  LintOpts,
+  Resolution,
+  Ruleset,
+  ValidFileType,
+} from '@src/typings';
+
+import fs from 'fs';
+import path from 'path';
+
 const gonzales = require('gonzales-pe-sl');
-
 const sassLint = require('sass-lint');
 
-export default (
+export interface MockLintConfigParams {
+  pattern?: string;
+  lintRules: Ruleset;
+}
+
+export function createMockLintOptions({
+  pattern,
+  lintRules,
+}: MockLintConfigParams): LintOpts {
+  const lintOpts = {
+    options: {
+      'merge-default-rules': false,
+      'cache-config': false,
+    },
+    rules: { ...lintRules },
+  } as LintOpts;
+
+  if (pattern) {
+    lintOpts.files = {
+      include: pattern,
+    };
+  }
+
+  return lintOpts;
+}
+
+export function* resolvePattern(
   pattern: string,
-  lintOptions: any,
-  onResolve: (filename: string, rule: SlRule, ast: AbstractSyntaxTree) => void,
-) => {
-  const options = {
+  lintRules: Ruleset,
+  debug = false,
+): IterableIterator<Resolution> {
+  const configOptions: ConfigOpts = {
+    logger: createLogger({ silentEnabled: !debug }),
     files: {
       include: pattern,
     },
-    resolvers: { [Object.keys(lintOptions)[0]]: 1 },
+    resolvers: { [Object.keys(lintRules)[0]]: 1 },
     syntax: {
-      include: ['scss', 'sass'],
+      include: [ValidFileType.scss, ValidFileType.sass],
+    },
+    options: {
+      optOut: true,
     },
   };
 
-  const slaf = new SlAutoFix(options);
-  slaf._logger = new Logger({ silentEnabled: true });
+  const linterOptions: LintOpts = createMockLintOptions({ pattern, lintRules });
 
-  slaf.run(
-    {
-      options: {
-        'merge-default-rules': false,
-        'cache-config': false,
-      },
-      rules: { ...lintOptions },
-    },
-    onResolve,
-  );
-};
+  const sassLintFix = autoFixSassFactory(configOptions);
+  for (const resolution of sassLintFix(linterOptions)) {
+    yield resolution;
+  }
+}
+
+export function resolveFirst(
+  pattern: string,
+  lintRules: Ruleset,
+  debug?: boolean,
+): Resolution {
+  const result = resolvePattern(pattern, lintRules, debug).next();
+
+  if (result.value === undefined) {
+    throw Error(`No resolutions exist for given pattern: ${pattern}`);
+  }
+
+  return result.value;
+}
 
 export function ast(filename: string): AbstractSyntaxTree {
   const fileExtension = path.extname(filename).substr(1);
@@ -48,45 +92,32 @@ export function ast(filename: string): AbstractSyntaxTree {
   });
 }
 
-export function detect(text: string, format: string, options: any) {
+export function detect(
+  text: string,
+  format: ValidFileType,
+  lintRules: Ruleset,
+) {
   const file = {
     text,
     format,
     filename: null,
   };
 
-  return sassLint.lintText(file, {
-    options: {
-      'merge-default-rules': false,
-      'cache-config': false,
-    },
-    rules: { ...options },
-  });
+  return sassLint.lintText(file, createMockLintOptions({ lintRules }));
 }
-//
-// export function detect(detectRule: string, ast: AbstractSyntaxTree): any[] {
-//   return rules
-//     .filter((rule: any) => rule.rule.name === detectRule)
-//     .reduce(
-//       (accumulator: any[], rule: any) => {
-//           accumulator.push(...rule.rule.detect(ast, rule))
-//           return accumulator;
-//       }, []
-//     );
-// }
 
-export function lint(filename: string, options: any): any {
+export function lint(filename: string, lintRules: Ruleset): any {
   const file = {
     text: fs.readFileSync(filename).toString(),
     format: path.extname(filename).substr(1),
     filename,
   };
 
-  return sassLint.lintText(file, {
-    options: {
-      'merge-default-rules': false,
-      'cache-config': false,
-    },
-    rules: { ...options },
-  });
+  return sassLint.lintText(
+    file,
+    createMockLintOptions({
+      pattern: filename,
+      lintRules,
+    }),
+  );
 }

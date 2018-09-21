@@ -1,7 +1,6 @@
-import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
-
 import BaseResolver from './base-resolver';
-import SlRule from './typings/sass-lint-rule';
+
+import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
 
 export default class HexLength extends BaseResolver {
   private _lengths: any;

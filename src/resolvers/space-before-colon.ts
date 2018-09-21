@@ -1,5 +1,4 @@
-import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
-
+import { AbstractSyntaxTree, TreeNode } from '@src/typings';
 import BaseResolver from './base-resolver';
 
 export default class SpaceBeforeColon extends BaseResolver {

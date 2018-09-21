@@ -1,4 +1,5 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@src/typings';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('space-after-bang', () => {
   describe('scss', () => {
@@ -11,16 +12,14 @@ describe('space-after-bang', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/space-after-bang.scss';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-          expect(preResolve.warningCount).toBe(7);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        expect(preResolve.warningCount).toBe(7);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('[include: true]', () => {
@@ -32,16 +31,15 @@ describe('space-after-bang', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/space-after-bang.scss';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
-          expect(preResolve.warningCount).toBe(7);
-          // TODO: sass-lint reports errors on include space
-          expect(postResolve.warningCount).toBe(14);
-          done();
-        });
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
+
+        expect(preResolve.warningCount).toBe(7);
+        // TODO: sass-lint reports errors on include space
+        expect(postResolve.warningCount).toBe(14);
       });
     });
   });
@@ -49,16 +47,15 @@ describe('space-after-bang', () => {
   describe('sass', () => {
     describe('[include: false]', () => {
       const options = { 'space-after-bang': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/space-after-bang.sass';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
 
-          expect(preResolve.warningCount).toBe(7);
-          expect(postResolve.warningCount).toBe(0);
-          done();
-        });
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
+
+        expect(preResolve.warningCount).toBe(7);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
     describe('[include: true]', () => {
@@ -70,16 +67,16 @@ describe('space-after-bang', () => {
           },
         ],
       };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/space-after-bang.sass';
-        resolve(filename, { ...options }, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'sass', options);
-          expect(preResolve.warningCount).toBe(7);
-          // TODO: sass-lint reports errors on include space
-          expect(postResolve.warningCount).toBe(14);
-          done();
-        });
+
+        const { ast } = resolveFirst(filename, options);
+        const preResolve = lint(filename, options);
+        const postResolve = detect(ast.toString(), ValidFileType.sass, options);
+
+        expect(preResolve.warningCount).toBe(7);
+        // TODO: sass-lint reports errors on include space
+        expect(postResolve.warningCount).toBe(14);
       });
     });
   });

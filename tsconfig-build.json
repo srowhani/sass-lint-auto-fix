@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "target": "es5",
+    "target": "es6",
     "sourceMap": false,
     "strictNullChecks": true,
     "module": "es2015",
@@ -9,6 +9,8 @@
     "baseUrl": "./",
     "lib": ["es2017"],
     "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
     "paths": {
       "@src*": ["src*"],
       "@test*": ["test*"]

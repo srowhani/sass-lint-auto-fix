@@ -1,16 +1,19 @@
+import { Nullable } from './generics';
+
 type traversalCallback = (
   node: TreeNode,
   index?: number,
-  parent?: TreeNode,
+  parent?: Nullable<TreeNode>,
 ) => void;
+
 type traversalCallbackWithDepth = (
   node: TreeNode,
   index?: number,
-  parent?: TreeNode,
+  parent?: Nullable<TreeNode>,
   depth?: number,
 ) => void;
 
-export default interface AbstractSyntaxTree {
+export interface AbstractSyntaxTree {
   content: any;
   syntax: string;
   length: number;
@@ -20,13 +23,13 @@ export default interface AbstractSyntaxTree {
   traverseByType(nodeType: string, callback: traversalCallback): void;
   traverseByTypes(nodeTypes: string[], callback: traversalCallback): void;
   removeChild(index: number): TreeNode;
-};
+}
 
 export interface TreeNode extends AbstractSyntaxTree {
   type: string;
   forEach(nodeType: string, callback: traversalCallback): void;
-  first(nodeType?: string): TreeNode;
-  last(nodeType?: string): TreeNode;
+  first(nodeType?: string): Nullable<TreeNode>;
+  last(nodeType?: string): Nullable<TreeNode>;
   toString(): string;
 }
 

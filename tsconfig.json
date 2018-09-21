@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "es5",
+    "target": "es6",
     "sourceMap": false,
     "module": "es2015",
     "baseUrl": "./",
@@ -19,8 +19,10 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "noFallthroughCasesInSwitch": true,
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
     "noImplicitThis": true,
-    "pretty": true
+    "pretty": true,
   },
-  "include": ["./src/", "./test/"]
+  "include": ["./src/", "./test/"],
 }

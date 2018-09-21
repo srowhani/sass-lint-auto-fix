@@ -1,7 +1,5 @@
-import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
-
+import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
 import BaseResolver from './base-resolver';
-import SlRule from './typings/sass-lint-rule';
 
 export default class NoTrailingZero extends BaseResolver {
   private _trailingZeroRegex: RegExp;

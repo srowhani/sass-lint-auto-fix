@@ -1,53 +1,62 @@
 #!/usr/bin/env node
-import { getConfig, Logger, mergeConfig, reportIncident } from './helpers';
-import SlAutoFix from './sass-lint-auto-fix';
+import {
+  createLogger,
+  getConfig,
+  mergeConfig,
+  reportIncident,
+} from './helpers';
 
-const program = require('commander');
+import { autoFixSassFactory } from './sass-lint-auto-fix';
+import { ConfigOpts, LintOpts } from './typings';
+
 const process = require('process');
+const program = require('commander');
 const fs = require('fs');
 
-const pkg = require('../package.json');
+const { version } = require('../package.json');
 
 (() => {
   program
-    .version(pkg.version)
+    .version(version)
     .usage('"<pattern>" [options]')
     .option(
       '-c, --config <path>',
       'custom config path (e.g /path/to/sass-lint-auto-fix.yml)',
     )
+    .option(
+      '-slc, --slc <path>',
+      'custom sass lint config path (e.g /path/to/sass-lint.yml',
+    )
     .option('-s, --silent', 'runs in silent mode')
     .option('-d, --debug', 'runs in debug mode')
     .parse(process.argv);
 
-  const logger = new Logger({
+  const logger = createLogger({
     silentEnabled: program.silent,
     debugEnabled: program.debug,
   });
 
   const config = getConfig(require.resolve('./config/default.yml'));
-  let defaultOptions = { ...config };
+  let defaultOptions = { ...config } as ConfigOpts;
   if (program.config) {
     // TOOD: Handle different configuration types
     const customConfiguration = getConfig(program.config);
     defaultOptions = mergeConfig(defaultOptions, customConfiguration);
   }
 
-  defaultOptions.silent = program.silent || defaultOptions.silent;
-
-  if (!defaultOptions.optOut) {
+  if (!defaultOptions.options.optOut) {
     logger.debug('Installing sentry');
   }
 
   process.on('unhandledRejection', (error: Error) => {
-    if (!defaultOptions.optOut) {
+    if (!defaultOptions.options.optOut) {
       reportIncident(error);
     }
     logger.error(error);
   });
 
   process.on('uncaughtException', (error: Error) => {
-    if (!defaultOptions.optOut) {
+    if (!defaultOptions.options.optOut) {
       reportIncident(error);
     }
     logger.error(error);
@@ -58,10 +67,14 @@ const pkg = require('../package.json');
 
   defaultOptions.files.include = pattern || defaultOptions.files.include;
 
-  const sassLintAutoFix = new SlAutoFix(defaultOptions);
-
-  sassLintAutoFix.run({}, (filename, _, resolvedTree) => {
-    fs.writeFileSync(filename, resolvedTree.toString());
-    logger.verbose('write', `Writing resolved tree to ${filename}`);
+  const sassLintAutoFix = autoFixSassFactory({
+    logger,
+    ...defaultOptions,
   });
+
+  // TODO: Add sass-lint config, right now will merge with default rule set
+  for (const { filename, ast } of sassLintAutoFix({} as LintOpts)) {
+    fs.writeFileSync(filename, ast.toString());
+    logger.verbose('write', `Writing resolved tree to ${filename}`);
+  }
 })();

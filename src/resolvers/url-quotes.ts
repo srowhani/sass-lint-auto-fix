@@ -1,6 +1,4 @@
-import AbstractSyntaxTree, { TreeNode } from './typings/abstract-syntax-tree';
-import SlRule from './typings/sass-lint-rule';
-
+import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
 import BaseResolver from './base-resolver';
 
 export default class UrlQuotes extends BaseResolver {

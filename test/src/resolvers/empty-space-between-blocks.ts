@@ -1,4 +1,5 @@
-import resolve, { detect, lint } from '@test/helpers/resolve';
+import { ValidFileType } from '@src/typings';
+import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 const fs = require('fs');
 
@@ -6,30 +7,26 @@ describe('empty-space-between-blocks', () => {
   describe('scss', () => {
     describe('[include: true, allow-single-line-rulesets: true]', () => {
       const options = { 'empty-line-between-blocks': 1 };
-      it('resolves', done => {
+      it('resolves', () => {
         const filename = 'test/sass/empty-line-between-blocks.scss';
-        resolve(filename, options, (_, __, resolvedTree) => {
-          const preResolve = lint(filename, options);
-          const postResolve = detect(resolvedTree.toString(), 'scss', options);
+        const preResolve = lint(filename, options);
+        const { ast } = resolveFirst(filename, options);
 
-          expect(preResolve.warningCount).toBe(3);
-          expect(postResolve.warningCount).toBe(1);
-          done();
-        });
+        const postResolve = detect(ast.toString(), ValidFileType.scss, options);
+
+        expect(preResolve.warningCount).toBe(3);
+        expect(postResolve.warningCount).toBe(1);
       });
     });
   });
   describe('sass', () => {
     const options = { 'empty-line-between-blocks': 1 };
 
-    it('does not modify', done => {
+    it('does not modify', () => {
       const filename = 'test/sass/empty-line-between-blocks.sass';
-      resolve(filename, options, (_, __, resolvedTree) => {
-        expect(fs.readFileSync(filename).toString()).toBe(
-          resolvedTree.toString(),
-        );
-        done();
-      });
+      const { ast } = resolveFirst(filename, options);
+
+      expect(fs.readFileSync(filename).toString()).toBe(ast.toString());
     });
   });
 });

@@ -1,130 +1,119 @@
-import AbstractSyntaxTree from './resolvers/typings/abstract-syntax-tree';
-import SlRule from './resolvers/typings/sass-lint-rule';
+import { reportIncident } from './helpers';
+import {
+  AbstractSyntaxTree,
+  ConfigOpts,
+  CreateModuleConfig,
+  LintOpts,
+  Resolution,
+  Resolver,
+  ResolverConstructable,
+  SlRule,
+  ValidFileType,
+} from './typings';
 
-import { Logger, reportIncident } from './helpers';
-
-const gonzales = require('gonzales-pe-sl');
 const fs = require('fs');
-const path = require('path');
 const glob = require('glob');
+const path = require('path');
 
 const slConfig = require('sass-lint/lib/config');
 const slRules = require('sass-lint/lib/rules');
 
-export default class SlAutoFix {
-  public _logger: Logger;
-  public _defaultOptions: any;
+const gonzales = require('gonzales-pe-sl');
 
-  public _slConfig = slConfig;
-  public _slRules = slRules;
+export function autoFixSassFactory(config: ConfigOpts) {
+  const { logger } = config;
 
-  constructor(defaultOptions: any = {}) {
-    this._logger = new Logger({ silentEnabled: defaultOptions.silent });
+  const _slRules = config.slRules || slRules;
+  const _slConfig = config.slConfig || slConfig;
 
-    this._defaultOptions = {
-      ...defaultOptions,
-    };
-  }
+  const files = glob.sync(config.files.include, {
+    ignore: config.files.ignore,
+  });
 
-  public run(
-    lintOptions: any,
-    onResolve: (
-      filename: string,
-      rule: SlRule,
-      ast: AbstractSyntaxTree,
-    ) => void,
-  ) {
-    const files = glob.sync(this._defaultOptions.files.include, {
-      ignore: this._defaultOptions.files.ignore,
-    });
-    files.forEach((filename: string) => {
+  return function* autoFixSass(
+    options: LintOpts,
+  ): IterableIterator<Resolution> {
+    for (const filename of files) {
       const content = fs.readFileSync(filename).toString();
-      this.processFile(
-        {
-          filename,
-          content,
-          options: lintOptions,
-        },
-        onResolve,
-      );
-    });
-  }
+      if (content !== null && content !== undefined && content.length > 0) {
+        const fileExtension = path
+          .extname(filename)
+          .substr(1)
+          .toLowerCase();
 
-  public processFile(
-    file: { filename: string; content: string | Buffer; options: any },
-    onResolve: (
-      filename: string,
-      rule: SlRule,
-      resolvedTree: AbstractSyntaxTree,
-    ) => void,
-  ) {
-    const { filename, content, options } = file;
+        if (isValidExtension(fileExtension)) {
+          let ast: any;
 
-    if (content !== null && content !== undefined && content.length > 0) {
-      const fileExtension = path.extname(filename).substr(1);
+          try {
+            ast = gonzales.parse(content, {
+              syntax: fileExtension,
+            }) as AbstractSyntaxTree;
+          } catch (e) {
+            logger.warn('parse', { ...e, filename });
+            return;
+          }
 
-      if (this.isValidExtension(fileExtension)) {
-        let ast: any;
+          const rules = _slRules(_slConfig(options));
 
-        try {
-          ast = gonzales.parse(content, {
-            syntax: fileExtension,
-          });
-        } catch (e) {
-          this.logger.warn('parse', { ...e, filename });
-          return;
-        }
+          const filteredRules: SlRule[] = rules.filter(
+            (rule: SlRule) => config.resolvers[rule.rule.name],
+          );
 
-        const rules = this._slRules(this._slConfig(options));
-
-        return rules
-          .filter(
-            (rule: SlRule) => !!this._defaultOptions.resolvers[rule.rule.name],
-          )
-          .map((rule: SlRule) => {
+          for (const rule of filteredRules) {
             const { name } = rule.rule;
-            let Module;
+            let resolver: Resolver;
 
             try {
-              Module = this.getModule(name);
+              resolver = createModule({
+                name,
+                ast,
+                rule,
+              });
             } catch (e) {
-              this.logger.warn('resolver', `Module '${name}' doesn't exist.`);
+              logger.warn('resolver', `Module '${name}' doesn't exist.`);
               return;
             }
+
             try {
               const detects = rule.rule.detect(ast, rule);
 
               if (detects.length > 0) {
-                const resolver = new Module(ast, rule);
-                this.logger.verbose(
+                logger.verbose(
                   'fix',
                   `Running resolver "${name}" on "${filename}"`,
                 );
 
                 const resolvedTree = resolver.fix();
-                return onResolve(filename, rule, resolvedTree);
+                yield {
+                  ast: resolvedTree,
+                  filename,
+                  rule,
+                };
               }
             } catch (e) {
-              if (!this._defaultOptions.optOut) {
+              if (!config.options.optOut) {
                 reportIncident(e);
               }
               // TODO: Friendly way to inform user that an unexpected error occured
-              this.logger.warn(e);
+              logger.warn(e);
             }
-          });
+          }
+        }
       }
     }
-  }
+  };
+}
 
-  public getModule(name: string): any {
-    return require(`./resolvers/${name}`).default;
-  }
+export function createModule({
+  ast,
+  name,
+  rule,
+}: CreateModuleConfig): Resolver {
+  const _module: ResolverConstructable = require(`./resolvers/${name}`).default;
 
-  public isValidExtension(fileExtension: string): boolean {
-    return this._defaultOptions.syntax.include.includes(fileExtension);
-  }
+  return new _module(ast, rule);
+}
 
-  get logger() {
-    return this._logger;
-  }
+export function isValidExtension(fileExtension: string): boolean {
+  return fileExtension in ValidFileType;
 }
