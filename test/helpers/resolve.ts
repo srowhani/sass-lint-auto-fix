@@ -45,10 +45,10 @@ export function createMockLintOptions({
 export function* resolvePattern(
   pattern: string,
   lintRules: Ruleset,
-  debug?: boolean,
+  debug = false,
 ): IterableIterator<Resolution> {
   const configOptions: ConfigOpts = {
-    logger: createLogger({ silentEnabled: false }),
+    logger: createLogger({ silentEnabled: !debug }),
     files: {
       include: pattern,
     },
