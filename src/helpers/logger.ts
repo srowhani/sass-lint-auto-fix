@@ -7,7 +7,7 @@ export interface Configuration {
   padding?: number;
 }
 
-export class Logger {
+class Logger {
   public _verbose = console.log;
   public _warn = console.log;
   public _debug = console.log;
@@ -50,6 +50,8 @@ export class Logger {
   }
 }
 
-export function createLogger(config: Configuration): Logger {
+export type ILogger = Logger;
+
+export function createLogger(config: Configuration = {}): Logger {
   return new Logger(config);
 }

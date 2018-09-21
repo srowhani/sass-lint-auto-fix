@@ -1,0 +1,6 @@
+options:
+  formatter: stylish
+files:
+  include: 'test/sass/custom-sl-config.scss'
+rules:
+  final-newline: 1

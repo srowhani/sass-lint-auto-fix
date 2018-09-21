@@ -1,4 +1,4 @@
-import { Logger } from '@src/helpers';
+import { ILogger } from '@src/helpers';
 import { AbstractSyntaxTree, SlRule } from '@src/typings';
 
 export interface SlfParserOptions {
@@ -28,7 +28,7 @@ export interface Ruleset {
 }
 
 export interface ConfigOpts {
-  logger: Logger;
+  logger: ILogger;
   slRules?: any;
   slConfig?: any;
   files: {
