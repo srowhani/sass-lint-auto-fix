@@ -1,4 +1,4 @@
-import { SortNode, TreeNode } from '@src/typings';
+import { Nullable, SortNode, TreeNode } from '@src/typings';
 import BaseResolver from './base-resolver';
 
 const sassLintHelpers = require('sass-lint/lib/helpers');
@@ -91,7 +91,7 @@ export default class PropertySortOrder extends BaseResolver {
     return null;
   }
 
-  private shouldEndEarly(a: SortNode, b: SortNode): number | null {
+  private shouldEndEarly(a: SortNode, b: SortNode): Nullable<number> {
     if (a.type === 'variable' && b.type !== 'variable') {
       return -1;
     } else if (a.type !== 'variable' && b.type === 'variable') {
