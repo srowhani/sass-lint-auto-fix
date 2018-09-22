@@ -42,12 +42,12 @@ export function autoFixSassFactory(config: ConfigOpts) {
           .toLowerCase();
 
         if (isValidExtension(fileExtension)) {
-          let ast: any;
+          let ast: AbstractSyntaxTree;
 
           try {
             ast = gonzales.parse(content, {
               syntax: fileExtension,
-            }) as AbstractSyntaxTree;
+            });
           } catch (e) {
             logger.warn('parse', { ...e, filename });
             return;

@@ -1,5 +1,5 @@
 import { createLogger } from '@src/helpers';
-import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
+import { autoFixSassFactory, isValidExtension } from '@src/sass-lint-auto-fix';
 
 import {
   AbstractSyntaxTree,
@@ -120,4 +120,16 @@ export function lint(filename: string, lintRules: Ruleset): any {
       lintRules,
     }),
   );
+}
+
+export function tree(filename: string): AbstractSyntaxTree {
+  const content = fs.readFileSync(filename).toString();
+  const syntax = path
+    .extname(filename)
+    .substr(1)
+    .toLowerCase();
+
+  return gonzales.parse(content, {
+    syntax,
+  }) as AbstractSyntaxTree;
 }
