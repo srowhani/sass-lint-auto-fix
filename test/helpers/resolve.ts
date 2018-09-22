@@ -1,5 +1,5 @@
 import { createLogger } from '@src/helpers';
-import { autoFixSassFactory, isValidExtension } from '@src/sass-lint-auto-fix';
+import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 
 import {
   AbstractSyntaxTree,
