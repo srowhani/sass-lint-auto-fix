@@ -1,11 +1,11 @@
-import { SlfParserOptions } from '../typings';
+import { Nullable, SlfParserOptions } from '../typings';
 
 const merge = require('merge');
 const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 
-type OptionParser = (filename: string) => SlfParserOptions | null;
+type OptionParser = (filename: string) => Nullable<SlfParserOptions>;
 interface MappedParserOptions {
   [key: string]: OptionParser;
 }
@@ -36,7 +36,7 @@ const _configurationProxy = new Proxy<MappedParserOptions>(
   },
 );
 
-function parseYaml(filename: string): SlfParserOptions | null {
+function parseYaml(filename: string): Nullable<SlfParserOptions> {
   try {
     return yaml.safeLoad(fs.readFileSync(filename).toString());
   } catch (e) {
@@ -44,7 +44,7 @@ function parseYaml(filename: string): SlfParserOptions | null {
   }
 }
 
-function parseJSON(filename: string): SlfParserOptions | null {
+function parseJSON(filename: string): Nullable<SlfParserOptions> {
   try {
     const file = fs.readFileSync(filename).toString();
     return JSON.parse(file);
@@ -53,7 +53,7 @@ function parseJSON(filename: string): SlfParserOptions | null {
   }
 }
 
-function parseModule(filename: string): SlfParserOptions | null {
+function parseModule(filename: string): Nullable<SlfParserOptions> {
   try {
     return require(path.resolve(filename));
   } catch (e) {
