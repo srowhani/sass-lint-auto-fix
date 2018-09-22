@@ -121,3 +121,15 @@ export function lint(filename: string, lintRules: Ruleset): any {
     }),
   );
 }
+
+export function tree(filename: string): AbstractSyntaxTree {
+  const content = fs.readFileSync(filename).toString();
+  const syntax = path
+    .extname(filename)
+    .substr(1)
+    .toLowerCase();
+
+  return gonzales.parse(content, {
+    syntax,
+  }) as AbstractSyntaxTree;
+}

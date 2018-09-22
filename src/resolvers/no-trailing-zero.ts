@@ -3,38 +3,27 @@ import BaseResolver from './base-resolver';
 
 export default class NoTrailingZero extends BaseResolver {
   private _trailingZeroRegex: RegExp;
-  private _trailingPeriodRegex: RegExp;
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
     this._trailingZeroRegex = /^(\d+\.|\.)+(\d*?)0+$/;
-    this._trailingPeriodRegex = /(.*)\./;
   }
 
   public fix(): AbstractSyntaxTree {
     const { ast } = this;
 
     ast.traverseByType('number', (node: TreeNode) => {
-      let value = node.content;
-      if (this.hasTrailingZero(value) !== null) {
-        value = this.removeTrailingZero(value);
-        value = this.removeTrailingPeriod(value);
-        node.content = value;
+      const value = node.content;
+      if (this.hasTrailingZero(value)) {
+        // Converting to number and back to string drops trailing zeros
+        node.content = Number(value).toString();
       }
     });
 
     return ast;
   }
 
-  private hasTrailingZero(value: string): string[] | null {
-    return value.match(this._trailingZeroRegex);
-  }
-
-  private removeTrailingZero(value: string): string {
-    return value.replace(this._trailingZeroRegex, '$1' + '$2'); // eslint-disable-line no-useless-concat
-  }
-
-  private removeTrailingPeriod(value: string): string {
-    return value.replace(this._trailingPeriodRegex, '$1') || '0';
+  private hasTrailingZero(value: string): boolean {
+    return !!value.match(this._trailingZeroRegex);
   }
 }
