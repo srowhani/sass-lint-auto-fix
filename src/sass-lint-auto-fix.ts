@@ -83,9 +83,9 @@ export function autoFixSassFactory(config: ConfigOpts) {
                   `Running resolver "${name}" on "${filename}"`,
                 );
 
-                const resolvedTree = resolver.fix();
+                ast = resolver.fix();
                 yield {
-                  ast: resolvedTree,
+                  ast,
                   filename,
                   rule,
                 };
