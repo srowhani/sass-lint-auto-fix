@@ -49,8 +49,4 @@ export default class NoColorKeywords extends BaseResolver {
   private colorKeywordIndex(node: TreeNode): number {
     return this._cssColors.indexOf(node.content.toLowerCase());
   }
-
-  private isContentValid(content: string): boolean {
-    return !this._invalidCharacters.test(content);
-  }
 }
