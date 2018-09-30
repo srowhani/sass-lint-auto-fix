@@ -1,4 +1,4 @@
-import { AbstractSyntaxTree, SlRule, Nullable } from '@src/typings';
+import { AbstractSyntaxTree, Nullable, SlRule } from '@src/typings';
 import BaseResolver from './base-resolver';
 
 const gonzales = require('gonzales-pe-sl');
@@ -10,7 +10,7 @@ enum TokenType {
   EMPTY = '',
 }
 
-type Block = { type: TokenType, lineNumber: number };
+interface Block { type: TokenType, lineNumber: number }
 
 export default class EmptyLineBetweenBlocks extends BaseResolver {
   private _scssEmptyLineRegex: RegExp;
