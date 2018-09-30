@@ -7,7 +7,6 @@ const slHelpers = require('sass-lint/lib/helpers');
 export default class NoColorKeywords extends BaseResolver {
   private _cssColors: string[];
   private _cssColorRegex: RegExp;
-  private _invalidCharacters: RegExp;
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
@@ -15,7 +14,6 @@ export default class NoColorKeywords extends BaseResolver {
       .loadConfigFile('../../data/literals.yml')
       .split(' ');
     this._cssColorRegex = new RegExp(`(${this._cssColors.join('|')})`);
-    this._invalidCharacters = /(\$|\()/;
   }
 
   public fix() {
