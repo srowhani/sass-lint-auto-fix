@@ -7,6 +7,7 @@ const slHelpers = require('sass-lint/lib/helpers');
 export default class NoColorKeywords extends BaseResolver {
   private _cssColors: string[];
   private _cssColorRegex: RegExp;
+  private _invalidCharacters: RegExp;
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
@@ -14,19 +15,28 @@ export default class NoColorKeywords extends BaseResolver {
       .loadConfigFile('../../data/literals.yml')
       .split(' ');
     this._cssColorRegex = new RegExp(`(${this._cssColors.join('|')})`);
+    this._invalidCharacters = /(\$|\()/;
   }
 
   public fix() {
     this.ast.traverseByType('value', (valueNode: TreeNode) => {
       valueNode.traverseByType(
         'ident',
-        (identNode: TreeNode, _: any, identParent: TreeNode) => {
+        (identNode: TreeNode, index: number, identParent: TreeNode) => {
           if (!identParent.is('variable')) {
-            const _index = this.colorKeywordIndex(identNode);
-            if (_index > -1) {
+            const colorIndex = this.colorKeywordIndex(identNode);
+            if (colorIndex > -1) {
+              const sibling = identParent.get(index + 1);
+              if (sibling !== null) {
+                // Sibling type arguments makes identNode the function name
+                if (sibling.type === 'arguments') {
+                  return;
+                }
+              }
+
               identNode.content = identNode.content.replace(
                 this._cssColorRegex,
-                `#${this._cssColors[1 + _index]}`,
+                `#${this._cssColors[1 + colorIndex]}`,
               );
             }
           }
@@ -38,5 +48,9 @@ export default class NoColorKeywords extends BaseResolver {
 
   private colorKeywordIndex(node: TreeNode): number {
     return this._cssColors.indexOf(node.content.toLowerCase());
+  }
+
+  private isContentValid(content: string): boolean {
+    return !this._invalidCharacters.test(content);
   }
 }
