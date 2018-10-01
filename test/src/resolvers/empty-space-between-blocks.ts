@@ -10,15 +10,12 @@ describe('empty-space-between-blocks', () => {
       it('resolves', () => {
         const filename = 'test/sass/empty-line-between-blocks.scss';
         const preResolve = lint(filename, options);
-        const { ast } = resolveFirst(filename, options, true);
+        const { ast } = resolveFirst(filename, options);
 
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-        fs.writeFileSync(filename, ast.toString());
-        console.log(postResolve);
-
         expect(preResolve.warningCount).toBe(3);
-        expect(postResolve.warningCount).toBe(1);
+        expect(postResolve.warningCount).toBe(0);
       });
     });
   });

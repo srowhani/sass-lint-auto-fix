@@ -8,9 +8,13 @@ enum TokenType {
   OPEN = '{',
   CLOSE = '}',
   EMPTY = '',
+  COMMA = ',',
 }
 
-interface Block { type: TokenType, lineNumber: number }
+interface Block {
+  type: TokenType;
+  lineNumber: number;
+}
 
 export default class EmptyLineBetweenBlocks extends BaseResolver {
   private _scssEmptyLineRegex: RegExp;
@@ -26,26 +30,33 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
     if (ast.syntax === 'scss') {
       if (this.canInjectNewline()) {
         const content = ast.toString();
-        const splitContent = content.split('\n');
+        const splitContent = content.split(TokenType.NEWLINE);
         const blocks: Block[] = [];
 
-        const types = [TokenType.CLOSE, TokenType.OPEN];
+        // Ordered set of token evaluators. Important that the ordering stayst the same
+        const tokenEvaluationSet: ((line: string) => Nullable<TokenType>)[] = [
+          line => (line.includes(TokenType.OPEN) ? TokenType.OPEN : null),
+          line =>
+            line.trimRight().endsWith(TokenType.COMMA) ? TokenType.OPEN : null,
+          line => (line.includes(TokenType.CLOSE) ? TokenType.CLOSE : null),
+        ];
 
         splitContent.forEach((line, lineNumber) => {
-          types.forEach(type => {
-            if (line.includes(type)) {
+          tokenEvaluationSet.forEach(tokenEvaluator => {
+            const evaluationResult = tokenEvaluator(line);
+            if (evaluationResult !== null) {
               blocks.push({
-                type,
+                type: evaluationResult,
                 lineNumber: lineNumber + 1,
               });
             }
           });
+          // push a newline per iteration of split content
           blocks.push({
             type: TokenType.NEWLINE,
             lineNumber: lineNumber + 1,
           });
         });
-
         const injectableBlocks = blocks.filter((block, index) => {
           if (block.type === TokenType.CLOSE) {
             if (this.shouldInjectNewline(blocks.slice(index + 1))) {
@@ -57,12 +68,8 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
 
         let numInjected = 0;
 
-        injectableBlocks.forEach(
-          ({ lineNumber }) => splitContent.splice(
-            lineNumber + numInjected++,
-            0,
-            TokenType.EMPTY,
-          )
+        injectableBlocks.forEach(({ lineNumber }) =>
+          splitContent.splice(lineNumber + numInjected++, 0, TokenType.EMPTY),
         );
         const newTree = gonzales.parse(splitContent.join(TokenType.NEWLINE), {
           syntax: 'scss',
@@ -74,7 +81,7 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
     return ast;
   }
 
-  private shouldInjectNewline (blocks: Block[]) {
+  private shouldInjectNewline(blocks: Block[]) {
     let c = 0;
     for (const block of blocks) {
       if (block.type === TokenType.NEWLINE) {

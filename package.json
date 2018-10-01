@@ -29,9 +29,13 @@
     "semantic-release": "semantic-release"
   },
   "lint-staged": {
-    "{src,test}/**/*.ts": [
+    "src/**/*.ts": [
       "npm run lint:fix",
       "npm run format:src",
+      "git add"
+    ],
+    "test/**/*.ts": [
+      "npm run lint:fix",
       "npm run format:test",
       "git add"
     ]
