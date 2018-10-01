@@ -49,7 +49,7 @@ export function autoFixSassFactory(config: ConfigOpts) {
               syntax: fileExtension,
             });
           } catch (e) {
-            logger.warn('parse', { ...e, filename });
+            logger.warn('parse', filename, e);
             return;
           }
 
