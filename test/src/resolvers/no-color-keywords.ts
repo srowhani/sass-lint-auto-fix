@@ -5,8 +5,9 @@ describe('no-color-keywords', () => {
   const options = { 'no-color-keywords': 1 };
 
   describe('scss', () => {
+    const filename = 'test/sass/no-color-keywords.scss';
+
     it('resolves', () => {
-      const filename = 'test/sass/no-color-keywords.scss';
       const { ast } = resolveFirst(filename, options);
 
       const preResolve = lint(filename, options);
@@ -14,11 +15,24 @@ describe('no-color-keywords', () => {
       expect(preResolve.warningCount).toBe(8);
       expect(postResolve.warningCount).toBe(0);
     });
+
+    it('doesnt modify color functions', () => {
+      const { ast } = resolveFirst(filename, options);
+      const content = ast.toString().replace(/\s/g, '');
+      expect(content).toContain(
+        `$colors: (
+        'red': red($color),
+        'green': green($color),
+        'blue': blue($color)
+      );`.replace(/\s/g, ''),
+      );
+    });
   });
 
   describe('sass', () => {
+    const filename = 'test/sass/no-color-keywords.sass';
+
     it('resolves', () => {
-      const filename = 'test/sass/no-color-keywords.sass';
       const { ast } = resolveFirst(filename, options);
 
       const preResolve = lint(filename, options);

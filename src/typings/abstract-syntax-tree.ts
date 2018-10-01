@@ -18,7 +18,7 @@ export interface AbstractSyntaxTree {
   syntax: string;
   length: number;
   is(nodeType: string): boolean;
-  get(index: number): Nullable<AbstractSyntaxTree>;
+  get(index: number): Nullable<TreeNode>;
   traverse(callback: traversalCallbackWithDepth): void;
   traverseByType(nodeType: string, callback: traversalCallback): void;
   traverseByTypes(nodeTypes: string[], callback: traversalCallback): void;
