@@ -17,11 +17,8 @@ interface Block {
 }
 
 export default class EmptyLineBetweenBlocks extends BaseResolver {
-  private _scssEmptyLineRegex: RegExp;
-
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
-    this._scssEmptyLineRegex = /}\n( *[\.a-zA-Z0-9=\-:&\[\]]+) {/gm;
   }
 
   public fix(): AbstractSyntaxTree {
@@ -98,9 +95,5 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
       this.parser.options.include === true &&
       this.parser.options['allow-single-line-rulesets'] === true
     );
-  }
-
-  private sanitize(content: string): string {
-    return content.replace(this._scssEmptyLineRegex, '}\n\n$1 {');
   }
 }
