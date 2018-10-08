@@ -27,6 +27,16 @@ describe('no-color-keywords', () => {
       );`.replace(/\s/g, ''),
       );
     });
+
+    it('it matches correct selector', () => {
+      const { ast } = resolveFirst(filename, options);
+      const content = ast.toString().replace(/\s/g, '');
+      expect(content).toContain(
+        `.literal {
+          color: #6b8e23;
+        }`.replace(/\s/g, ''),
+      );
+    });
   });
 
   describe('sass', () => {
