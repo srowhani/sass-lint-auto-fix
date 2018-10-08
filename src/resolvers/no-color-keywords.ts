@@ -6,14 +6,12 @@ const slHelpers = require('sass-lint/lib/helpers');
 
 export default class NoColorKeywords extends BaseResolver {
   private _cssColors: string[];
-  private _cssColorRegex: RegExp;
 
   constructor(ast: AbstractSyntaxTree, parser: SlRule) {
     super(ast, parser);
     this._cssColors = slHelpers
       .loadConfigFile('../../data/literals.yml')
       .split(' ');
-    this._cssColorRegex = new RegExp(`(${this._cssColors.join('|')})`);
   }
 
   public fix() {
@@ -21,8 +19,9 @@ export default class NoColorKeywords extends BaseResolver {
       valueNode.traverseByType(
         'ident',
         (identNode: TreeNode, index: number, identParent: TreeNode) => {
-          if (!identParent.is('variable')) {
+          if (this.isValidParent(identParent)) {
             const colorIndex = this.colorKeywordIndex(identNode);
+
             if (colorIndex > -1) {
               const sibling = identParent.get(index + 1);
               if (sibling !== null) {
@@ -32,10 +31,7 @@ export default class NoColorKeywords extends BaseResolver {
                 }
               }
 
-              identNode.content = identNode.content.replace(
-                this._cssColorRegex,
-                `#${this._cssColors[1 + colorIndex]}`,
-              );
+              identNode.content = `#${this._cssColors[1 + colorIndex]}`;
             }
           }
         },
@@ -46,5 +42,18 @@ export default class NoColorKeywords extends BaseResolver {
 
   private colorKeywordIndex(node: TreeNode): number {
     return this._cssColors.indexOf(node.content.toLowerCase());
+  }
+
+  private isValidParent(parentNode: TreeNode): boolean {
+    if (parentNode) {
+      if (
+        ['function', 'variable', 'customProperty'].some(prop =>
+          parentNode.is(prop),
+        )
+      ) {
+        return false;
+      }
+    }
+    return true;
   }
 }
