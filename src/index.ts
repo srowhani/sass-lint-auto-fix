@@ -24,7 +24,7 @@ const { version } = require('../package.json');
       'custom config path (e.g /path/to/.sass-lint-auto-fix.yml)',
     )
     .option(
-      '-csl, --config-sass-lint <path>',
+      '--config-sass-lint <path>',
       'custom sass lint config path (e.g /path/to/.sass-lint.yml',
     )
     .option('-s, --silent', 'runs in silent mode')

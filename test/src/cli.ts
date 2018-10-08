@@ -19,25 +19,38 @@ describe('cli', async () => {
 
   it(
     'sets up sentry by default',
-    done => {
-      exec('node dist/index.js -c "test/config/opt-in.yml" --debug').then(
-        result => {
-          expect(result).toContain('Installing sentry');
-          done();
-        },
+    async () => {
+      const result = await exec(
+        'node dist/index.js -c "test/config/opt-in.yml" --debug',
       );
+      expect(result).toContain('Installing sentry');
     },
     CLI_TEST_TIMEOUT,
   );
 
   it(
     'opts out with config flag',
-    done => {
-      exec('node dist/index.js -c "test/config/opt-out.yml" --debug').then(
-        result => {
-          expect(result).not.toContain('Installing sentry');
-          done();
-        },
+    async () => {
+      const result = await exec(
+        'node dist/index.js -c "test/config/opt-out-ignore-all.yml" --debug',
+      );
+      expect(result).not.toContain('Installing sentry');
+    },
+    CLI_TEST_TIMEOUT,
+  );
+
+  it(
+    'can take sass-lint config successfully',
+    async () => {
+      const result = await exec(
+        'node dist/index.js -c "test/config/custom-slaf-config.yml" --config-sass-lint "test/config/custom-sl-config.yml" --debug',
+      );
+
+      expect(result).not.toContain(
+        'Running resolver "final-newline" on "test/sass/custom-sl-config.scss"',
+      );
+      expect(result).not.toContain(
+        'Running resolver "property-sort-order" on "test/sass/custom-sl-config.scss"',
       );
     },
     CLI_TEST_TIMEOUT,

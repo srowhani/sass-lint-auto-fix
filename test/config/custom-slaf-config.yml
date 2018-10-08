@@ -1,0 +1,7 @@
+files:
+  include: 'test/sass/custom-sl-config.scss'
+resolvers:
+  final-newline: 0
+  property-sort-order: 0
+options:
+  optOut: true

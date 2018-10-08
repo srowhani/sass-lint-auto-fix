@@ -94,13 +94,15 @@ describe('sass-lint-auto-fix', () => {
     );
   });
   it('can receive custom sl-config', () => {
+    const filename = 'test/sass/custom-sl-config.scss';
+
     const configOpts: ConfigOpts = {
       logger: createLogger({ silentEnabled: true }),
       resolvers: {
         'final-newline': 1,
       },
       files: {
-        include: 'test/sass/custom-sl-config.scss',
+        include: filename,
       },
       syntax: {
         include: [ValidFileType.scss],
@@ -121,12 +123,14 @@ describe('sass-lint-auto-fix', () => {
         formatter: 'stylish',
       },
       files: {
-        include: 'test/sass/custom-sl-config.scss',
+        include: filename,
       },
       rules: {
         'final-newline': 1,
+        'property-sort-order': 1,
       },
     });
+
     const resolutionSet = [...slaf(customSlConfig)];
     expect(resolutionSet.length).toEqual(1);
 
