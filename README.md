@@ -24,7 +24,7 @@ simple linting issues with an easy to use command line interface. Issues are res
 
     -V, --version                    output the version number
     -c, --config <path>              custom config path (e.g /path/to/.sass-lint-auto-fix.yml)
-    -csl, --config-sass-lint <path>  custom sass lint config path (e.g /path/to/.sass-lint.yml
+    --config-sass-lint <path>        custom sass lint config path (e.g /path/to/.sass-lint.yml
     -s, --silent                     runs in silent mode
     -d, --debug                      runs in debug mode
     -h, --help                       output usage information
