@@ -181,7 +181,8 @@ resolvers:
   property-sort-order: 1
   attribute-quotes: 1
   ...
-optOut: true
+options:
+  optOut: true
 ```
 
 ## Developing
