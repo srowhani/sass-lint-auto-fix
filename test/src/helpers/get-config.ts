@@ -33,7 +33,7 @@ describe('get-config', () => {
 
     it('[handles=bad export]', () => {
       expect(() => getConfig('test/sample-config/doesnt.exist')).toThrowError(
-        /ParseError/,
+        /Cannot find module/,
       );
     });
   });
