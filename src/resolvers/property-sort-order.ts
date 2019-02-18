@@ -88,10 +88,10 @@ export default class PropertySortOrder extends BaseResolver {
         const matchingIndex = matchingIndices.shift() || 0;
         const discoveredBlock = block.content[matchingIndex];
 
-        const fromLine = discoveredBlock.start.line - 1;
-        const toLine = node.start.line - 1;
+        const fromLine = node.start.line - 1;
+        const toLine = discoveredBlock.start.line - 1;
 
-        producedOutput[fromLine] = stagedBlock[toLine - blockOffset];
+        producedOutput[toLine] = stagedBlock[fromLine - blockOffset];
       });
     });
 

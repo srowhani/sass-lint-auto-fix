@@ -32,7 +32,7 @@ describe('property-sort-order', () => {
         `),
         );
 
-        const { ast: postResolve } = resolveFirst(filename, options, true);
+        const { ast: postResolve } = resolveFirst(filename, options);
 
         expect(postResolve.toString()).toContain(
           dedent(`
@@ -135,7 +135,7 @@ describe('property-sort-order', () => {
         `),
         );
 
-        const { ast: postResolve } = resolveFirst(filename, options, true);
+        const { ast: postResolve } = resolveFirst(filename, options);
 
         expect(postResolve.toString()).toContain(
           dedent(`
