@@ -95,7 +95,7 @@ export function autoFixSassFactory(config: ConfigOpts) {
                 reportIncident(e);
               }
               // TODO: Friendly way to inform user that an unexpected error occured
-              logger.warn(e);
+              logger.warn('error', e);
             }
           }
         }
