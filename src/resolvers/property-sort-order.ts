@@ -12,12 +12,7 @@ enum SortOrderMethod {
 
 export default class PropertySortOrder extends BaseResolver {
   public fix() {
-    const { syntax } = this.ast;
-    const shadowTree = gonzales.parse(this.ast.toString(), {
-      syntax,
-    });
-
-    const producedOutput = shadowTree.toString().split('\n');
+    const producedOutput = this.ast.toString().split('\n');
 
     this.ast.traverseByType('block', (block: TreeNode) => {
       const collectedDecl: SortNode[] = [];
@@ -96,7 +91,7 @@ export default class PropertySortOrder extends BaseResolver {
     });
 
     return gonzales.parse(producedOutput.join('\n'), {
-      syntax,
+      syntax: this.ast.syntax,
     });
   }
 
