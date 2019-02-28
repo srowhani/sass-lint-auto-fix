@@ -1,0 +1,10 @@
+@function foo($bar)
+  @return $bar
+
+@mixin bar( $baz )
+  content: $baz
+
+.foo
+  @include bar( 'Hello')
+  content: foo('bar' )
+  width: calc(100% - 10px)
