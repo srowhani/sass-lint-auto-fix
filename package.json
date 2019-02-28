@@ -1,6 +1,6 @@
 {
   "name": "sass-lint-auto-fix",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Automatically resolve sass-linting issues through CLI",
   "main": "./dist/sass-lint-auto-fix.js",
   "bin": {
