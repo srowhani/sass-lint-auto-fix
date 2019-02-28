@@ -15,6 +15,11 @@ export default class PropertySortOrder extends BaseResolver {
     const producedOutput = this.ast.toString().split('\n');
 
     this.ast.traverseByType('block', (block: TreeNode) => {
+      // Fix - if block is empty - do not attempt to sort properties.
+      if (block.content.length === 0) {
+        return;
+      }
+
       const collectedDecl: SortNode[] = [];
       const matchingIndices: number[] = [];
       block.forEach('declaration', (declaration: TreeNode, index: number) => {

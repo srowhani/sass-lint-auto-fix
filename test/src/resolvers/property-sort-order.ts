@@ -1,3 +1,4 @@
+import { createLogger } from '@src/helpers';
 import { ValidFileType } from '@src/typings';
 import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
@@ -98,7 +99,6 @@ describe('property-sort-order', () => {
       };
       it('resolves', () => {
         const filename = 'test/sass/property-sort-order.scss';
-
         const { ast } = resolveFirst(filename, options);
 
         const preResolve = lint(filename, options);
@@ -107,6 +107,23 @@ describe('property-sort-order', () => {
         expect(preResolve.warningCount).toBe(8);
         expect(postResolve.warningCount).toBe(0);
       });
+    });
+
+    it("doesn't throw on empty blocks", () => {
+      const filename = 'test/sass/property-sort-order.scss';
+      const options = { 'property-sort-order': 1 };
+
+      const mockLogger = createLogger({ silentEnabled: true });
+      mockLogger.warn = jest.fn();
+
+      try {
+        resolveFirst(filename, options, mockLogger);
+      } finally {
+        expect(mockLogger.warn).not.toHaveBeenCalledWith(
+          'error',
+          TypeError("Cannot read property 'start' of undefined"),
+        );
+      }
     });
   });
 
