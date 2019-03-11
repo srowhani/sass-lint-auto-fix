@@ -10,7 +10,7 @@
 ![](https://i.imgur.com/mpxlhLX.png)
 
 ## Description
-This package serves as a compliment to [sass-lint](https://github.com/sasstools/sass-lint), giving you the ability to resolve
+This package serves as a complement to [sass-lint](https://github.com/sasstools/sass-lint), giving you the ability to resolve
 simple linting issues with an easy to use command line interface. Issues are resolved by parsing the `s(a|c)ss` as an [ast](https://github.com/tonyganch/gonzales-pe), traversing through it, and modifying certain branches to be in accordance to the `.sass-lint.yml` standards.
 
 ## Getting Started
