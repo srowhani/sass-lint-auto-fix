@@ -26,7 +26,7 @@ describe('get-config', () => {
     });
 
     it('[handles=*proxy]', () => {
-      const config = getConfig('test/sample-config/config.ts');
+      const config = getConfig('test/sample-config/config.unknown');
       expect(typeof config).toBe('object');
       expect(config.resolvers['property-sort-order']).toBe(1);
     });
