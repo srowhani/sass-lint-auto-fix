@@ -1,8 +1,6 @@
 # Test against this version of Node.js
 environment:
   matrix:
-    - nodejs_version: '8'
-    - nodejs_version: '9'
       # Latest stable version of Node
     - nodejs_version: 'stable'
 
