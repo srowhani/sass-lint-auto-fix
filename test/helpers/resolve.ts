@@ -1,4 +1,4 @@
-import { createLogger } from '@src/helpers';
+import { createLogger, ILogger } from '@src/helpers';
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 
 import {
@@ -45,10 +45,10 @@ export function createMockLintOptions({
 export function* resolvePattern(
   pattern: string,
   lintRules: Ruleset,
-  debug = false,
+  logger: ILogger,
 ): IterableIterator<Resolution> {
   const configOptions: ConfigOpts = {
-    logger: createLogger({ silentEnabled: !debug }),
+    logger,
     files: {
       include: pattern,
     },
@@ -72,9 +72,9 @@ export function* resolvePattern(
 export function resolveFirst(
   pattern: string,
   lintRules: Ruleset,
-  debug?: boolean,
+  logger: ILogger = createLogger({ silentEnabled: true }),
 ): Resolution {
-  const result = resolvePattern(pattern, lintRules, debug).next();
+  const result = resolvePattern(pattern, lintRules, logger).next();
 
   if (result.value === undefined) {
     throw Error(`No resolutions exist for given pattern: ${pattern}`);

@@ -2,6 +2,7 @@ import { Nullable, SortNode, TreeNode } from '@src/typings';
 import BaseResolver from './base-resolver';
 
 const sassLintHelpers = require('sass-lint/lib/helpers');
+const gonzales = require('gonzales-pe-sl');
 
 enum SortOrderMethod {
   RECESS = 'recess',
@@ -11,7 +12,14 @@ enum SortOrderMethod {
 
 export default class PropertySortOrder extends BaseResolver {
   public fix() {
+    const producedOutput = this.ast.toString().split('\n');
+
     this.ast.traverseByType('block', (block: TreeNode) => {
+      // Fix - if block is empty - do not attempt to sort properties.
+      if (block.content.length === 0) {
+        return;
+      }
+
       const collectedDecl: SortNode[] = [];
       const matchingIndices: number[] = [];
       block.forEach('declaration', (declaration: TreeNode, index: number) => {
@@ -73,11 +81,23 @@ export default class PropertySortOrder extends BaseResolver {
         });
       }
 
-      collectedDecl.forEach(
-        e => (block.content[matchingIndices.shift() || 0] = e.node),
-      );
+      const blockOffset = block.content[0].start.line - 1;
+      const stagedBlock = block.toString().split('\n');
+
+      collectedDecl.forEach(({ node }) => {
+        const matchingIndex = matchingIndices.shift() || 0;
+        const discoveredBlock = block.content[matchingIndex];
+
+        const fromLine = node.start.line - 1;
+        const toLine = discoveredBlock.start.line - 1;
+
+        producedOutput[toLine] = stagedBlock[fromLine - blockOffset];
+      });
     });
-    return this.ast;
+
+    return gonzales.parse(producedOutput.join('\n'), {
+      syntax: this.ast.syntax,
+    });
   }
 
   private getOrderConfig(order: SortOrderMethod) {
