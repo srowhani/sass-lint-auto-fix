@@ -54,7 +54,7 @@
   "author": "Seena Rowhani (srowhani)",
   "license": "MIT",
   "dependencies": {
-    "@sentry/node": "^4.0.0-beta.12",
+    "@sentry/node": "^5.0.0",
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
     "glob": "^7.1.2",
