@@ -1,4 +1,4 @@
-import { AbstractSyntaxTree, Resolver, SlRule } from '@src/typings';
+import { AbstractSyntaxTree, Resolver, SlDetect, SlRule } from '@src/typings';
 
 export default abstract class BaseResolver implements Resolver {
   private _ast: AbstractSyntaxTree;
@@ -9,7 +9,7 @@ export default abstract class BaseResolver implements Resolver {
     this._parser = parser;
   }
 
-  public abstract fix(): AbstractSyntaxTree;
+  public abstract fix(detects: SlDetect[]): AbstractSyntaxTree;
 
   get ast() {
     return this._ast;

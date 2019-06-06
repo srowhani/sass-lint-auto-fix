@@ -83,7 +83,7 @@ export function autoFixSassFactory(config: ConfigOpts) {
                   `Running resolver "${name}" on "${filename}"`,
                 );
 
-                ast = resolver.fix();
+                ast = resolver.fix(detects);
                 yield {
                   ast,
                   filename,
