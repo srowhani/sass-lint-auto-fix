@@ -14,17 +14,18 @@ script:
 - npm run test
 after_script:
 - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-after_success:
-  - npm run docs
-  - npm run travis-deploy-once "npm run semantic-release"
 branches:
   only:
     - master
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  local-dir: docs
-  on:
-    branch: master
-    condition: $TRAVIS_NODE_VERSION = "9"
+jobs:
+  include:
+    - stage: deploy
+      script: npm run docs
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GH_TOKEN
+        local-dir: docs
+        on:
+          branch: master
+    - script: npm run semantic-release
