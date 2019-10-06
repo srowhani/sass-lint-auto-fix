@@ -1,4 +1,5 @@
-import { reportIncident } from './helpers';
+import { SentryService } from './services';
+
 import {
   AbstractSyntaxTree,
   ConfigOpts,
@@ -92,7 +93,7 @@ export function autoFixSassFactory(config: ConfigOpts) {
               }
             } catch (e) {
               if (!config.options.optOut) {
-                reportIncident(e);
+                SentryService.getInstance().reportIncident(e);
               }
               // TODO: Friendly way to inform user that an unexpected error occured
               logger.warn('error', e);

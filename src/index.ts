@@ -1,12 +1,8 @@
 #!/usr/bin/env node
-import {
-  createLogger,
-  getConfig,
-  mergeConfig,
-  reportIncident,
-} from './helpers';
+import { createLogger, getConfig, mergeConfig } from './helpers';
 
 import { autoFixSassFactory } from './sass-lint-auto-fix';
+import { SentryService } from './services';
 import { ConfigOpts, LintOpts } from './typings';
 
 const process = require('process');
@@ -57,14 +53,14 @@ const { version } = require('../package.json');
 
   process.on('unhandledRejection', (error: Error) => {
     if (!defaultOptions.options.optOut) {
-      reportIncident(error);
+      SentryService.getInstance().reportIncident(error);
     }
     logger.error(error);
   });
 
   process.on('uncaughtException', (error: Error) => {
     if (!defaultOptions.options.optOut) {
-      reportIncident(error);
+      SentryService.getInstance().reportIncident(error);
     }
     logger.error(error);
     process.exit(1);
