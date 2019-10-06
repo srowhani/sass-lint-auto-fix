@@ -14,9 +14,9 @@ export class SentryService {
     }
     return captureException;
   }
-  public static instantiated = false;
 
   public static reportIncident(e: ErrorLike): void {
     this.captureException(e);
   }
+  private static instantiated = false;
 }
