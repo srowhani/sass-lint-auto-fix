@@ -47,20 +47,16 @@ const { version } = require('../package.json');
     slConfig = getConfig(program.configSassLint);
   }
 
-  if (!defaultOptions.options.optOut) {
-    logger.debug('Installing sentry');
-  }
-
   process.on('unhandledRejection', (error: Error) => {
     if (!defaultOptions.options.optOut) {
-      SentryService.getInstance().reportIncident(error);
+      SentryService.reportIncident(error);
     }
     logger.error(error);
   });
 
   process.on('uncaughtException', (error: Error) => {
     if (!defaultOptions.options.optOut) {
-      SentryService.getInstance().reportIncident(error);
+      SentryService.reportIncident(error);
     }
     logger.error(error);
     process.exit(1);

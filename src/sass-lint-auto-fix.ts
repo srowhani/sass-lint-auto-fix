@@ -93,7 +93,7 @@ export function autoFixSassFactory(config: ConfigOpts) {
               }
             } catch (e) {
               if (!config.options.optOut) {
-                SentryService.getInstance().reportIncident(e);
+                SentryService.reportIncident(e);
               }
               // TODO: Friendly way to inform user that an unexpected error occured
               logger.warn('error', e);
