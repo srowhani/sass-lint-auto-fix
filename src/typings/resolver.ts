@@ -1,9 +1,10 @@
 import { AbstractSyntaxTree } from './abstract-syntax-tree';
 import { SlDetect, SlRule } from './sass-lint-rule';
 
-export interface ResolverConstructable {
-  new (ast: AbstractSyntaxTree, parser: SlRule): Resolver;
-}
+export type ResolverConstructable = new (
+  ast: AbstractSyntaxTree,
+  parser: SlRule,
+) => Resolver;
 
 export interface Resolver {
   ast: AbstractSyntaxTree;
