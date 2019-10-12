@@ -23,7 +23,7 @@
     "build:config": "cp -r src/config dist",
     "precommit": "lint-staged",
     "prepush": "yarn lint && yarn tsc",
-    "docs": "typedoc --out ./docs ./src --excludeExternals --excludePrivate --externalPattern '*node_modules*' --tsconfig ./tsconfig-build.json  --mode file  --theme minimal",
+    "docs": "typedoc src --out docs --ignoreCompilerErrors --mode file --theme minimal",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "semantic-release": "semantic-release"
   },
