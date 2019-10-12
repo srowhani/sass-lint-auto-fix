@@ -59,8 +59,8 @@ Add the following to your `package.json`
 {
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:fix && npm run lint",
-      "pre-push": "npm test",
+      "pre-commit": "yarn lint:fix && yarn lint",
+      "pre-push": "yarn test",
       "...": "..."
     }
   }
@@ -190,8 +190,8 @@ options:
 ### Setup
 ```
 git clone https://github.com/srowhani/sass-lint-auto-fix.git;
-npm install;
-npm run build;
+yarn install;
+yarn build;
 ```
 
 ### Contributing
@@ -203,5 +203,5 @@ More information can be found [here](https://github.com/semantic-release/commit-
 ### Testing
 
 ```
-npm run test
+yarn test
 ```

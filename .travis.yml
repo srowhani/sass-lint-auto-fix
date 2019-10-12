@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '9'
+- '10'
 - '8'
 cache:
   directories:
@@ -8,10 +8,10 @@ cache:
 notifications:
   email: false
 install:
-- npm install
+- yarn
 script:
-- npm run build
-- npm run test
+- yarn build
+- yarn test
 after_script:
 - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 branches:
@@ -20,7 +20,7 @@ branches:
 jobs:
   include:
     - stage: deploy
-      script: npm run docs
+      script: yarn docs
       deploy:
         provider: pages
         skip-cleanup: true
@@ -28,4 +28,4 @@ jobs:
         local-dir: docs
         on:
           branch: master
-    - script: npm run semantic-release
+    - script: yarn semantic-release

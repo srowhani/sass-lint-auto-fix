@@ -1,16 +1,14 @@
-import childProcess from 'child_process';
-import fs from 'fs';
+const childProcess = require('child_process');
+const fs = require('fs');
 
 export const maybeBuild = () =>
   new Promise(resolve => {
-    fs.stat(
-      'dist/index.js',
-      (error: Error) =>
-        error ? exec('npm run build').then(resolve) : resolve(),
+    fs.stat('dist/index.js', (error: Error) =>
+      error ? build().then(resolve) : resolve(),
     );
   });
 
-export const build = () => exec('npm run build');
+export const build = () => exec('yarn build');
 
 export const exec = (
   command: string,

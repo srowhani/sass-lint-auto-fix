@@ -1,6 +1,6 @@
 import { ValidFileType } from '@src/typings';
 import { detect, lint, resolveFirst } from '@test/helpers/resolve';
-import fs from 'fs';
+const fs = require('fs');
 
 describe('zero-unit', () => {
   describe('scss', () => {
