@@ -10,9 +10,8 @@ import {
   ValidFileType,
 } from '@src/typings';
 
-import fs from 'fs';
-import path from 'path';
-
+const fs = require('fs');
+const path = require('path');
 const gonzales = require('gonzales-pe-sl');
 const sassLint = require('sass-lint');
 

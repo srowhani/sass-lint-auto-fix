@@ -3,7 +3,7 @@ import { ValidFileType } from '@src/typings';
 import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 import { dedent } from '@test/helpers/utils';
-import fs from 'fs';
+const fs = require('fs');
 
 describe('property-sort-order', () => {
   describe('- scss', () => {

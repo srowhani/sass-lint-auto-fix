@@ -18,28 +18,6 @@ describe('cli', async () => {
   );
 
   it(
-    'sets up sentry by default',
-    async () => {
-      const result = await exec(
-        'node dist/index.js -c "test/config/opt-in.yml" --debug',
-      );
-      expect(result).toContain('Installing sentry');
-    },
-    CLI_TEST_TIMEOUT,
-  );
-
-  it(
-    'opts out with config flag',
-    async () => {
-      const result = await exec(
-        'node dist/index.js -c "test/config/opt-out-ignore-all.yml" --debug',
-      );
-      expect(result).not.toContain('Installing sentry');
-    },
-    CLI_TEST_TIMEOUT,
-  );
-
-  it(
     'can take sass-lint config successfully',
     async () => {
       const result = await exec(
