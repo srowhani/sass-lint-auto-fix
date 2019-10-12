@@ -9,7 +9,7 @@
   "scripts": {
     "test": "jest --verbose --coverage --no-watchman --runInBand",
     "test:watch": "jest --watch",
-    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
+    "test:prod": "yarn lint && yarn test -- --coverage --no-cache",
     "coverage": "open ./coverage/lcov-report/index.html",
     "tsc": "tsc --noEmit -p ./tsconfig.json",
     "format:src": "find ./src/ -name '*.ts*' | xargs prettier --write --config ./.prettierrc --config-precedence file-override",
@@ -17,25 +17,25 @@
     "lint": "tslint --project .",
     "lint:fix": "tslint --project . --fix",
     "prebuild": "rm -rf dist/",
-    "build": "npm run build:ts && npm run build:chmod && npm run build:config",
+    "build": "yarn build:ts && yarn build:chmod && yarn build:config",
     "build:ts": "tsc -p ./tsconfig-build.json",
     "build:chmod": "chmod +x dist/index.js",
     "build:config": "cp -r src/config dist",
     "precommit": "lint-staged",
-    "prepush": "npm run lint && npm run tsc",
+    "prepush": "yarn lint && yarn tsc",
     "docs": "typedoc --out ./docs ./src --excludeExternals --excludePrivate --externalPattern '*node_modules*' --tsconfig ./tsconfig-build.json  --mode file  --theme minimal",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "semantic-release": "semantic-release"
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "npm run lint:fix",
-      "npm run format:src",
+      "yarn lint:fix",
+      "yarn format:src",
       "git add"
     ],
     "test/**/*.ts": [
-      "npm run lint:fix",
-      "npm run format:test",
+      "yarn lint:fix",
+      "yarn format:test",
       "git add"
     ]
   },

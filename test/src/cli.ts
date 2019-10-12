@@ -2,7 +2,7 @@ import { exec, maybeBuild } from '@test/helpers/cmd';
 
 const CLI_TEST_TIMEOUT = 10_000;
 
-describe('cli', async () => {
+describe('cli', () => {
   beforeAll(maybeBuild);
   it(
     'prints help dialog with -h flag',
