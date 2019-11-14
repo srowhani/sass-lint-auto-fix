@@ -2,6 +2,7 @@ import { createLogger, getConfig } from '@src/helpers';
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 import { ConfigOpts, LintOpts, ValidFileType } from '@src/typings';
 
+
 export const generateMockedRuleset = (ruleName: string) => [
   {
     rule: {
