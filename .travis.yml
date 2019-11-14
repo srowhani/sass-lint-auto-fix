@@ -23,7 +23,7 @@ jobs:
       script: yarn docs
       deploy:
         provider: pages
-        cleanup: false
+        skip_cleanup: true
         github-token: $GH_TOKEN
         local-dir: docs
         on:
