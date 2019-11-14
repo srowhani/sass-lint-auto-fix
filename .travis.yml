@@ -23,9 +23,11 @@ jobs:
       script: yarn docs
       deploy:
         provider: pages
-        skip-cleanup: true
+        cleanup: false
         github-token: $GH_TOKEN
         local-dir: docs
         on:
           branch: master
-    - script: yarn semantic-release
+    - script:
+      - yarn build
+      - yarn semantic-release
