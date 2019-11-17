@@ -23,7 +23,9 @@ export default class BorderZero extends BaseResolver {
   }
 
   public fix(): AbstractSyntaxTree {
-    return this.traverse((node: TreeNode) => (node.content = this.convention));
+    return this.traverse(
+      (node: TreeNode) => (node.content = String(this.convention)),
+    );
   }
 
   private traverse(callback: (node: TreeNode) => void): AbstractSyntaxTree {
