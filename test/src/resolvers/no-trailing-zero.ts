@@ -1,4 +1,4 @@
-import { ValidFileType } from '@src/typings';
+import { ValidFileType } from '@src/types';
 import { detect, lint, resolveFirst, tree } from '@test/helpers/resolve';
 
 describe('no-trailing-zero', () => {

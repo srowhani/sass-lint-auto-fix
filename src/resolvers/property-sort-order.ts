@@ -1,4 +1,4 @@
-import { Nullable, SortNode, TreeNode } from '@src/typings';
+import { Nullable, SortNode, TreeNode } from '@src/types';
 import BaseResolver from './base-resolver';
 
 const sassLintHelpers = require('sass-lint/lib/helpers');

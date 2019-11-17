@@ -1,4 +1,4 @@
-import { Nullable, SlfParserOptions } from '@src/typings';
+import { Nullable, SlfParserOptions } from '@src/types';
 
 const merge = require('merge');
 const path = require('path');

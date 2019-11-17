@@ -1,4 +1,4 @@
-import { TreeNode } from '@src/typings';
+import { TreeNode } from '@src/types';
 import BaseResolver from './base-resolver';
 
 export default class NoCssComments extends BaseResolver {

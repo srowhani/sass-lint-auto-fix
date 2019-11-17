@@ -1,4 +1,5 @@
-import { AbstractSyntaxTree, Nullable, SlRule } from '@src/typings';
+import { AbstractSyntaxTree, Nullable } from '@src/types';
+import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
 
 const gonzales = require('gonzales-pe-sl');

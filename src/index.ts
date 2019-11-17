@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { createLogger, getConfig, mergeConfig } from './helpers';
 
+import { LintOpts } from 'sass-lint';
 import { autoFixSassFactory } from './sass-lint-auto-fix';
 import { SentryService } from './services';
-import { ConfigOpts, LintOpts } from './typings';
+import { ConfigOpts } from './types';
 
 const process = require('process');
 const program = require('commander');

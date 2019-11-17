@@ -1,5 +1,11 @@
 import { ILogger } from '@src/helpers';
-import { AbstractSyntaxTree, SlRule } from '@src/typings';
+import { AbstractSyntaxTree } from '@src/types/abstract-syntax-tree';
+import { Ruleset, SlRule } from 'sass-lint';
+
+export enum ValidFileType {
+  scss = 'scss',
+  sass = 'sass',
+}
 
 export interface SlfParserOptions {
   include?: string;
@@ -18,15 +24,6 @@ export interface Resolution {
   ast: AbstractSyntaxTree;
 }
 
-export enum ValidFileType {
-  scss = 'scss',
-  sass = 'sass',
-}
-
-export interface Ruleset {
-  [ruleName: string]: number | { [ruleOption: string]: any };
-}
-
 export interface ConfigOpts {
   logger: ILogger;
   slRules?: any;
@@ -42,18 +39,6 @@ export interface ConfigOpts {
   options: {
     optOut: boolean;
   };
-}
-
-export interface LintOpts {
-  options: {
-    formatter?: string;
-    'merge-default-rules'?: boolean;
-    'cache-config'?: boolean;
-  };
-  files: {
-    include: string;
-  };
-  rules: Ruleset;
 }
 
 export interface CreateModuleConfig {
