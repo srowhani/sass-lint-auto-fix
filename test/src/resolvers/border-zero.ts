@@ -21,6 +21,12 @@ describe('border-zero', () => {
         expect(preResolve.warningCount).toBe(3);
         expect(postResolve.warningCount).toBe(0);
       });
+
+      it('content not treated as falsey when set zero', () => {
+        const filename = 'test/sass/border-zero.scss';
+        const { ast } = resolveFirst(filename, options);
+        expect(ast.toString()).not.toContain('border: ;');
+      });
     });
     describe("[convention: '0']", () => {
       const options = { 'border-zero': 1 };
