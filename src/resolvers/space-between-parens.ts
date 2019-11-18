@@ -1,4 +1,4 @@
-import { AbstractSyntaxTree, TreeNode } from '@src/typings';
+import { AbstractSyntaxTree, TreeNode } from '@src/types';
 import BaseResolver from './base-resolver';
 
 const gonzales = require('gonzales-pe-sl');

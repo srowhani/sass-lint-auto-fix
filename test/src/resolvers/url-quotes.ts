@@ -1,4 +1,4 @@
-import { ValidFileType } from '@src/typings';
+import { ValidFileType } from '@src/types';
 import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 describe('url-quotes', () => {

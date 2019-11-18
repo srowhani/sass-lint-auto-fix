@@ -1,6 +1,7 @@
 import { createLogger, getConfig } from '@src/helpers';
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
-import { ConfigOpts, LintOpts, ValidFileType } from '@src/typings';
+import { ConfigOpts, ValidFileType } from '@src/types';
+import { LintOpts } from 'sass-lint';
 
 export const generateMockedRuleset = (ruleName: string) => [
   {

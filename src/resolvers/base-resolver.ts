@@ -1,4 +1,5 @@
-import { AbstractSyntaxTree, Resolver, SlDetect, SlRule } from '@src/typings';
+import { AbstractSyntaxTree, Resolver } from '@src/types';
+import { SlDetect, SlRule } from 'sass-lint';
 
 export default abstract class BaseResolver implements Resolver {
   private _ast: AbstractSyntaxTree;

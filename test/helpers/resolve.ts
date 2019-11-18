@@ -4,17 +4,14 @@ import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 import {
   AbstractSyntaxTree,
   ConfigOpts,
-  LintOpts,
   Resolution,
-  Ruleset,
   ValidFileType,
-} from '@src/typings';
+} from '@src/types';
 
 const fs = require('fs');
 const path = require('path');
 const gonzales = require('gonzales-pe-sl');
-const sassLint = require('sass-lint');
-
+import { LintOpts, lintText, Ruleset } from 'sass-lint';
 export interface MockLintConfigParams {
   pattern?: string;
   lintRules: Ruleset;
@@ -90,9 +87,8 @@ export function ast(filename: string): AbstractSyntaxTree {
     syntax: fileExtension,
   });
 }
-
 export function detect(
-  text: string,
+  text: string | Buffer,
   format: ValidFileType,
   lintRules: Ruleset,
 ) {
@@ -102,17 +98,17 @@ export function detect(
     filename: null,
   };
 
-  return sassLint.lintText(file, createMockLintOptions({ lintRules }));
+  return lintText(file, createMockLintOptions({ lintRules }));
 }
 
-export function lint(filename: string, lintRules: Ruleset): any {
+export function lint(filename: string, lintRules: Ruleset) {
   const file = {
     text: fs.readFileSync(filename).toString(),
     format: path.extname(filename).substr(1),
     filename,
   };
 
-  return sassLint.lintText(
+  return lintText(
     file,
     createMockLintOptions({
       pattern: filename,

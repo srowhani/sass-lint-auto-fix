@@ -1,5 +1,5 @@
 import { createLogger } from '@src/helpers';
-import { ValidFileType } from '@src/typings';
+import { ValidFileType } from '@src/types';
 import { detect, lint, resolveFirst } from '@test/helpers/resolve';
 
 import { dedent } from '@test/helpers/utils';

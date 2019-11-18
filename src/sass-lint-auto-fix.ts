@@ -1,16 +1,15 @@
 import { SentryService } from './services';
 
+import { LintOpts, SlRule } from 'sass-lint';
 import {
   AbstractSyntaxTree,
   ConfigOpts,
   CreateModuleConfig,
-  LintOpts,
   Resolution,
   Resolver,
   ResolverConstructable,
-  SlRule,
   ValidFileType,
-} from './typings';
+} from './types';
 
 const fs = require('fs');
 const glob = require('glob');

@@ -1,5 +1,6 @@
-import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
-import BaseResolver from './base-resolver';
+import BaseResolver from '@src/resolvers/base-resolver';
+import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { SlRule } from 'sass-lint';
 
 export default class ZeroUnit extends BaseResolver {
   private _unitsRegex: RegExp;

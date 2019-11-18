@@ -1,5 +1,6 @@
-import { AbstractSyntaxTree, SlRule, TreeNode } from '@src/typings';
+import { AbstractSyntaxTree, TreeNode } from '@src/types';
 
+import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
 
 export default class BorderZero extends BaseResolver {
