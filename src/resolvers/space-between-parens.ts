@@ -1,17 +1,16 @@
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { createNode, Node } from 'gonzales-pe-sl';
 import BaseResolver from './base-resolver';
 
-const gonzales = require('gonzales-pe-sl');
-
 export default class SpaceBetweenParens extends BaseResolver {
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
 
-    ast.traverseByType('arguments', (node: TreeNode) => {
+    ast.traverseByType('arguments', node => {
       const first = node.first();
       const last = node.last();
-      const spaceNode = gonzales.createNode({
+      const spaceNode = createNode({
         type: 'space',
+        syntax: ast.syntax,
         content: ' ',
       });
 

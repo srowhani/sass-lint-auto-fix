@@ -93,7 +93,7 @@ interface ConfigOpts {
     ignore?: string;
   };
   syntax: {
-    include: ValidFileType[];
+    include: (keyof typeof ValidFileType)[];
   };
   resolvers: Ruleset;
   options: {

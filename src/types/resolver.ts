@@ -1,13 +1,10 @@
+import { Node } from 'gonzales-pe-sl';
 import { SlDetect, SlRule } from 'sass-lint';
-import { AbstractSyntaxTree } from './abstract-syntax-tree';
 
-export type ResolverConstructable = new (
-  ast: AbstractSyntaxTree,
-  parser: SlRule,
-) => Resolver;
+export type ResolverConstructable = new (ast: Node, parser: SlRule) => Resolver;
 
 export interface Resolver {
-  ast: AbstractSyntaxTree;
+  ast: Node;
   parser: SlRule;
-  fix(detects: SlDetect[]): AbstractSyntaxTree;
+  fix(detects: SlDetect[]): Node;
 }

@@ -1,6 +1,6 @@
 import BaseResolver from './base-resolver';
 
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { Node } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
 
 const slHelpers = require('sass-lint/lib/helpers');
@@ -8,7 +8,7 @@ const slHelpers = require('sass-lint/lib/helpers');
 export default class NoColorKeywords extends BaseResolver {
   private _cssColors: string[];
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._cssColors = slHelpers
       .loadConfigFile('../../data/literals.yml')
@@ -16,10 +16,10 @@ export default class NoColorKeywords extends BaseResolver {
   }
 
   public fix() {
-    this.ast.traverseByType('value', (valueNode: TreeNode) => {
+    this.ast.traverseByType('value', (valueNode: Node) => {
       valueNode.traverseByType(
         'ident',
-        (identNode: TreeNode, index: number, identParent: TreeNode) => {
+        (identNode: Node, index: number, identParent: Node) => {
           if (this.isValidParent(identParent)) {
             const colorIndex = this.colorKeywordIndex(identNode);
 
@@ -41,11 +41,11 @@ export default class NoColorKeywords extends BaseResolver {
     return this.ast;
   }
 
-  private colorKeywordIndex(node: TreeNode): number {
+  private colorKeywordIndex(node: Node): number {
     return this._cssColors.indexOf(node.content.toLowerCase());
   }
 
-  private isValidParent(parentNode: TreeNode): boolean {
+  private isValidParent(parentNode: Node): boolean {
     if (parentNode) {
       if (
         ['function', 'variable', 'customProperty'].some(prop =>
