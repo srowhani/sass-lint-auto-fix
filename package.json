@@ -21,11 +21,15 @@
     "build:ts": "tsc -p ./tsconfig-build.json",
     "build:chmod": "chmod +x dist/index.js",
     "build:config": "cp -r src/config dist",
-    "precommit": "lint-staged",
-    "prepush": "yarn lint && yarn tsc",
     "docs": "typedoc src --out docs --ignoreCompilerErrors --mode file --theme minimal",
-    "commitmsg": "commitlint -e $GIT_PARAMS",
     "semantic-release": "semantic-release"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn lint && yarn tsc",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "lint-staged": {
     "src/**/*.ts": [
