@@ -1,12 +1,12 @@
 import BaseResolver from './base-resolver';
 
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { Node } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
 
 export default class HexLength extends BaseResolver {
   private _lengths: any;
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._lengths = {
       short: 3,
@@ -14,9 +14,9 @@ export default class HexLength extends BaseResolver {
     };
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
-    ast.traverseByType('color', (node: TreeNode) => {
+    ast.traverseByType('color', (node: Node) => {
       const colorValue = node.content;
       if (this.shouldShorten(colorValue)) {
         node.content = this.transformLongToShort(colorValue);

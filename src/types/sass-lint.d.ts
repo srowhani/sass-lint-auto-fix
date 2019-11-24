@@ -1,5 +1,6 @@
 declare module 'sass-lint' {
-  import { AbstractSyntaxTree, Nullable, ValidFileType } from '@src/types';
+  import { Nullable, ValidFileType } from '@src/types';
+  import { Node } from 'gonzales-pe-sl';
 
   export interface SlRule {
     options: any;
@@ -8,7 +9,7 @@ declare module 'sass-lint' {
 
   export interface SLRuleDescriptor {
     name: string;
-    detect(ast: AbstractSyntaxTree, rule: SlRule): SlDetect[];
+    detect(ast: Node, rule: SlRule): SlDetect[];
   }
 
   enum SlDetectSeverity {

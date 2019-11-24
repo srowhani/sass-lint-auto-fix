@@ -1,19 +1,19 @@
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { Node } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
 
 export default class UrlQuotes extends BaseResolver {
   private _variableRegex: RegExp;
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._variableRegex = /^[\$]/;
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
 
-    ast.traverseByType('uri', (node: TreeNode) => {
+    ast.traverseByType('uri', (node: Node) => {
       node.traverse(item => {
         if (item.is('raw')) {
           if (!this.isVariable(item)) {
@@ -26,7 +26,7 @@ export default class UrlQuotes extends BaseResolver {
     return ast;
   }
 
-  private isVariable(item: TreeNode): boolean {
+  private isVariable(item: Node): boolean {
     return item.content.match(this._variableRegex);
   }
 }

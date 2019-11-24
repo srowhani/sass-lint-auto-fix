@@ -1,19 +1,16 @@
-import { AbstractSyntaxTree } from '@src/types';
-
+import { Node, parse } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
-
-const gonzales = require('gonzales-pe-sl');
 
 export default class FinalNewline extends BaseResolver {
   private _newlineDelimiter: string;
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._newlineDelimiter = '\n';
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
 
     let newContent = ast.toString();
@@ -24,7 +21,7 @@ export default class FinalNewline extends BaseResolver {
       newContent += this._newlineDelimiter;
     }
 
-    return gonzales.parse(newContent, {
+    return parse(newContent, {
       syntax: ast.syntax,
     });
   }

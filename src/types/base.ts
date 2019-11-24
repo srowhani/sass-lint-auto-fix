@@ -1,5 +1,5 @@
 import { ILogger } from '@src/helpers';
-import { AbstractSyntaxTree } from '@src/types/abstract-syntax-tree';
+import { Node } from 'gonzales-pe-sl';
 import { Ruleset, SlRule } from 'sass-lint';
 
 export enum ValidFileType {
@@ -21,7 +21,7 @@ export interface SlfParserSyntaxOptions {
 export interface Resolution {
   filename: string;
   rule: SlRule;
-  ast: AbstractSyntaxTree;
+  ast: Node;
 }
 
 export interface ConfigOpts {
@@ -33,7 +33,7 @@ export interface ConfigOpts {
     ignore?: string;
   };
   syntax: {
-    include: ValidFileType[];
+    include: (keyof typeof ValidFileType)[];
   };
   resolvers: Ruleset;
   options: {
@@ -42,7 +42,7 @@ export interface ConfigOpts {
 }
 
 export interface CreateModuleConfig {
-  ast: AbstractSyntaxTree;
+  ast: Node;
   name: string;
   rule: SlRule;
 }

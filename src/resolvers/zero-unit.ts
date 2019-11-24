@@ -1,16 +1,16 @@
-import BaseResolver from '@src/resolvers/base-resolver';
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { Node } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
+import BaseResolver from './base-resolver';
 
 export default class ZeroUnit extends BaseResolver {
   private _unitsRegex: RegExp;
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._unitsRegex = /(em|ex|ch|rem|vh|vw|vmin|vmax|px|mm|cm|in|pt|pc|%)/g;
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast, parser } = this;
 
     if (parser.options.include) {
@@ -18,19 +18,16 @@ export default class ZeroUnit extends BaseResolver {
       return ast;
     }
 
-    ast.traverseByType(
-      'number',
-      (item: TreeNode, i: number, parent: TreeNode) => {
-        if (parent.is('dimension')) {
-          const nextNode = parent.content[i + 1] || {};
-          if (item.content === '0' && nextNode.type === 'ident') {
-            if (nextNode.content.match(this._unitsRegex)) {
-              parent.removeChild(i + 1);
-            }
+    ast.traverseByType('number', (item: Node, i: number, parent: Node) => {
+      if (parent.is('dimension')) {
+        const nextNode = parent.content[i + 1] || {};
+        if (item.content === '0' && nextNode.type === 'ident') {
+          if (nextNode.content.match(this._unitsRegex)) {
+            parent.removeChild(i + 1);
           }
         }
-      },
-    );
+      }
+    });
 
     return ast;
   }
