@@ -1,8 +1,6 @@
-import { AbstractSyntaxTree } from '@src/types';
+import { Node, parse } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
-
-const gonzales = require('gonzales-pe-sl');
 
 export default class Indentation extends BaseResolver {
   private _depth: number;
@@ -13,7 +11,7 @@ export default class Indentation extends BaseResolver {
   private _commaDelimiter: string;
   private _bumpNextLine: boolean;
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._depth = 0;
     this._openingBraceRegex = /{|\(/g;
@@ -24,7 +22,7 @@ export default class Indentation extends BaseResolver {
     this._bumpNextLine = false;
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
 
     if (ast.syntax === 'sass') {
@@ -37,7 +35,7 @@ export default class Indentation extends BaseResolver {
       .map(line => this.visit(line))
       .join(this._newLineDelimiter);
 
-    const resolvedAst = gonzales.parse(resolvedContent, {
+    const resolvedAst = parse(resolvedContent, {
       syntax: ast.syntax,
     });
 

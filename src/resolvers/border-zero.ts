@@ -1,4 +1,4 @@
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { Node } from 'gonzales-pe-sl';
 
 import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
@@ -8,7 +8,7 @@ export default class BorderZero extends BaseResolver {
   private _allowedConventions: string[];
   private convention: any;
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._borders = [
       'border',
@@ -23,19 +23,19 @@ export default class BorderZero extends BaseResolver {
     this._allowedConventions = ['0', 'none'];
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     return this.traverse(
-      (node: TreeNode) => (node.content = String(this.convention)),
+      (node: Node) => (node.content = String(this.convention)),
     );
   }
 
-  private traverse(callback: (node: TreeNode) => void): AbstractSyntaxTree {
-    this.ast.traverseByType('declaration', (decl: TreeNode) => {
+  private traverse(callback: (node: Node) => void): Node {
+    this.ast.traverseByType('declaration', (decl: Node) => {
       let isBorder = false;
 
-      decl.traverse((item: TreeNode) => {
+      decl.traverse((item: Node) => {
         if (item.type === 'property') {
-          item.traverse((childNode: TreeNode) => {
+          item.traverse((childNode: Node) => {
             if (this.borders.indexOf(childNode.content) !== -1) {
               isBorder = true;
             }

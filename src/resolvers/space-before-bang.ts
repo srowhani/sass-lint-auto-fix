@@ -1,22 +1,21 @@
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { createNode, Node } from 'gonzales-pe-sl';
 import BaseResolver from './base-resolver';
 
-const gonzales = require('gonzales-pe-sl');
-
 export default class SpaceBeforeBang extends BaseResolver {
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
 
     ast.traverseByTypes(
       ['important', 'default', 'global', 'optional'],
-      (_: any, index: number, parent: TreeNode) => {
+      (_: any, index: number, parent: Node) => {
         const prev = parent.content[index - 1] || {};
         const isSpace = prev.type === 'space';
 
         if (this.shouldAddSpaceBeforeBang()) {
           if (!isSpace) {
-            const spaceNode = gonzales.createNode({
+            const spaceNode = createNode({
               type: 'space',
+              syntax: ast.syntax,
               content: ' ',
             });
             parent.content.splice(index, 0, spaceNode);

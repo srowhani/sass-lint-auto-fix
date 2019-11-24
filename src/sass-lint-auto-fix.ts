@@ -2,7 +2,6 @@ import { SentryService } from './services';
 
 import { LintOpts, SlRule } from 'sass-lint';
 import {
-  AbstractSyntaxTree,
   ConfigOpts,
   CreateModuleConfig,
   Resolution,
@@ -11,14 +10,14 @@ import {
   ValidFileType,
 } from './types';
 
-const fs = require('fs');
-const glob = require('glob');
-const path = require('path');
+import * as fs from 'fs';
+import * as glob from 'glob';
+import * as path from 'path';
 
 const slConfig = require('sass-lint/lib/config');
 const slRules = require('sass-lint/lib/rules');
 
-const gonzales = require('gonzales-pe-sl');
+import { parse } from 'gonzales-pe-sl';
 
 export function autoFixSassFactory(config: ConfigOpts) {
   const { logger } = config;
@@ -42,10 +41,10 @@ export function autoFixSassFactory(config: ConfigOpts) {
           .toLowerCase();
 
         if (isValidExtension(fileExtension)) {
-          let ast: AbstractSyntaxTree;
+          let ast;
 
           try {
-            ast = gonzales.parse(content, {
+            ast = parse(content, {
               syntax: fileExtension,
             });
           } catch (e) {
@@ -70,6 +69,7 @@ export function autoFixSassFactory(config: ConfigOpts) {
                 rule,
               });
             } catch (e) {
+              SentryService.reportIncident(e);
               logger.warn('resolver', `Module '${name}' doesn't exist.`);
               return;
             }

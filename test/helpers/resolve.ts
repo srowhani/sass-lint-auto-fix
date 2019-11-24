@@ -1,16 +1,12 @@
 import { createLogger, ILogger } from '@src/helpers';
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 
-import {
-  AbstractSyntaxTree,
-  ConfigOpts,
-  Resolution,
-  ValidFileType,
-} from '@src/types';
+import { ConfigOpts, Resolution, ValidFileType } from '@src/types';
 
 const fs = require('fs');
 const path = require('path');
-const gonzales = require('gonzales-pe-sl');
+
+import { Node, parse } from 'gonzales-pe-sl';
 import { LintOpts, lintText, Ruleset } from 'sass-lint';
 export interface MockLintConfigParams {
   pattern?: string;
@@ -79,11 +75,11 @@ export function resolveFirst(
   return result.value;
 }
 
-export function ast(filename: string): AbstractSyntaxTree {
+export function ast(filename: string): Node {
   const fileExtension = path.extname(filename).substr(1);
 
   const file = fs.readFileSync(filename);
-  return gonzales.parse(file.toString(), {
+  return parse(file.toString(), {
     syntax: fileExtension,
   });
 }
@@ -117,14 +113,12 @@ export function lint(filename: string, lintRules: Ruleset) {
   );
 }
 
-export function tree(filename: string): AbstractSyntaxTree {
+export function tree(filename: string): Node {
   const content = fs.readFileSync(filename).toString();
   const syntax = path
     .extname(filename)
     .substr(1)
     .toLowerCase();
 
-  return gonzales.parse(content, {
-    syntax,
-  }) as AbstractSyntaxTree;
+  return parse(content, { syntax });
 }

@@ -1,0 +1,12 @@
+# EditorConfig helps developers define and maintain consistent
+# coding styles between different editors and IDEs
+# editorconfig.org
+
+root = true
+
+[*.{ts,d.ts}]
+insert_final_newline = true
+indent_size = 2
+indent_style = space
+trim_trailing_whitespace = true
+charset = utf-8

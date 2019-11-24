@@ -1,4 +1,4 @@
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { Node } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
 
@@ -6,18 +6,18 @@ export default class SpaceAfterBang extends BaseResolver {
   private _noSpaceAfterBang: RegExp;
   private _spaceAfterBang: RegExp;
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._noSpaceAfterBang = /!\b/;
     this._spaceAfterBang = /!\s\b/;
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
 
     ast.traverseByTypes(
       ['important', 'default', 'global', 'optional'],
-      (node: TreeNode) => {
+      (node: Node) => {
         const value = node.content;
 
         if (this.shouldAddSpaceAfterBang(value)) {

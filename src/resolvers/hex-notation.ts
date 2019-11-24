@@ -1,19 +1,19 @@
-import { AbstractSyntaxTree, TreeNode } from '@src/types';
+import { Node } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
 
 export default class HexNotation extends BaseResolver {
   private _letterRegex: RegExp;
 
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
     this._letterRegex = /[a-z]/i;
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
 
-    ast.traverseByType('color', (colorNode: TreeNode) => {
+    ast.traverseByType('color', (colorNode: Node) => {
       const content = colorNode.content.toString();
 
       if (content.match(this._letterRegex)) {

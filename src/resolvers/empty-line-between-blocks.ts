@@ -1,8 +1,7 @@
-import { AbstractSyntaxTree, Nullable } from '@src/types';
+import { Nullable } from '@src/types';
+import { Node, parse } from 'gonzales-pe-sl';
 import { SlRule } from 'sass-lint';
 import BaseResolver from './base-resolver';
-
-const gonzales = require('gonzales-pe-sl');
 
 enum TokenType {
   NEWLINE = '\n',
@@ -18,11 +17,11 @@ interface Block {
 }
 
 export default class EmptyLineBetweenBlocks extends BaseResolver {
-  constructor(ast: AbstractSyntaxTree, parser: SlRule) {
+  constructor(ast: Node, parser: SlRule) {
     super(ast, parser);
   }
 
-  public fix(): AbstractSyntaxTree {
+  public fix(): Node {
     const { ast } = this;
     // TODO: Implement `fix` for sass
     if (ast.syntax === 'scss') {
@@ -69,7 +68,7 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
         injectableBlocks.forEach(({ lineNumber }) =>
           splitContent.splice(lineNumber + numInjected++, 0, TokenType.EMPTY),
         );
-        const newTree = gonzales.parse(splitContent.join(TokenType.NEWLINE), {
+        const newTree = parse(splitContent.join(TokenType.NEWLINE), {
           syntax: 'scss',
         });
 
