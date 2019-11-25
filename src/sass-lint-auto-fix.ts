@@ -25,77 +25,84 @@ export function autoFixSassFactory(config: ConfigOpts) {
   const _slRules = config.slRules || slRules;
   const _slConfig = config.slConfig || slConfig;
 
-  const files = glob.sync(config.files.include, {
-    ignore: config.files.ignore,
-  });
+  const patternsToInclude =
+    typeof config.files.include === 'string'
+      ? [config.files.include]
+      : config.files.include;
 
   return function* autoFixSass(
     options: LintOpts,
   ): IterableIterator<Resolution> {
-    for (const filename of files) {
-      const content = fs.readFileSync(filename).toString();
-      if (content !== null && content !== undefined && content.length > 0) {
-        const fileExtension = path
-          .extname(filename)
-          .substr(1)
-          .toLowerCase();
+    for (const pattern of patternsToInclude) {
+      const files = glob.sync(pattern, {
+        ignore: config.files.ignore,
+      });
 
-        if (isValidExtension(fileExtension)) {
-          let ast;
+      for (const filename of files) {
+        const content = fs.readFileSync(filename).toString();
+        if (content !== null && content !== undefined && content.length > 0) {
+          const fileExtension = path
+            .extname(filename)
+            .substr(1)
+            .toLowerCase();
 
-          try {
-            ast = parse(content, {
-              syntax: fileExtension,
-            });
-          } catch (e) {
-            logger.warn('parse', filename, e);
-            return;
-          }
-
-          const rules = _slRules(_slConfig(options));
-
-          const filteredRules: SlRule[] = rules.filter(
-            (rule: SlRule) => config.resolvers[rule.rule.name],
-          );
-
-          for (const rule of filteredRules) {
-            const { name } = rule.rule;
-            let resolver: Resolver;
+          if (isValidExtension(fileExtension)) {
+            let ast;
 
             try {
-              resolver = createModule({
-                name,
-                ast,
-                rule,
+              ast = parse(content, {
+                syntax: fileExtension,
               });
             } catch (e) {
-              SentryService.reportIncident(e);
-              logger.warn('resolver', `Module '${name}' doesn't exist.`);
+              logger.warn('parse', filename, e);
               return;
             }
 
-            try {
-              const detects = rule.rule.detect(ast, rule);
+            const rules = _slRules(_slConfig(options));
 
-              if (detects.length > 0) {
-                logger.verbose(
-                  'fix',
-                  `Running resolver "${name}" on "${filename}"`,
-                );
+            const filteredRules: SlRule[] = rules.filter(
+              (rule: SlRule) => config.resolvers[rule.rule.name],
+            );
 
-                ast = resolver.fix(detects);
-                yield {
+            for (const rule of filteredRules) {
+              const { name } = rule.rule;
+              let resolver: Resolver;
+
+              try {
+                resolver = createModule({
+                  name,
                   ast,
-                  filename,
                   rule,
-                };
-              }
-            } catch (e) {
-              if (!config.options.optOut) {
+                });
+              } catch (e) {
                 SentryService.reportIncident(e);
+                logger.warn('resolver', `Module '${name}' doesn't exist.`);
+                return;
               }
-              // TODO: Friendly way to inform user that an unexpected error occured
-              logger.warn('error', e);
+
+              try {
+                const detects = rule.rule.detect(ast, rule);
+
+                if (detects.length > 0) {
+                  logger.verbose(
+                    'fix',
+                    `Running resolver "${name}" on "${filename}"`,
+                  );
+
+                  ast = resolver.fix(detects);
+                  yield {
+                    ast,
+                    filename,
+                    rule,
+                  };
+                }
+              } catch (e) {
+                if (!config.options.optOut) {
+                  SentryService.reportIncident(e);
+                }
+                // TODO: Friendly way to inform user that an unexpected error occured
+                logger.warn('error', e);
+              }
             }
           }
         }

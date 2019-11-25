@@ -15,7 +15,7 @@ export interface SlfParserOptions {
 }
 
 export interface SlfParserSyntaxOptions {
-  include: string[];
+  include: (keyof typeof ValidFileType)[];
 }
 
 export interface Resolution {
@@ -29,7 +29,7 @@ export interface ConfigOpts {
   slRules?: any;
   slConfig?: any;
   files: {
-    include: string;
+    include: string | string[];
     ignore?: string;
   };
   syntax: {
