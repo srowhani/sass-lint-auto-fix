@@ -140,4 +140,32 @@ describe('sass-lint-auto-fix', () => {
     const emptyResolutionSet = [...slaf(customSlConfig)];
     expect(emptyResolutionSet.length).toEqual(0);
   });
+
+  it('accepts a list of files for include with permissive lint pattern', () => {
+    const logger = createLogger({ silentEnabled: true });
+
+    const options: Partial<ConfigOpts> = {
+      logger,
+      files: {
+        include: [
+          'test/sass/attribute-quotes.sass',
+          'test/sass/attribute-quotes.scss',
+        ],
+      },
+      resolvers: { 'attribute-quotes': 1 },
+      syntax: {
+        include: ['scss', 'sass'],
+      },
+    };
+
+    const slaf = autoFixSassFactory(options as ConfigOpts);
+    const resolutions = [
+      ...slaf({
+        options: {},
+        files: { include: '**/*.s(a|c)ss' },
+        rules: { 'attribute-quotes': 1 },
+      } as LintOpts),
+    ];
+    expect(resolutions.length).toEqual(2);
+  });
 });

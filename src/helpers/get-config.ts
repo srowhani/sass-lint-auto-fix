@@ -1,16 +1,13 @@
 import { Nullable, SlfParserOptions } from '@src/types';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const merge = require('merge');
-const path = require('path');
-const fs = require('fs');
 const yaml = require('js-yaml');
 
 type OptionParser = (filename: string) => Nullable<SlfParserOptions>;
 interface MappedParserOptions {
   [key: string]: OptionParser;
-}
-interface JSONObject {
-  [key: string]: any;
 }
 
 const _configurationProxy = new Proxy<MappedParserOptions>(
@@ -46,10 +43,10 @@ function parseModule(filename: string): Nullable<SlfParserOptions> {
   return require(path.resolve(filename));
 }
 
-export const getConfig = (filename: string): JSONObject =>
+export const getConfig = (filename: string): Record<string, any> =>
   _configurationProxy[filename];
 
 export const mergeConfig = (
-  baseConfig: JSONObject,
-  extendedConfig: JSONObject,
+  baseConfig: Record<string, any>,
+  extendedConfig: Record<string, any>,
 ) => merge.recursive(true, baseConfig, extendedConfig);

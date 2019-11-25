@@ -9,7 +9,7 @@ const path = require('path');
 import { Node, parse } from 'gonzales-pe-sl';
 import { LintOpts, lintText, Ruleset } from 'sass-lint';
 export interface MockLintConfigParams {
-  pattern?: string;
+  pattern?: string | string[];
   lintRules: Ruleset;
 }
 
@@ -35,14 +35,14 @@ export function createMockLintOptions({
 }
 
 export function* resolvePattern(
-  pattern: string,
+  pattern: string | string[],
   lintRules: Ruleset,
   logger: ILogger,
 ): IterableIterator<Resolution> {
   const configOptions: ConfigOpts = {
     logger,
     files: {
-      include: pattern,
+      include: typeof pattern === 'string' ? [pattern] : pattern,
     },
     resolvers: { [Object.keys(lintRules)[0]]: 1 },
     syntax: {

@@ -37,7 +37,7 @@ declare module 'sass-lint' {
       'cache-config'?: boolean;
     };
     files: {
-      include: string;
+      include: string | string[];
     };
     rules: Ruleset;
   }
