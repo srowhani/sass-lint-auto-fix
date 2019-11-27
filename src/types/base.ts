@@ -1,6 +1,8 @@
 import { ILogger } from '@src/helpers';
 import { Node } from 'gonzales-pe-sl';
 import { Ruleset, SlRule } from 'sass-lint';
+import getConfig from 'sass-lint/lib/config';
+import getRules from 'sass-lint/lib/rules';
 
 export enum ValidFileType {
   scss = 'scss',
@@ -26,8 +28,8 @@ export interface Resolution {
 
 export interface ConfigOpts {
   logger: ILogger;
-  slRules?: any;
-  slConfig?: any;
+  slRules?: typeof getRules;
+  slConfig?: typeof getConfig;
   files: {
     include: string | string[];
     ignore?: string;

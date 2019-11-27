@@ -1,6 +1,5 @@
 import { SentryService } from './services';
 
-import { LintOpts, SlRule } from 'sass-lint';
 import {
   ConfigOpts,
   CreateModuleConfig,
@@ -14,16 +13,16 @@ import * as fs from 'fs';
 import * as glob from 'glob';
 import * as path from 'path';
 
-const slConfig = require('sass-lint/lib/config');
-const slRules = require('sass-lint/lib/rules');
-
 import { parse } from 'gonzales-pe-sl';
+import { LintOpts, SlRule } from 'sass-lint';
+import getConfig from 'sass-lint/lib/config';
+import getRules from 'sass-lint/lib/rules';
 
 export function autoFixSassFactory(config: ConfigOpts) {
   const { logger } = config;
 
-  const _slRules = config.slRules || slRules;
-  const _slConfig = config.slConfig || slConfig;
+  const _getRules = config.slRules || getRules;
+  const _getConfig = config.slConfig || getConfig;
 
   const patternsToInclude =
     typeof config.files.include === 'string'
@@ -58,7 +57,7 @@ export function autoFixSassFactory(config: ConfigOpts) {
               return;
             }
 
-            const rules = _slRules(_slConfig(options));
+            const rules = _getRules(_getConfig(options));
 
             const filteredRules: SlRule[] = rules.filter(
               (rule: SlRule) => config.resolvers[rule.rule.name],

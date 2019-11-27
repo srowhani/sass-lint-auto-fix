@@ -59,3 +59,18 @@ declare module 'sass-lint' {
     configPath?: string,
   ): LintResult;
 }
+
+declare module 'sass-lint/lib/rules' {
+  import { LintOpts, SlRule } from 'sass-lint';
+
+  export default function getRules(config: LintOpts): SlRule[];
+}
+
+declare module 'sass-lint/lib/config' {
+  import { LintOpts } from 'sass-lint';
+
+  export default function getConfig(
+    configOptions: Partial<LintOpts>,
+    configPath?: string,
+  ): LintOpts;
+}
