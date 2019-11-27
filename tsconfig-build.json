@@ -16,6 +16,7 @@
       "@test*": ["test*"]
     },
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "noEmitOnError": false,
     "noImplicitAny": true,
     "noUnusedLocals": true,
