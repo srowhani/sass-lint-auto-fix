@@ -1,5 +1,5 @@
 /* tslint:disable:no-console */
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 export interface Configuration {
   silentEnabled?: boolean;
