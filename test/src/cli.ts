@@ -1,9 +1,16 @@
-import { exec, maybeBuild } from '@test/helpers/cmd';
+import { build, exec } from '@test/helpers/cmd';
+import { version } from '../../package.json';
 
 const CLI_TEST_TIMEOUT = 10_000;
 
 describe('cli', () => {
-  beforeAll(maybeBuild);
+  beforeAll(build);
+
+  it('returns correct version', async () => {
+    const versionResult = await exec('node dist/index.js -V');
+    expect(versionResult).toContain(version);
+  });
+
   it(
     'prints help dialog with -h flag',
     async () => {

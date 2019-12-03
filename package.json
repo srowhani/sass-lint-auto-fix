@@ -60,9 +60,9 @@
     "@sentry/node": "^5.7.0",
     "chalk": "^3.0.0",
     "commander": "^4.0.1",
+    "cosmiconfig": "^6.0.0",
     "glob": "^7.1.4",
     "gonzales-pe-sl": "github:srowhani/gonzales-pe#dev",
-    "js-yaml": "^3.13.1",
     "sass-lint": "^1.13.1"
   },
   "devDependencies": {
@@ -70,6 +70,7 @@
     "@commitlint/config-conventional": "^8.2.0",
     "@semantic-release/git": "^7.0.8",
     "@types/jest": "^24.0.23",
+    "@types/js-yaml": "^3.12.1",
     "@types/node": "^12.12.8",
     "coveralls": "^3.0.0",
     "husky": "^3.1.0",

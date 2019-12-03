@@ -1,52 +1,47 @@
-import { Nullable, SlfParserOptions } from '@src/types';
-import * as fs from 'fs';
-import * as path from 'path';
+import merge from 'merge';
 
-const merge = require('merge');
-const yaml = require('js-yaml');
+import { ConfigOpts } from '@src/types';
+import { cosmiconfigSync as configSync } from 'cosmiconfig';
+import { safeLoad } from 'js-yaml';
+import { LintOpts } from 'sass-lint';
 
-type OptionParser = (filename: string) => Nullable<SlfParserOptions>;
-interface MappedParserOptions {
-  [key: string]: OptionParser;
+const defaultSearchPlaces = (moduleName: string) => [
+  'package.json',
+  `.${moduleName}rc`,
+  `.${moduleName}.json`,
+  `.${moduleName}.yaml`,
+  `.${moduleName}.yml`,
+  `${moduleName}.config.js`,
+];
+
+export function loadDefaults(): ConfigOpts {
+  return safeLoad('../config/default.yml');
 }
 
-const _configurationProxy = new Proxy<MappedParserOptions>(
-  {
-    yml: parseYaml,
-    yaml: parseYaml,
-    json: parseJSON,
-  },
-  {
-    get(target: MappedParserOptions, filename: string) {
-      const resolvedParserKey = Object.keys(target).find(targetExtension =>
-        filename.endsWith(`.${targetExtension}`),
-      );
-
-      const resolvedParser =
-        (resolvedParserKey && target[resolvedParserKey]) || parseModule;
-
-      return resolvedParser(filename);
-    },
-  },
-);
-
-function parseYaml(filename: string): Nullable<SlfParserOptions> {
-  return yaml.safeLoad(fs.readFileSync(filename).toString());
+export enum CONFIG_TYPE {
+  SASS_LINT = 'sass_lint',
+  SASS_LINT_AUTO_FIX = 'sass_lint_auto_fix',
 }
 
-function parseJSON(filename: string): Nullable<SlfParserOptions> {
-  const file = fs.readFileSync(filename).toString();
-  return JSON.parse(file);
+export function getConfig<T extends CONFIG_TYPE>(
+  moduleName: T,
+  filepath?: string,
+): T extends CONFIG_TYPE.SASS_LINT
+  ? LintOpts
+  : T extends CONFIG_TYPE.SASS_LINT_AUTO_FIX
+  ? ConfigOpts
+  : Record<string, any> {
+  const explorer = configSync(moduleName, {
+    searchPlaces: defaultSearchPlaces(moduleName),
+  });
+
+  const resolvedConfig = filepath ? explorer.load(filepath) : explorer.search();
+
+  if (resolvedConfig) {
+    return resolvedConfig.config;
+  }
+  return {} as any;
 }
 
-function parseModule(filename: string): Nullable<SlfParserOptions> {
-  return require(path.resolve(filename));
-}
-
-export const getConfig = (filename: string): Record<string, any> =>
-  _configurationProxy[filename];
-
-export const mergeConfig = (
-  baseConfig: Record<string, any>,
-  extendedConfig: Record<string, any>,
-) => merge.recursive(true, baseConfig, extendedConfig);
+export const mergeConfig = <A, B>(baseConfig: A, extendedConfig: B) =>
+  merge.recursive(true, baseConfig, extendedConfig);
