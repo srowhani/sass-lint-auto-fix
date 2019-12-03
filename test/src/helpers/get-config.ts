@@ -1,39 +1,28 @@
-import { getConfig, mergeConfig } from '@src/helpers/get-config';
+import { CONFIG_TYPE, getConfig, mergeConfig } from '@src/helpers/get-config';
+
+function slafConfig(configPath: string) {
+  return getConfig(CONFIG_TYPE.SASS_LINT_AUTO_FIX, configPath);
+}
+
+function assertConfigLoads(configPath: string) {
+  const config = slafConfig(configPath);
+  expect(typeof config).toBe('object');
+  expect(config.resolvers['property-sort-order']).toBe(1);
+}
+
 describe('get-config', () => {
   describe('getConfig', () => {
-    it('[handles=yml]', () => {
-      const config = getConfig('test/sample-config/config.yml');
-      expect(typeof config).toBe('object');
-      expect(config.resolvers['property-sort-order']).toBe(1);
-    });
-
-    it('[handles=yaml]', () => {
-      const config = getConfig('test/sample-config/config.yaml');
-      expect(typeof config).toBe('object');
-      expect(config.resolvers['property-sort-order']).toBe(1);
-    });
-
-    it('[handles=js]', () => {
-      const config = getConfig('test/sample-config/config.js');
-      expect(typeof config).toBe('object');
-      expect(config.resolvers['property-sort-order']).toBe(1);
-    });
-
-    it('[handles=ts]', () => {
-      const config = getConfig('test/sample-config/config.ts');
-      expect(typeof config).toBe('object');
-      expect(config.resolvers['property-sort-order']).toBe(1);
-    });
-
-    it('[handles=*proxy]', () => {
-      const config = getConfig('test/sample-config/config');
-      expect(typeof config).toBe('object');
-      expect(config.resolvers['property-sort-order']).toBe(1);
-    });
-
+    it('[handles=yml]', () =>
+      assertConfigLoads('test/sample-config/config.yml'));
+    it('[handles=yaml]', () =>
+      assertConfigLoads('test/sample-config/config.yaml'));
+    it('[handles=js]', () => assertConfigLoads('test/sample-config/config.js'));
+    it('[handles=rc]', () => assertConfigLoads('test/sample-config/configrc'));
+    it('[handles=no ext]', () =>
+      assertConfigLoads('test/sample-config/config'));
     it('[handles=bad export]', () => {
-      expect(() => getConfig('test/sample-config/doesnt.exist')).toThrowError(
-        /Cannot find module/,
+      expect(() => slafConfig('test/sample-config/doesnt.exist')).toThrowError(
+        /no such file or directory/,
       );
     });
   });
