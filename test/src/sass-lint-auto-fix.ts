@@ -1,4 +1,4 @@
-import { createLogger, getConfig } from '@src/helpers';
+import { CONFIG_TYPE, createLogger, getConfig } from '@src/helpers';
 import { autoFixSassFactory } from '@src/sass-lint-auto-fix';
 import { ConfigOpts, ValidFileType } from '@src/types';
 import { LintOpts } from 'sass-lint';
@@ -116,8 +116,9 @@ describe('sass-lint-auto-fix', () => {
     const slaf = autoFixSassFactory(configOpts);
 
     const customSlConfig = getConfig(
+      CONFIG_TYPE.SASS_LINT,
       'test/config/custom-sl-config.yml',
-    ) as LintOpts;
+    );
 
     expect(customSlConfig).toEqual({
       options: {
