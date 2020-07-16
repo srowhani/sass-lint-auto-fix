@@ -59,7 +59,7 @@
   "dependencies": {
     "@sentry/node": "^5.7.0",
     "chalk": "^3.0.0",
-    "commander": "^4.0.1",
+    "commander": "^5.1.0",
     "cosmiconfig": "^6.0.0",
     "glob": "^7.1.4",
     "gonzales-pe-sl": "github:srowhani/gonzales-pe#dev",
