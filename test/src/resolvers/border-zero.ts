@@ -21,7 +21,7 @@ describe('border-zero', () => {
         expect(preResolve.warningCount).toBe(4);
         expect(postResolve.warningCount).toBe(0);
       });
-      
+
       it('preserves important', () => {
         const filename = 'test/sass/border-zero.scss';
         const { ast } = resolveFirst(filename, options);
