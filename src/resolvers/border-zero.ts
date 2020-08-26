@@ -25,7 +25,7 @@ export default class BorderZero extends BaseResolver {
 
   public fix(): Node {
     return this.traverse(
-      (node: Node) => (node.content = String(this.convention)),
+      (node: Node) => (node.content = String(node.first('!important') ? this.convention : this.convention + ' !important')),
     );
   }
 
