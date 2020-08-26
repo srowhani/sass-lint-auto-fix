@@ -23,7 +23,7 @@ export default class PropertySortOrder extends BaseResolver {
       const collectedDecl: SortNode[] = [];
       const matchingIndices: number[] = [];
       block.forEach('declaration', (declaration: Node, index: number) => {
-        const prop = declaration.first('property');
+        const prop = declaration.first('property') || declaration.first('customProperty');
         if (prop) {
           let nodeContainingName = prop.first('ident');
 
