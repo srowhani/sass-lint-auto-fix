@@ -17,7 +17,7 @@ describe('property-sort-order', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-        expect(preResolve.warningCount).toBe(21);
+        expect(preResolve.warningCount).toBe(24);
         expect(postResolve.warningCount).toBe(0);
       });
 
@@ -62,7 +62,7 @@ describe('property-sort-order', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-        expect(preResolve.warningCount).toBe(12);
+        expect(preResolve.warningCount).toBe(13);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -83,7 +83,7 @@ describe('property-sort-order', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-        expect(preResolve.warningCount).toBe(12);
+        expect(preResolve.warningCount).toBe(13);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -137,7 +137,7 @@ describe('property-sort-order', () => {
 
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.sass, options);
-        expect(preResolve.warningCount).toBe(17);
+        expect(preResolve.warningCount).toBe(20);
         expect(postResolve.warningCount).toBe(0);
       });
 
@@ -180,7 +180,7 @@ describe('property-sort-order', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-        expect(preResolve.warningCount).toBe(16);
+        expect(preResolve.warningCount).toBe(17);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -201,7 +201,7 @@ describe('property-sort-order', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-        expect(preResolve.warningCount).toBe(16);
+        expect(preResolve.warningCount).toBe(17);
         expect(postResolve.warningCount).toBe(0);
       });
     });

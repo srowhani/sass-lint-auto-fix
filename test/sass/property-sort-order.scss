@@ -74,3 +74,9 @@
 }
 
 .empty-block-does-not-throw {}
+
+.css-vars {
+  --baz: 3px;
+  background: #111;
+  --bar: 1px;
+}

@@ -16,6 +16,7 @@ const defaultSearchPlaces = (moduleName: string) => [
 ];
 
 export function loadDefaults(): ConfigOpts {
+  // @ts-ignore
   return safeLoad(
     readFileSync(require.resolve('../config/default.yml'), {
       encoding: 'utf8',
