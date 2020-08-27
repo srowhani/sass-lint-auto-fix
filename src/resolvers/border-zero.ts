@@ -24,9 +24,14 @@ export default class BorderZero extends BaseResolver {
   }
 
   public fix(): Node {
-    return this.traverse(
-      (node: Node) => (node.content = String(this.convention)),
-    );
+    return this.traverse((node: Node) => {
+      const ident = node.first('ident');
+      if (ident) {
+        ident.content = String(this.convention);
+      } else {
+        node.content = String(this.convention);
+      }
+    });
   }
 
   private traverse(callback: (node: Node) => void): Node {

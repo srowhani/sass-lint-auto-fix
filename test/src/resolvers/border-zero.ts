@@ -18,8 +18,14 @@ describe('border-zero', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-        expect(preResolve.warningCount).toBe(3);
+        expect(preResolve.warningCount).toBe(4);
         expect(postResolve.warningCount).toBe(0);
+      });
+
+      it('preserves important', () => {
+        const filename = 'test/sass/border-zero.scss';
+        const { ast } = resolveFirst(filename, options);
+        expect(ast.toString()).toContain('border: 0 !important;');
       });
 
       it('content not treated as falsey when set zero', () => {
@@ -36,7 +42,7 @@ describe('border-zero', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-        expect(preResolve.warningCount).toBe(3);
+        expect(preResolve.warningCount).toBe(4);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -55,7 +61,7 @@ describe('border-zero', () => {
         const preResolve = lint(filename, options);
 
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
-        expect(preResolve.warningCount).toBe(2);
+        expect(preResolve.warningCount).toBe(3);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -74,7 +80,7 @@ describe('border-zero', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.scss, options);
 
-        expect(preResolve.warningCount).toBe(4);
+        expect(preResolve.warningCount).toBe(5);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -97,7 +103,7 @@ describe('border-zero', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-        expect(preResolve.warningCount).toBe(3);
+        expect(preResolve.warningCount).toBe(4);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -109,7 +115,7 @@ describe('border-zero', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-        expect(preResolve.warningCount).toBe(3);
+        expect(preResolve.warningCount).toBe(4);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -128,7 +134,7 @@ describe('border-zero', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-        expect(preResolve.warningCount).toBe(2);
+        expect(preResolve.warningCount).toBe(3);
         expect(postResolve.warningCount).toBe(0);
       });
     });
@@ -147,7 +153,7 @@ describe('border-zero', () => {
         const preResolve = lint(filename, options);
         const postResolve = detect(ast.toString(), ValidFileType.sass, options);
 
-        expect(preResolve.warningCount).toBe(4);
+        expect(preResolve.warningCount).toBe(5);
         expect(postResolve.warningCount).toBe(0);
       });
     });
