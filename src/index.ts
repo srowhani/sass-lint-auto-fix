@@ -57,6 +57,7 @@ const { version } = require('../package.json');
       SentryService.reportIncident(error);
     }
     logger.error(error);
+    process.exitCode = 1;
   });
 
   process.on('uncaughtException', (error: Error) => {
@@ -64,7 +65,7 @@ const { version } = require('../package.json');
       SentryService.reportIncident(error);
     }
     logger.error(error);
-    process.exit(1);
+    process.exitCode = 1;
   });
 
   const pattern = program.args[0];
