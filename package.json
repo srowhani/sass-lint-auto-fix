@@ -64,7 +64,7 @@
     "glob": "^7.1.4",
     "gonzales-pe-sl": "github:srowhani/gonzales-pe#dev",
     "sass-lint": "^1.13.1",
-    "merge": "^1.2.1"
+    "merge": "^2.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
