@@ -73,8 +73,8 @@ const { version } = require('../package.json');
   baseOptions.files.include = pattern || baseOptions.files.include;
 
   const sassLintAutoFix = autoFixSassFactory({
-    logger,
     ...baseOptions,
+    logger,
   });
 
   // TODO: Add sass-lint config, right now will merge with default rule set

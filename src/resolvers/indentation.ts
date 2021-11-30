@@ -32,7 +32,7 @@ export default class Indentation extends BaseResolver {
     const rawContent = ast.toString();
     const resolvedContent = rawContent
       .split(this._newLineDelimiter)
-      .map(line => this.visit(line))
+      .map((line) => this.visit(line))
       .join(this._newLineDelimiter);
 
     const resolvedAst = parse(resolvedContent, {

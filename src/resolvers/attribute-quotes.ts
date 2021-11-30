@@ -12,7 +12,7 @@ export default class AttributeQuotes extends BaseResolver {
   }
 
   public fix() {
-    return this.traverse(item => {
+    return this.traverse((item) => {
       const { content } = item.content[0];
 
       if (this.shouldRemoveQuotes(item)) {

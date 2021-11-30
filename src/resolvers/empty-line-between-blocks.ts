@@ -32,14 +32,14 @@ export default class EmptyLineBetweenBlocks extends BaseResolver {
 
         // Ordered set of token evaluators. Important that the ordering stayst the same
         const tokenEvaluationSet: ((line: string) => Nullable<TokenType>)[] = [
-          line => (line.includes(TokenType.OPEN) ? TokenType.OPEN : null),
-          line =>
+          (line) => (line.includes(TokenType.OPEN) ? TokenType.OPEN : null),
+          (line) =>
             line.trimRight().endsWith(TokenType.COMMA) ? TokenType.OPEN : null,
-          line => (line.includes(TokenType.CLOSE) ? TokenType.CLOSE : null),
+          (line) => (line.includes(TokenType.CLOSE) ? TokenType.CLOSE : null),
         ];
 
         splitContent.forEach((line, lineNumber) => {
-          tokenEvaluationSet.forEach(tokenEvaluator => {
+          tokenEvaluationSet.forEach((tokenEvaluator) => {
             const evaluationResult = tokenEvaluator(line);
             if (evaluationResult !== null) {
               blocks.push({
