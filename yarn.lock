@@ -3660,13 +3660,6 @@
   dependencies:
     "minimist" "1.1.x"
 
-"gonzales-pe@^4.3.0":
-  "integrity" "sha512-otgSPpUmdWJ43VXyiNgEYE4luzHCL2pz4wQ0OnDluC6Eg4Ko3Vexy/SrSynglw/eR+OhkzmqFCZa/OFa/RgAOQ=="
-  "resolved" "https://registry.npmjs.org/gonzales-pe/-/gonzales-pe-4.3.0.tgz"
-  "version" "4.3.0"
-  dependencies:
-    "minimist" "^1.2.5"
-
 "got@^6.7.1":
   "integrity" "sha1-JAzQV4WpoY5WHcG0S0HHY+8ejbA="
   "resolved" "https://registry.npmjs.org/got/-/got-6.7.1.tgz"
