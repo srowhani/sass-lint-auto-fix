@@ -5,7 +5,7 @@ export default class SpaceBetweenParens extends BaseResolver {
   public fix(): Node {
     const { ast } = this;
 
-    ast.traverseByType('arguments', node => {
+    ast.traverseByType('arguments', (node) => {
       const first = node.first();
       const last = node.last();
       const spaceNode = createNode({

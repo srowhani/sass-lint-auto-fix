@@ -40,10 +40,7 @@ export function autoFixSassFactory(config: ConfigOpts) {
       for (const filename of files) {
         const content = fs.readFileSync(filename).toString();
         if (content !== null && content !== undefined && content.length > 0) {
-          const fileExtension = path
-            .extname(filename)
-            .substr(1)
-            .toLowerCase();
+          const fileExtension = path.extname(filename).substr(1).toLowerCase();
 
           if (isValidExtension(fileExtension)) {
             let ast;

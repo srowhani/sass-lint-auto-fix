@@ -14,7 +14,7 @@ export default class UrlQuotes extends BaseResolver {
     const { ast } = this;
 
     ast.traverseByType('uri', (node: Node) => {
-      node.traverse(item => {
+      node.traverse((item) => {
         if (item.is('raw')) {
           if (!this.isVariable(item)) {
             item.content = `'${item.content}'`;

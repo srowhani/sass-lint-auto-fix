@@ -48,7 +48,7 @@ export default class NoColorKeywords extends BaseResolver {
   private isValidParent(parentNode: Node): boolean {
     if (parentNode) {
       if (
-        ['function', 'variable', 'customProperty'].some(prop =>
+        ['function', 'variable', 'customProperty'].some((prop) =>
           parentNode.is(prop),
         )
       ) {
