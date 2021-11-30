@@ -4,6 +4,7 @@ import { ConfigOpts } from '@src/types';
 import { cosmiconfigSync as configSync } from 'cosmiconfig';
 import { readFileSync } from 'fs';
 import { load } from 'js-yaml';
+import path from 'path';
 import { LintOpts } from 'sass-lint';
 
 const defaultSearchPlaces = (moduleName: string) => [
@@ -18,7 +19,7 @@ const defaultSearchPlaces = (moduleName: string) => [
 export function loadDefaults(): ConfigOpts {
   // @ts-ignore
   return load(
-    readFileSync(require.resolve('../config/default.yml'), {
+    readFileSync(path.join(__dirname, '..', 'config/default.yml'), {
       encoding: 'utf8',
     }),
   );
